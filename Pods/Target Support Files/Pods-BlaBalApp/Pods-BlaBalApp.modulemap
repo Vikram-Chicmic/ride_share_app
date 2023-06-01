@@ -1,0 +1,6 @@
+framework module Pods_BlaBalApp {
+  umbrella header "Pods-BlaBalApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
