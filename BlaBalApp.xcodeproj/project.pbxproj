@@ -53,6 +53,9 @@
 		93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291B12A0D0F8C00E0D13C /* DateExtension.swift */; };
 		93D291B42A0D100300E0D13C /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291B32A0D100300E0D13C /* PublishView.swift */; };
 		93D82C1C2A20C61A00A6E712 /* CarPoolDetailViewBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D82C1B2A20C61A00A6E712 /* CarPoolDetailViewBottomView.swift */; };
+		93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536B2A29BFD7002607BB /* AnimatedImage.swift */; };
+		93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */; };
+		93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */; };
 		93EAAD3D2A285A61003607DE /* UpdateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAAD3C2A285A61003607DE /* UpdateUserViewModel.swift */; };
 		93EAAD3F2A288FCE003607DE /* AllVehicleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */; };
 		D6555CE8407FA410EFC49B34 /* Pods_BlaBalApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A44E629DCF4D901573E0018 /* Pods_BlaBalApp.framework */; };
@@ -107,6 +110,9 @@
 		93D291B12A0D0F8C00E0D13C /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		93D291B32A0D100300E0D13C /* PublishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishView.swift; sourceTree = "<group>"; };
 		93D82C1B2A20C61A00A6E712 /* CarPoolDetailViewBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolDetailViewBottomView.swift; sourceTree = "<group>"; };
+		93DF536B2A29BFD7002607BB /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
+		93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLatLongModel.swift; sourceTree = "<group>"; };
+		93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndSearchRideViewModel.swift; sourceTree = "<group>"; };
 		93EAAD3C2A285A61003607DE /* UpdateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserViewModel.swift; sourceTree = "<group>"; };
 		93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllVehicleView.swift; sourceTree = "<group>"; };
 		B1B8A1167B6BFB09E7967951 /* Pods-BlaBalApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlaBalApp.release.xcconfig"; path = "Target Support Files/Pods-BlaBalApp/Pods-BlaBalApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +231,7 @@
 				93C2C9342A1F8D3900CA4C92 /* CarPoolCard.swift */,
 				938886052A207CB500A838BC /* CarPoolCardSubView.swift */,
 				938886072A20807D00A838BC /* DistanceCircleShowView.swift */,
+				93DF536B2A29BFD7002607BB /* AnimatedImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -237,6 +244,7 @@
 				9391DC1C2A1E0DFE007B5ADE /* RegisterVehicleViewModel.swift */,
 				93C26B552A1F295A00E7989F /* MapViewModel.swift */,
 				93EAAD3C2A285A61003607DE /* UpdateUserViewModel.swift */,
+				93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -263,6 +271,7 @@
 				9391E1AA2A0E5B3D00427F22 /* UserModel.swift */,
 				9391DC1E2A1E0F3E007B5ADE /* VehicleModel.swift */,
 				936540BB2A1C9260004240D1 /* UpdateUserModel.swift */,
+				93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -421,11 +430,13 @@
 			files = (
 				93EAAD3D2A285A61003607DE /* UpdateUserViewModel.swift in Sources */,
 				938077F42A0BC53A008A889A /* LocationView.swift in Sources */,
+				93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */,
 				93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */,
 				9391E1A52A0E13CA00427F22 /* PhoneView.swift in Sources */,
 				93D291A52A0CA2BB00E0D13C /* TabBarView.swift in Sources */,
 				9391E1A32A0E10F300427F22 /* TitleView.swift in Sources */,
 				938077EC2A0BA0ED008A889A /* LoginSignupViewModel.swift in Sources */,
+				93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */,
 				938077E72A0B9918008A889A /* Textfield.swift in Sources */,
 				9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */,
 				93D291A92A0CAA8000E0D13C /* InboxView.swift in Sources */,
@@ -433,6 +444,7 @@
 				938077E52A0B8B0D008A889A /* BackgroundView.swift in Sources */,
 				938077F22A0BC4F4008A889A /* SearchView.swift in Sources */,
 				9391DC1F2A1E0F3E007B5ADE /* VehicleModel.swift in Sources */,
+				93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */,
 				93C2C9312A1F61EB00CA4C92 /* MapView.swift in Sources */,
 				9391DC1B2A1DD323007B5ADE /* RegisterVehicleView.swift in Sources */,
 				938886042A207A9200A838BC /* CarPoolDetailView.swift in Sources */,

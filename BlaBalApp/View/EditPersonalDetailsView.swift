@@ -16,21 +16,6 @@ struct EditPersonalDetailsView: View {
     let maxDate = Calendar.current.date(from: DateComponents(year: 2015, month: 12, day: 31))!
     var body: some View {
             VStack(alignment: .leading) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: Constants.Icons.cross).padding().font(.title2).foregroundColor(Constants.Colors.bluecolor)
-                    }
-                    Spacer()
-                    Text(Constants.Header.details).font(.title2).fontWeight(.semibold)
-                    Spacer()
-                    Spacer()
-                }
-   
-        
-                
-               
                 ScrollView {
                     VStack(spacing: 40) {
 //                        CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email)
@@ -91,9 +76,10 @@ struct EditPersonalDetailsView: View {
                         Button {
                             vm.isUpdating.toggle()
                             vm.signUp()
-                            dismiss()
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
+                        }.alert( isPresented: $vm.alert) {
+                            Alert(title: Text("Success"), message: Text("User Updated Successfully"), dismissButton: .cancel() )
                         }
                     // MARK: - Alert user updated successfully
                     }.padding()
@@ -102,9 +88,8 @@ struct EditPersonalDetailsView: View {
               
                 
                 Spacer()
-            }.onAppear {
-                vm.getUser()
-                
+            }.navigationTitle(Constants.Header.details).onAppear {
+//                vm.getUser()
                 if let data = vm.recievedData?.status.data {
                     vm.fname = data.firstName
                     vm.lname = data.lastName

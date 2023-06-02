@@ -16,7 +16,7 @@ struct LoginSignupWithEmailView: View {
     var body: some View {
             VStack(spacing: 10) {
                 Spacer()
-                Text(isLoginView ? Constants.Header.login : Constants.Header.signup).foregroundColor(.blue).font(.largeTitle).fontWeight(.semibold).padding(.bottom, 50)
+                Text(isLoginView ? Constants.Header.login : Constants.Header.signup).foregroundColor(Constants.Colors.bluecolor).font(.largeTitle).fontWeight(.semibold).padding(.bottom, 50)
                 VStack {
                     CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never)
                     HStack {

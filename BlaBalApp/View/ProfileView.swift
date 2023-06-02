@@ -12,7 +12,6 @@ struct ProfileView: View {
     @State var navigateToRegisterVehicle = false
     @State var detail: Welcome?
     @ObservedObject var vm: LoginSignUpViewModel
-    @StateObject var vehicleVm = RegisterVehicleViewModel()
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
     @Environment(\.presentationMode) var presentationMode
@@ -24,9 +23,9 @@ struct ProfileView: View {
                 VStack {
                     ImageView()
                     
-                    VStack(alignment: .leading, spacing: 5) {
+                    VStack(spacing: 5) {
                         if let data = vm.recievedData?.status.data {
-                            Text(data.firstName + data.lastName).font(.title).fontWeight(.semibold)
+                            Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                         }
               
                         
@@ -36,7 +35,7 @@ struct ProfileView: View {
                         }label: {
                             Text(Constants.Buttons.editprofile).font(.system(size: 20))
                         }.padding(.vertical)
-                            .fullScreenCover(isPresented: $navigate) {
+                            .navigationDestination(isPresented: $navigate) {
                                 EditPersonalDetailsView( vm: vm)
                             }
                         
@@ -87,7 +86,7 @@ struct ProfileView: View {
                         } label: {
                             ProfileButtons(text: Constants.Buttons.addVehicle)
 
-                        }.fullScreenCover(isPresented: $navigateToRegisterVehicle) {
+                        }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
                             RegisterVehicleView()
                         }
                         
@@ -96,12 +95,11 @@ struct ProfileView: View {
                  Spacer()
                     
                     Button {
-                        vehicleVm.registerVehicle()
                         navigateToAllVehiclePage.toggle()
                     } label: {
                         Text(Constants.Buttons.getVehicleInfo)
                     }.navigationDestination(isPresented: $navigateToAllVehiclePage) {
-                        AllVehicleView(vm: vehicleVm)
+                        AllVehicleView()
                     }
                     
                     
@@ -128,13 +126,15 @@ struct ProfileView: View {
           
         }.onAppear {
             vm.getUser()
-            vehicleVm.isRegistering = false
         }.padding(.horizontal)
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(vm: LoginSignUpViewModel())
+        
+        NavigationStack {
+            ProfileView(vm: LoginSignUpViewModel())
+        }
     }
 }

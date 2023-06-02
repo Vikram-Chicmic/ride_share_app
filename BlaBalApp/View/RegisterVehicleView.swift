@@ -10,21 +10,9 @@ import SwiftUI
 struct RegisterVehicleView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var vm = RegisterVehicleViewModel()
-  
+
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: Constants.Icons.cross).padding().font(.title2).foregroundColor(Constants.Colors.bluecolor)
-                }
-                Spacer()
-                Text(Constants.Header.registerVehicle).font(.title2).fontWeight(.semibold)
-                Spacer()
-                Spacer()
-            }
-
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -72,13 +60,20 @@ struct RegisterVehicleView: View {
                     
                     
                     Button {
-                        vm.isRegistering = true
                         vm.registerVehicle()
-                        dismiss()
                     } label: {
                         Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
+                    }.alert(isPresented: $vm.alertResponse) {
+                        Alert(title: Text(Constants.Alert.success),
+                              message: Text(Constants.Alert.vehicleAddSuccess),
+                              dismissButton: .cancel(Text(Constants.Labels.ok)){
+                            dismiss()
+                        }
+                        )
                     }
                   
+             
+                    
                     Spacer()
                     
                     
@@ -86,8 +81,13 @@ struct RegisterVehicleView: View {
                           
                 }.padding()
             }
+        }.onAppear {
+            vm.isRegistering = true
         }
     }
+    
+ 
+    
 }
 
 struct RegisterVehicleView_Previews: PreviewProvider {

@@ -10,7 +10,8 @@ import SwiftUI
 struct BackgroundView: View {
     var body: some View {
         VStack {
-            Image(Constants.Icons.bgImage).resizable().scaledToFill().ignoresSafeArea().frame(height: 450).padding(.top, -20)
+            Image(Constants.Icons.bgImage).resizable().ignoresSafeArea().frame(width: 450, height: 350)
+            Spacer()
         }.background(.white)
     }
 }

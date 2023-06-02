@@ -33,7 +33,7 @@ struct ConfirmOTPView: View {
                     let truncatedValue = String(newValue.prefix(4))
                     vmm.passcode = truncatedValue
                 }
-            )).frame(width: 220, height: 50).background(.gray.opacity(0.3)).font(.title2).foregroundColor(.black).multilineTextAlignment(.center)
+            )).frame(width: 220, height: 50).background(.gray.opacity(0.3)).font(.title2).cornerRadius(10).foregroundColor(.black).multilineTextAlignment(.center)
                 .keyboardType(.numberPad)
             
             Button {

@@ -114,6 +114,25 @@ class LoginSignUpViewModel: ObservableObject {
     }
     
     
+    // MARK: encode recieved data
+    func encodeData(recievedData: Welcome){
+        let encoder = JSONEncoder()
+        if let encodedData = try? encoder.encode(recievedData) {
+            UserDefaults.standard.set(encodedData, forKey: "UserDataKey")
+        }
+    }
+    
+    // MARK: decode recived data
+    func decodeData() {
+        if let storedData = UserDefaults.standard.data(forKey: "UserDataKey"),
+           let decodedData = try? JSONDecoder().decode(Welcome.self, from: storedData) {
+            // Use the decodedData as needed
+            self.recievedData = decodedData
+    
+        }
+
+    }
+    
     // MARK: - Sign-Up
 
     func signUp() {
@@ -163,6 +182,7 @@ class LoginSignUpViewModel: ObservableObject {
                 
                 if (200...299).contains(httpResponse.statusCode) {
                     UserDefaults.standard.set(self.isUpdating ? false : true, forKey: Constants.Url.userLoggedIN)
+                    
                     self.navigate = true
                     print(httpResponse.statusCode)
                 } else {    
@@ -183,7 +203,10 @@ class LoginSignUpViewModel: ObservableObject {
                 }
             }, receiveValue: { decodedData in
                 print(decodedData)
-                self.recievedData = decodedData
+                // Assuming you have the JSON data stored in a variable called jsonData
+                self.encodeData(recievedData: decodedData)
+                self.decodeData()
+
             })
             .store(in: &publishers)
     }
@@ -217,10 +240,8 @@ class LoginSignUpViewModel: ObservableObject {
             }, receiveValue: { statusCode, _ in
                 if statusCode == 204 {
                     self.navigateToForm = true
-                    print("Success: Email not exists")
                 } else if statusCode == 422 {
                     self.showAlert.toggle()
-                    print("Error: Email exist")
                 } else {
                     print("Unexpected response")
                 }
@@ -282,8 +303,10 @@ class LoginSignUpViewModel: ObservableObject {
                     print("Error: \(error.localizedDescription)")
                 }
             }, receiveValue: { decodedData in
-                self.recievedData = decodedData
-                print(decodedData)
+                // MARK: encode recieved data and store in userDefaults
+                print("Recieved Data :\(decodedData)")
+                self.encodeData(recievedData: decodedData)
+                self.decodeData()
             })
             .store(in: &publishers)
     }
@@ -323,6 +346,9 @@ class LoginSignUpViewModel: ObservableObject {
                 if response.statusCode == 200 {
                     print("Signed Out successfully")
                     UserDefaults.standard.set(false, forKey: "userLoggedIn")
+                    
+                    //MARK: Assign empty data to userdefault
+                    UserDefaults.standard.removeObject(forKey: "UserDataKey")
                 } else {
                     print("Failed to logout user, status code: \(response.statusCode)")
                 }

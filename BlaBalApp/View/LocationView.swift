@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct LocationView: View {
-    @State var startPoint: String = ""
+    @State var origin: String = ""
+    @State var destination: String = ""
     @State var addSeatNavigate: Bool = false
     @State var seats: Int = 1
     @State var openCalendar: Bool = false
     @State private var selectedDate = Date()
     @State var showMapView = false
     @State var showCarPoolView = false
+    @State var isOrigin = true
     var body: some View {
         
             VStack {
@@ -24,24 +26,33 @@ struct LocationView: View {
                 }label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.circle).bold().padding(.leading).foregroundColor(.blue)
-                        Text(Constants.Buttons.startfrom).foregroundColor(.black)
+                        Text(origin.isEmpty ? "Start From" : origin).foregroundColor(.black)
                         Spacer()
                     }
                 }.sheet(isPresented: $showMapView, content: {
-                    LocationSearchView()
+//                    LocationSearchView()
+                    MapView(isOrigin: $isOrigin)
                 })
                 .padding(.top, 4)
                 .frame(height: 45)
                 Divider().padding(.horizontal)
+
+
                 // MARK: - Going to
                 Button {
-                } label: {
+                    isOrigin = false
+                    showMapView.toggle()
+                    } label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.location).bold().padding(.leading).foregroundColor(.blue)
-                        Text(Constants.Buttons.goingto).foregroundColor(.black)
+                        Text(destination.isEmpty ? "Going to" : destination).foregroundColor(.black)
                         Spacer()
                     }
-                }.frame(height: 40)
+                }
+                .sheet(isPresented: $showMapView, content: {
+                    MapView( isOrigin: $isOrigin)
+                })
+                .frame(height: 40)
                 Divider().padding(.horizontal)
                 // MARK: - Calendar
                 HStack {

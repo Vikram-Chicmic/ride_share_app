@@ -9,7 +9,7 @@ import Foundation
 
 
 // MARK: - Welcome
-
+//VehicleDataModel
 
 // MARK: - Welcome
 struct VehicleDataModel: Codable {
@@ -21,8 +21,7 @@ struct VehicleDataModel: Codable {
 struct Datum: Codable {
     let id: Int
     let country, vehicleNumber, vehicleBrand, vehicleName: String
-    let vehicleType: String
-    let vehicleColor: VehicleColor
+    let vehicleType, vehicleColor: String
     let vehicleModelYear, userID: Int
     let createdAt, updatedAt: String
 
@@ -38,9 +37,4 @@ struct Datum: Codable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
-}
-
-enum VehicleColor: String, Codable {
-    case black = "Black"
-    case silver = "Silver"
 }

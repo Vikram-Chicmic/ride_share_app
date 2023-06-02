@@ -8,22 +8,45 @@
 import SwiftUI
 
 struct AllVehicleView: View {
-    @ObservedObject var vm: RegisterVehicleViewModel
+    @StateObject var vm = RegisterVehicleViewModel()
     var body: some View {
         VStack {
-            Text(String(vm.decodedData?.data.count ?? 0))
+            
             List {
-                    if let data = vm.decodedData?.data {
-                        ForEach(data.indices, id: \.self) { index in
-                            Text(data[index].vehicleBrand).padding(.vertical)
+                if let data = vm.decodedVehicleData?.data {
+                    ForEach(data.indices, id: \.self) { index in
+                        HStack {
+                            Image("car2").resizable().frame(width: 80, height: 80).padding(.trailing)
+                            Spacer()
+                            Text(data[index].vehicleBrand)
+                            Spacer()
+                            Spacer()
                         }
                     }
-            }
-        }.onAppear {
+                } else { }
+            }.listStyle(.plain)
+            
+           
+            
+            
+//            List {
+//                    if let data = vm.decodedData?.data {
+//                        ForEach(data.indices, id: \.self) { index in
+//
+//                            HStack{
+//                                Image("car").resizable().frame(width: 100, height: 100)
+//                                Text(data[index].vehicleBrand).padding(.vertical)
+//                            }
+//
+//                        }
+//                    }
+//            }
+        }.navigationTitle("Your Vehicles")
+            .onAppear {
             vm.isRegistering = false
             vm.registerVehicle()
         }.onDisappear {
-            vm.decodedData = nil
+
         }
     }
 }

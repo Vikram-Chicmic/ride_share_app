@@ -19,7 +19,7 @@ struct BlaBalAppApp: App {
                     LandingView().environmentObject(vm)
                 }
             }
-
+//  ContentView1()
 //            LandingView().environmentObject(vm)
         }
     }

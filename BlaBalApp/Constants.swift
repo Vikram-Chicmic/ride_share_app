@@ -165,10 +165,12 @@ struct Constants {
         static let error                    = "Error"
         static let usrExist                 = "User already exist"
         static let userNotExist             = "Invalid User Password"
+        static let success                  = "Success"
+        static let vehicleAddSuccess     = "Vehicle Added Successfully"
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://b16b-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://8697-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"

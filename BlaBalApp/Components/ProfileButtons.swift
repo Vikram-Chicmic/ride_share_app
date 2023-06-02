@@ -12,7 +12,7 @@ struct ProfileButtons: View {
     var body: some View {
         HStack {
             Image(systemName: Constants.Icons.pluscircle).font(.title2)
-            Text(text).font(.system(size: 20))
+            Text(text)
         }.foregroundColor(Constants.Colors.bluecolor)
     }
 }

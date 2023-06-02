@@ -38,7 +38,7 @@ struct BirthdayView: View {
                     }
                     
                 }label: {
-                    Buttons(image: "", text: Constants.Buttons.cont, color: .blue).padding(.top)
+                    Buttons(image: "", text: Constants.Buttons.cont, color: Constants.Colors.bluecolor).padding(.top)
                 }
                 Button {
                     dismiss()

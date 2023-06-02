@@ -3,6 +3,8 @@
 //
 //   let welcome = try? JSONDecoder().decode(Welcome.self, from: jsonData)
 
+
+
 import Foundation
 
 // MARK: - Welcome
@@ -31,10 +33,12 @@ struct DataClass: Codable {
     let firstName, lastName, dob, title: String
     let phoneNumber, bio, travelPreferences, postalAddress: String
     let activationDigest: String
-    let activated, activatedAt: JSONNull?
-    let activateToken: String
-    let sessionKey, averageRating: JSONNull?
+    let activated: Bool
+    let activatedAt: JSONNull?
+    let activateToken, sessionKey: String
+    let averageRating: JSONNull?
     let otp: Int
+    let phoneVerified: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -55,6 +59,7 @@ struct DataClass: Codable {
         case sessionKey = "session_key"
         case averageRating = "average_rating"
         case otp
+        case phoneVerified = "phone_verified"
     }
 }
 
@@ -65,12 +70,10 @@ class JSONNull: Codable, Hashable {
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
         return true
     }
-
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(0)
     }
-    
+
     public init() {}
 
     public required init(from decoder: Decoder) throws {
@@ -83,6 +86,5 @@ class JSONNull: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encodeNil()
-        // commit check
     }
 }

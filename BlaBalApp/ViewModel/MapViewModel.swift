@@ -81,4 +81,45 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate, MKMap
             }
         }
     
+ 
+    
 }
+
+
+//    func getLatLong() {
+//        guard !searchText.isEmpty else {
+//            // Empty search text, reset the data or perform necessary actions
+//            return
+//        }
+//
+//        let url = URL(string: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cgeometry&input=\(searchText)&inputtype=textquery&key=AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4")!
+//
+//        // Cancel the previous search request
+//        searchCancellable?.cancel()
+//
+//        // Delay the request by 0.5 seconds using debounce
+//        searchCancellable = URLSession.shared.dataTaskPublisher(for: url)
+//            .map(\.data)
+//            .decode(type: GoogleLatLongModel.self, decoder: JSONDecoder())
+//            .receive(on: DispatchQueue.main)
+//            .sink(receiveCompletion: { completion in
+//                switch completion {
+//                case .finished:
+//                    break
+//                case .failure(let error):
+//                    print("Error: \(error.localizedDescription)")
+//                }
+//            }, receiveValue: { data in
+//                self.searchResultArr = data
+//                print(data)
+//            })
+//
+//        // Debounce the search text changes by 0.5 seconds
+//        $searchText
+//            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+//            .sink { [weak self] searchText in
+//                self?.getLatLong()
+//            }
+//            .store(in: &publishers)
+//    }
+    
