@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CarPoolView: View {
     @Environment(\.dismiss) var dismiss
-    let carPoolCards = [1, 2, 3, 4, 5, 6, 7, 8]
+    @State var selectedCardData: SearchRideResponseData?
+    @EnvironmentObject var vm: MapAndSearchRideViewModel
     @State var navigate = false
     var body: some View {
         VStack {
@@ -18,28 +19,34 @@ struct CarPoolView: View {
                     dismiss()
                 } label: {
                     Image(systemName: Constants.Icons.back).bold().font(.title)
-                }
-               
+                }.padding(.leading)
+                Spacer()
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Mohali,Statdium")
+                        Text("\(vm.originData?.name ?? "")")
                         Image(systemName: Constants.Icons.arrowRight).foregroundColor(.green)
-                        Text("Bathinda, Punjab")
+                        Text("\(vm.destinationData?.name ?? "")")
                     }.font(.headline)
-                    Text("Mon 29 May,2023 | passenger").font(.subheadline)
+                    Text("\(vm.date)  |  passenger").font(.subheadline)
                 }.padding(.leading)
+                Spacer()
             }.foregroundColor(.white).frame(height: 100).frame(maxWidth: .infinity).background(Constants.Colors.bluecolor)
             
             ScrollView {
-                ForEach(carPoolCards, id: \.self) { _ in
-                    CarPoolCard().onTapGesture {
-                        navigate.toggle()
-                    }
-                }.navigationDestination(isPresented: $navigate, destination: {
-                    CarPoolDetailView()
-                }).scrollIndicators(.hidden).padding()
+                if let data = vm.searchRideResult {
+                    ForEach(data.indices, id: \.self) { index in
+                        CarPoolCard(data: data[index])
+                            .onTapGesture {
+                                self.selectedCardData = data[index]
+                            navigate.toggle()
+                        }
+                    }.navigationDestination(isPresented: $navigate, destination: {
+                        if let data = selectedCardData{
+                            CarPoolDetailView(details: data)
+                        }
+                    }).scrollIndicators(.hidden).padding()
+                }
             }
-            
             Spacer()
         }.navigationBarBackButtonHidden(true).background {
             Color.gray.opacity(0.1).ignoresSafeArea()
@@ -47,8 +54,8 @@ struct CarPoolView: View {
     }
 }
 
-struct CarPoolView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarPoolView()
-    }
-}
+//struct CarPoolView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CarPoolView(vm: MapAndSearchRideViewModel)
+//    }
+//}

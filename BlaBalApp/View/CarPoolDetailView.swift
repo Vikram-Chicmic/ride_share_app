@@ -12,6 +12,7 @@ struct CarPoolDetailView: View {
     @State var viewHeight: CGFloat = 0
     @State var secondViewHeight: CGFloat = 0
     @State var progressHeight: CGFloat = 0
+    var details: SearchRideResponseData
     var body: some View {
                 VStack(alignment: .leading) {
                     HStack {
@@ -23,7 +24,7 @@ struct CarPoolDetailView: View {
                         Spacer()
                     }
                    
-                    Text("Mon 29 May").bold().font(.title).padding().padding(.vertical)
+                    Text("\(Helper().dateFormatter(date: details.reachTime))").bold().font(.title).padding().padding(.vertical)
                   
                
                         GeometryReader { geometry in
@@ -31,7 +32,7 @@ struct CarPoolDetailView: View {
                                 
                                     HStack(alignment: .top, spacing: 50) {
                                         Text("06:00").bold()
-                                        CarPoolCardSubView(place: "Sohana Gurudwara, Sahibzada Ajit Singh Nagar", location: "Sahibzada Ajit Singh Nagar", distance: "2.4 km from your location")
+                                        CarPoolCardSubView(place: "\(details.publish.source)", location: "Sahibzada Ajit Singh Nagar", distance: "2.4 km from your location")
                                     }.overlay(alignment: .leading) {
                                         VStack {
                                             Spacer()
@@ -46,7 +47,7 @@ struct CarPoolDetailView: View {
                                     GeometryReader { geo in
                                                 HStack(alignment: .top, spacing: 50) {
                                                     Text("06:00").bold()
-                                                    CarPoolCardSubView(place: "Sohana Gurudwara, Sahibzada Ajit Singh Nagar", location: "Sahibzada Ajit Singh Nagar", distance: "2.4 km from your location")
+                                                    CarPoolCardSubView(place: "\(details.publish.destination)", location: "Sahibzada Ajit Singh Nagar", distance: "2.4 km from your location")
                                                 }
                                                 .onAppear {
                                                     secondViewHeight = geo.size.height
@@ -67,9 +68,9 @@ struct CarPoolDetailView: View {
         
     }
 }
-
-struct CarPoolDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        CarPoolDetailView()
-    }
-}
+//
+//struct CarPoolDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CarPoolDetailView()
+//    }
+//}

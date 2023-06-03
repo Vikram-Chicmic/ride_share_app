@@ -84,7 +84,8 @@ struct LoginSignupWithEmailView: View {
                             LinearGradient(colors: [Constants.Colors.bluecolor, .blue], startPoint: .leading, endPoint: .trailing) :
                                 LinearGradient(colors: [.gray, Color(red: 0.375, green: 0.342, blue: 0.342)], startPoint: .leading, endPoint: .trailing)
                         ).cornerRadius(25)
-                }.alert(isPresented: $vm.showAlert) {
+                }
+                .alert(isPresented: $vm.showAlert) {
                     Alert(title: Text(Constants.Alert.error), message: Text(isLoginView ? Constants.Alert.userNotExist : Constants.Alert.usrExist), dismissButton: .default(Text(Constants.Buttons.ok)))
                 }
                 .disabled(!vm.formIsValid)

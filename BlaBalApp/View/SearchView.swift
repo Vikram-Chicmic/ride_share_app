@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct SearchView: View {
+    @EnvironmentObject var vm: MapAndSearchRideViewModel
     var body: some View {
         ZStack {
             VStack {
                 BackgroundView().frame(height: 250)
                 Spacer()
             }.background(.white)
-            LocationView().frame(width: 350)
-        }
+            VStack {
+                LocationView().frame(width: 350)
+            }
+            
+            
+        }.environmentObject(vm)
     }
 }
 

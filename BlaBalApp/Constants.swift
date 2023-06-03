@@ -170,7 +170,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://8697-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://0610-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -179,6 +179,7 @@ struct Constants {
         static let phoneVerify              = baseUrl+"verify"
         static let sendOTP                  = baseUrl+"phone"
         static let updatePassword           = baseUrl+"update_password"
+        static let searchRide               = baseUrl+"search"
         static let email                    = "email"
         static let password                 = "password"
         static let currentPassword          = "current_password"
@@ -206,6 +207,12 @@ struct Constants {
         static let bio                      = "bio"
         static let travelPreference         = "travel_preferences"
         static let postalAddress            = "postal_address"
+        static let sourceLong               = "source_longitude"
+        static let sourceLat                = "source_latitude"
+        static let destLong                 = "destination_longitude"
+        static let destLat                  = "destination_latitude"
+        static let passengerCount           = "passengers_count"
+        static let date                     = "date"
     
     }
     

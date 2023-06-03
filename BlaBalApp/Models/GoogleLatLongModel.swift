@@ -7,35 +7,31 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct GoogleLatLongModel: Codable {
-    let candidates: [Candidate]
-    let status: String
+
+// MARK: - PlacesResponse
+struct PlacesResponse: Codable {
+    let results: [Result]
 }
 
-// MARK: - Candidate
-struct Candidate: Codable {
+// MARK: - Result
+struct Result: Codable {
+    let name: String
     let formattedAddress: String
     let geometry: Geometry
 
     enum CodingKeys: String, CodingKey {
         case formattedAddress = "formatted_address"
         case geometry
+        case name
     }
 }
 
 // MARK: - Geometry
 struct Geometry: Codable {
     let location: Location
-    let viewport: Viewport
 }
 
 // MARK: - Location
 struct Location: Codable {
     let lat, lng: Double
-}
-
-// MARK: - Viewport
-struct Viewport: Codable {
-    let northeast, southwest: Location
 }

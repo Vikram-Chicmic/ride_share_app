@@ -9,17 +9,21 @@ import SwiftUI
 
 @main
 struct BlaBalAppApp: App {
+    init() {
+            GoogleMapsProvider.configure()
+        }
+
     @StateObject var vm = LoginSignUpViewModel()
     var body: some Scene {
         WindowGroup {
             Group {
                 if vm.userLoggedIn {
-                        TabBarView(vm: vm)
+                    TabBarView(vm: vm)
                 } else {
                     LandingView().environmentObject(vm)
                 }
             }
-//  ContentView1()
+//  Content1View()
 //            LandingView().environmentObject(vm)
         }
     }

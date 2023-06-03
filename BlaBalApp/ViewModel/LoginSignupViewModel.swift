@@ -286,8 +286,10 @@ class LoginSignUpViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.navigate.toggle()
                     }
-                   
-                } else {
+                } else if (httpResponse.statusCode == 404 ) {
+                    self.showAlert.toggle()
+                }
+                else {
                     print(httpResponse.statusCode)
                     self.showAlert = true
                 }

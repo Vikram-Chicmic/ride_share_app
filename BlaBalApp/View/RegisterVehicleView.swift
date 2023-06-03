@@ -66,7 +66,7 @@ struct RegisterVehicleView: View {
                     }.alert(isPresented: $vm.alertResponse) {
                         Alert(title: Text(Constants.Alert.success),
                               message: Text(Constants.Alert.vehicleAddSuccess),
-                              dismissButton: .cancel(Text(Constants.Labels.ok)){
+                              dismissButton: .cancel(Text(Constants.Labels.ok)) {
                             dismiss()
                         }
                         )
@@ -81,7 +81,7 @@ struct RegisterVehicleView: View {
                           
                 }.padding()
             }
-        }.onAppear {
+        }.navigationTitle(Constants.Header.registerVehicle).onAppear {
             vm.isRegistering = true
         }
     }

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct LocationView: View {
-    @State var origin: String = ""
-    @State var destination: String = ""
+
     @State var addSeatNavigate: Bool = false
     @State var seats: Int = 1
     @State var openCalendar: Bool = false
@@ -17,6 +16,7 @@ struct LocationView: View {
     @State var showMapView = false
     @State var showCarPoolView = false
     @State var isOrigin = true
+    @EnvironmentObject var vm: MapAndSearchRideViewModel
     var body: some View {
         
             VStack {
@@ -26,12 +26,11 @@ struct LocationView: View {
                 }label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.circle).bold().padding(.leading).foregroundColor(.blue)
-                        Text(origin.isEmpty ? "Start From" : origin).foregroundColor(.black)
+                        Text(vm.originData?.name.isEmpty ?? true ? "Start From" : vm.originData?.name ?? "Unknown").foregroundColor(.black)
                         Spacer()
                     }
                 }.sheet(isPresented: $showMapView, content: {
-//                    LocationSearchView()
-                    MapView(isOrigin: $isOrigin)
+                    MapView( isOrigin: $isOrigin)
                 })
                 .padding(.top, 4)
                 .frame(height: 45)
@@ -45,7 +44,7 @@ struct LocationView: View {
                     } label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.location).bold().padding(.leading).foregroundColor(.blue)
-                        Text(destination.isEmpty ? "Going to" : destination).foregroundColor(.black)
+                        Text(vm.destinationData?.name.isEmpty ?? true ? "Going to" : vm.destinationData?.name ?? "Unknown").foregroundColor(.black)
                         Spacer()
                     }
                 }
@@ -58,6 +57,7 @@ struct LocationView: View {
                 HStack {
                     Button {
                         openCalendar = true
+                        
                     } label: {
                         HStack(spacing: 20) {
                             Image(systemName: Constants.Icons.calander).font(.title2).padding(.leading)
@@ -66,6 +66,10 @@ struct LocationView: View {
                         }.padding(.trailing, 10).frame(height: 40)
                     }.sheet(isPresented: $openCalendar) {
                         CalendarView(selectedDate: $selectedDate, isDob: .constant(false))
+                    }.onChange(of: selectedDate) { _ in
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        vm.date = dateFormatter.string(from: selectedDate)
                     }
                     Divider().frame(height: 40).padding(.horizontal)
                     // MARK: - Seats
@@ -74,17 +78,16 @@ struct LocationView: View {
                     } label: {
                         HStack {
                             Image(systemName: Constants.Icons.person).font(.title2)
-                            Text("\(seats)").font(.title2).foregroundColor(.black)
+                            Text("\(vm.passengers)").font(.title2).foregroundColor(.black)
                         }
                     }.padding(.trailing, 40)
                 }.sheet(isPresented: $addSeatNavigate) {
-                    AddSeatView(seat: $seats, temp: seats)
+                    AddSeatView(seat: $vm.passengers, temp: seats)
                 }
                 // MARK: - Search
-                
                 Button {
-                
-                        showCarPoolView.toggle()
+                    vm.searchRide()
+                    showCarPoolView.toggle()
                     
                 } label: {
                     HStack {
@@ -92,13 +95,15 @@ struct LocationView: View {
                         Text(Constants.Labels.search)
                         Spacer()
                     }.frame(height: 50).background(.blue).foregroundColor(.white)
-                }.navigationDestination(isPresented: $showCarPoolView, destination: {
+                }.disabled((vm.destinationData==nil && vm.originData == nil)).navigationDestination(isPresented: $showCarPoolView, destination: {
                     
                     CarPoolView().transition(.opacity)
                 })
     //            .fullScreenCover(isPresented: $showCarPoolView) {
     //                CarPoolView()
     //            }
+                
+              
             }.background(.white).cornerRadius(20).shadow(color: .gray, radius: 20)
         
     }

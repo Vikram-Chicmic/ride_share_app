@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MapView: View {
-    @StateObject var vm = MapAndSearchRideViewModel()
+    @EnvironmentObject var vm: MapAndSearchRideViewModel
     @Binding var isOrigin: Bool
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -39,7 +39,6 @@ struct MapView: View {
             List {
                 if let dataArr = vm.searchResultArr?.results {
                     ForEach((dataArr.indices), id: \.self) { index in
-                        
                         HStack(spacing: 20) {
                             Image(systemName: Constants.Icons.location)
                                 .font(.title2)
@@ -48,22 +47,35 @@ struct MapView: View {
                                 Text(dataArr[index].name)
                                 Text(dataArr[index].formattedAddress).font(.system(size: 12))
                             }.frame(height: 80)
-                            
+                        }.onTapGesture {
+                            if isOrigin {
+                                vm.originData = dataArr[index]
+                            } else {
+                                vm.destinationData = dataArr[index]
+                            }
+                           
+                            dismiss()
                         }
                     }
                 } else {}
                     
                 
             }.listStyle(.plain)
+            
             Spacer()
+        }.onAppear {
+            vm.searchText = ""
+            vm.searchResultArr = nil
+        }.onDisappear {
+            isOrigin = true
         }
     }
 }
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(isOrigin: .constant(true))
+        MapView( isOrigin: .constant(true))
     }
 }
 
-//DistanceCircleShowView().padding(.trailing).frame(width: 20, height: viewHeight).border(.gray).padding()
+
