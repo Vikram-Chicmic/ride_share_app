@@ -15,8 +15,7 @@ struct SearchRideResponse: Codable {
 struct SearchRideResponseData: Codable {
     let id: Int
     let name, reachTime: String
-    let imageURL: String
-    let averageRating: JSONNull1?
+    let imageURL, averageRating: JSONNull1?
     let aboutRide: String
     let publish: Publish
 
@@ -35,14 +34,15 @@ struct Publish: Codable {
     let id: Int
     let source, destination: String
     let passengersCount: Int
-    let addCity, date, time: String
+    let addCity: JSONNull1?
+    let date, time: String
     let setPrice: Int
     let aboutRide: String
     let userID: Int
     let createdAt, updatedAt: String
     let sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude: Double
-    let vehicleID: JSONNull1?
-    let bookInstantly, midSeat: String
+    let vehicleID: Int
+    let bookInstantly, midSeat: JSONNull1?
     let selectRoute: SelectRoute
     let status, estimateTime: String
     let addCityLongitude, addCityLatitude: JSONNull1?
@@ -77,12 +77,6 @@ struct Publish: Codable {
 
 // MARK: - SelectRoute
 struct SelectRoute: Codable {
-    let distance, estimatedTime, roadName: String
-
-    enum CodingKeys: String, CodingKey {
-        case distance, estimatedTime
-        case roadName = "road_name"
-    }
 }
 
 // MARK: - Encode/decode helpers
@@ -111,4 +105,3 @@ class JSONNull1: Codable, Hashable {
         try container.encodeNil()
     }
 }
-

@@ -11,47 +11,53 @@ struct CarPoolCard: View {
     var data: SearchRideResponseData
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 20) {
-                   
-                    
-                   
-                }.padding(.trailing)
+               VStack(alignment: .leading, spacing: 30) {
+                    HStack {
+                        Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
+                        VStack(alignment: .leading) {
+                            Text(Helper().formatDate(data.publish.time) ?? "").font(.subheadline)
+                            Text("\(data.publish.source)").bold()
+                        }
+                    }
+                   HStack {
+                       Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
+                       VStack(alignment: .leading) {
+                           Text(Helper().formatDate(data.reachTime) ?? "").font(.subheadline)
+                           Text("\(data.publish.destination)").bold()
+                       }
+                   }
                 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("\(data.publish.source)").bold()
-                    Text("\(Helper().dateFormatter(date: data.publish.time))").padding(.bottom,20)
-                    Text("\(data.publish.destination)").bold()
-                    Text("\(Helper().dateFormatter(date: data.reachTime))")
-                }
-                Spacer()
-                Text("\(data.publish.setPrice)").font(.title3).bold()
+                 
+                }.padding(.vertical)
+               
                 
-            }.padding()
+         
+            
+            Divider().padding(.horizontal)
             
             HStack {
                 if let image = data.imageURL {
                     Image("\(image)").resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                         .padding(.trailing, 15)
                 } else {
-                    Image("animation").resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                    Image("boy").resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                         .padding(.trailing, 15)
                 }
-               
-                Text("\(data.name)").font(.system(size: 20))
+                VStack(alignment: .leading) {
+                    Text("\(data.name)").font(.system(size: 20))
+                    Text("No ratings").font(.subheadline).foregroundColor(.gray)
+                }
+                
                 Spacer()
-                Image(systemName: "paperplane").font(.title2)
-                Image(systemName: "star").font(.title2)
+                Text("Rs. \(data.publish.setPrice)").bold()
             }.padding(.bottom)
                 .padding(.horizontal)
            
             
         }.background {
-            Color.white.cornerRadius(20)
+            Color.gray.opacity(0.1).cornerRadius(20)
         }
-        .overlay {
-            RoundedRectangle(cornerRadius: 20).strokeBorder().foregroundColor(.gray).shadow(color: .gray, radius: 1)
-        }
+       
     }
     
   
@@ -61,6 +67,6 @@ struct CarPoolCard: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        CarPoolCard( data: SearchRideResponseData(id: 4, name: "Adarsh", reachTime: "2023-06-30T21:12:00.000Z", imageURL: "https://0610-112-196-113-2.ngrok-free.app/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWXM9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--548daa37c2338c17c3e277908a2a41b32ec6e05d/90e9bd0f-ad8c-4ae6-9dd7-a471ea52f41a.jpg", averageRating: nil, aboutRide: "Jkljldsflkjfdkljl", publish: BlaBalApp.Publish(id: 286, source: "ChicMic, Phase 8B, Industrial Area, Sector 74, Sahibzada Ajit Singh Nagar, Punjab, India", destination: "Varanasi, Uttar Pradesh, India", passengersCount: 3, addCity: "punjab", date: "2023-06-30", time: "2000-01-01T05:12:00.000Z", setPrice: 2195, aboutRide: "Jkljldsflkjfdkljl", userID: 4, createdAt: "2023-06-03T10:03:53.135Z", updatedAt: "2023-06-03T10:03:53.135Z", sourceLatitude: 76.6910316, sourceLongitude: 30.7132678, destinationLatitude: 25.3176452, destinationLongitude: 82.9739144, vehicleID: nil, bookInstantly: "t", midSeat: "t", selectRoute: BlaBalApp.SelectRoute(distance: "1,095 km", estimatedTime: "16 hours 22 mins", roadName: "Agra - Lucknow Expy"), status: "pending", estimateTime: "2000-01-01T16:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil, distance: 0.0, bearing: "0.0")))
+        CarPoolCard( data: SearchRideResponseData(id: 256, name: "Hriday", reachTime: "2023-06-15T11:14:58.000Z", imageURL: nil, averageRating: nil, aboutRide: "", publish: BlaBalApp.Publish(id: 373, source: "Business & Industrial Park 1, Chandigarh", destination: "Sector 118, Mohali", passengersCount: 1, addCity: nil, date: "2023-06-15", time: "2000-01-01T10:41:00.000Z", setPrice: 200, aboutRide: "", userID: 256, createdAt: "2023-06-12T05:12:43.252Z", updatedAt: "2023-06-12T06:42:49.717Z", sourceLatitude: 30.704758007382228, sourceLongitude: 76.801208, destinationLatitude: 30.737185, destinationLongitude: 76.678551, vehicleID: 218, bookInstantly: nil, midSeat: nil, selectRoute: BlaBalApp.SelectRoute(), status: "pending", estimateTime: "2000-01-01T00:33:58.000Z", addCityLongitude: nil, addCityLatitude: nil, distance: 0.08185672694379517, bearing: "183.744259068662")))
     }
 }

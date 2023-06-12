@@ -286,7 +286,7 @@ class LoginSignUpViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.navigate.toggle()
                     }
-                } else if (httpResponse.statusCode == 404 ) {
+                } else if httpResponse.statusCode == 404 {
                     self.showAlert.toggle()
                 }
                 else {
@@ -349,7 +349,7 @@ class LoginSignUpViewModel: ObservableObject {
                     print("Signed Out successfully")
                     UserDefaults.standard.set(false, forKey: "userLoggedIn")
                     
-                    //MARK: Assign empty data to userdefault
+                    // MARK: Assign empty data to userdefault
                     UserDefaults.standard.removeObject(forKey: "UserDataKey")
                 } else {
                     print("Failed to logout user, status code: \(response.statusCode)")

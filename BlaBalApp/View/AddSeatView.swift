@@ -11,6 +11,7 @@ struct AddSeatView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var seat: Int
     @State var temp: Int
+    @Binding var isPublishView: Bool
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -27,7 +28,7 @@ struct AddSeatView: View {
                     Text(Constants.Buttons.done).font(.title2)
                 }
             }.padding(.bottom)
-            Text(Constants.Header.seats).font(.largeTitle).fontWeight(.semibold).padding(.trailing, 50)
+            Text(isPublishView ? Constants.Header.publishSeats : Constants.Header.seats).font(.largeTitle).fontWeight(.semibold).padding(.trailing, 50)
             HStack {
                 Image(systemName: Constants.Icons.minuscircle).font(.largeTitle).foregroundColor(temp == 1 ? .gray : Constants.Colors.bluecolor).disabled(temp<1).onTapGesture {
                     if temp>1 {
@@ -52,6 +53,6 @@ struct AddSeatView: View {
 
 struct AddSeatView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSeatView( seat: .constant(1), temp: 1)
+        AddSeatView( seat: .constant(1), temp: 1, isPublishView: .constant(false))
     }
 }

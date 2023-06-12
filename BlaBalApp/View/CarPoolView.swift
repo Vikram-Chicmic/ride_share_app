@@ -41,21 +41,19 @@ struct CarPoolView: View {
                             navigate.toggle()
                         }
                     }.navigationDestination(isPresented: $navigate, destination: {
-                        if let data = selectedCardData{
+                        if let data = selectedCardData {
                             CarPoolDetailView(details: data)
                         }
                     }).scrollIndicators(.hidden).padding()
                 }
             }
             Spacer()
-        }.navigationBarBackButtonHidden(true).background {
-            Color.gray.opacity(0.1).ignoresSafeArea()
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }
 
 //struct CarPoolView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CarPoolView(vm: MapAndSearchRideViewModel)
+//        CarPoolView(vm: MapAndSearchRideViewModel())
 //    }
 //}

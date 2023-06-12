@@ -8,18 +8,43 @@
 import SwiftUI
 
 struct PublishView: View {
-    @Environment(\.dismiss) var dismiss
+    @State var showMapView = false
+    @State var isOrigin = true
     var body: some View {
         VStack {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: Constants.Icons.cross).padding().font(.title2).foregroundColor(Constants.Colors.bluecolor)
-            }
-
-            Text(Constants.Header.pick).font(.largeTitle).fontWeight(.semibold).padding(.bottom)
-         
-            Spacer()
+//            Button {
+//                showMapView.toggle()
+//            }label: {
+//                HStack(spacing: 30) {
+//                    Image(systemName: Constants.Icons.circle).bold().padding(.leading).foregroundColor(.blue)
+//                    Text(vm.originData?.name.isEmpty ?? true ? "Start From" : vm.originData?.name ?? "Unknown").foregroundColor(.black)
+//                    Spacer()
+//                }
+//            }.sheet(isPresented: $showMapView, content: {
+//                MapView( isOrigin: $isOrigin)
+//            })
+//            .padding(.top, 4)
+//            .frame(height: 45)
+//            Divider().padding(.horizontal)
+//
+//
+//            // MARK: - Going to
+//            Button {
+//                isOrigin = false
+//                showMapView.toggle()
+//                } label: {
+//                HStack(spacing: 30) {
+//                    Image(systemName: Constants.Icons.location).bold().padding(.leading).foregroundColor(.blue)
+//                    Text(vm.destinationData?.name.isEmpty ?? true ? "Going to" : vm.destinationData?.name ?? "Unknown").foregroundColor(.black)
+//                    Spacer()
+//                }
+//            }
+//            .sheet(isPresented: $showMapView, content: {
+//                MapView( isOrigin: $isOrigin)
+//            })
+//            .frame(height: 40)
+//            Divider().padding(.horizontal)
+//            Spacer()
         }
     }
 }

@@ -13,4 +13,10 @@ extension DateFormatter {
         formatter.dateFormat = Constants.Date.dateFormat
         return formatter
     }()
+    
+    static let dateFormatterWithTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = Constants.Date.dateTimeFormat
+        return formatter
+    }()
 }

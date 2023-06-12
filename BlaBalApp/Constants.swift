@@ -55,6 +55,7 @@ struct Constants {
         static let signup                   = "SignUp"
         static let travel                   = "Your future travel plans will appear here."
         static let seats                    = "Number of seats to book"
+        static let publishSeats             = "Number of seats to publish"
         static let pick                     = "Pick-up"
         static let details                  = "Edit Personal Details"
         static let changePassword           = "Change Password"
@@ -125,6 +126,7 @@ struct Constants {
         static let apple                    = "apple.logo"
         static let cross                    = "xmark"
         static let back                     = "chevron.backward"
+        static let rightChevron             = "chevron.right"
         static let eye                      = "eye.fill"
         static let eyeSlash                 = "eye.slash.fill"
         static let questionMark             = "questionmark.circle"
@@ -147,6 +149,9 @@ struct Constants {
         static let star                     = "star.fill"
         static let starHollow               = "star"
         static let arrowRight               = "arrowshape.right.fill"
+        static let quotes                   = "quote.closing"
+        static let clock                    = "clock"
+
     }
     // MARK: - Validations
     struct Validations {
@@ -170,7 +175,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://0610-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://762b-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -180,6 +185,8 @@ struct Constants {
         static let sendOTP                  = baseUrl+"phone"
         static let updatePassword           = baseUrl+"update_password"
         static let searchRide               = baseUrl+"search"
+        static let publishRide              = baseUrl+"/publishes"
+        static let bookRide                 = baseUrl+"/book_publish"
         static let email                    = "email"
         static let password                 = "password"
         static let currentPassword          = "current_password"
@@ -213,6 +220,15 @@ struct Constants {
         static let destLat                  = "destination_latitude"
         static let passengerCount           = "passengers_count"
         static let date                     = "date"
+        static let source                   = "source"
+        static let destination              = "destination"
+        static let publishId                = "publish_id"
+        static let seats                    = "seats"
+        static let time                     = "time"
+        static let setPrice                 = "set_price"
+        static let aboutRide                = "about_ride"
+        static let vehicleId                = "vehicle_id"
+        static let estimateTime             = "estimate_time"
     
     }
     
@@ -231,6 +247,7 @@ struct Constants {
     // MARK: - DateFormat
     struct Date {
         static let dateFormat               = "dd/MM/yyyy"
+        static let dateTimeFormat           =  "dd/MM/yyyy HH:mm a"
     }
     // MARK: - Titles
     struct Titles {
@@ -242,6 +259,7 @@ struct Constants {
     // MARK: - Colors
     struct Colors {
         static let bluecolor                = /*@START_MENU_TOKEN@*/Color(red: 0.321, green: 0.501, blue: 0.927)/*@END_MENU_TOKEN@*/
+        static let underline = LinearGradient(gradient: Gradient(colors: [.blue.opacity(0), .blue, .blue.opacity(0)]), startPoint: .leading, endPoint: .trailing)
     }
     
     struct Arrays {

@@ -13,17 +13,17 @@ class MapAndSearchRideViewModel: ObservableObject {
     private var publishers = Set<AnyCancellable>()
     private var searchCancellable: AnyCancellable?
     @Published var searchResultArr: PlacesResponse?
-//    @Published var sourceLong = "30.7132678"
-//    @Published var sourceLat  = "76.6910316"
-//    @Published var destLong   = "82.9739144"
-//    @Published var destLat    = "25.3176452"
     @Published var passengers = 1
     @Published var date       = ""
-    
+    @Published var time       = ""
+    @Published var aboutRide = ""
+    @Published var amount: String = "0.0"
     @Published var originData : Result?
     @Published var destinationData: Result?
     @Published var searchRideResult: [SearchRideResponseData]?
-
+    @Published var vehicleId: Int = 0
+    @Published var estimatedTime: String = ""
+    @Published var alertSuccess = false
     private let apiKey = "AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4"
     
     func fetchPlaces() {
@@ -59,9 +59,134 @@ class MapAndSearchRideViewModel: ObservableObject {
         return URL(string: urlString)
     }
     
-    func searchRide(){
+    func publishRide() {
+        guard let url = URL(string: Constants.Url.publishRide ) else { return }
+        let publish = [
+            Constants.Url.source: originData?.name,
+            Constants.Url.destination: destinationData?.name,
+            Constants.Url.sourceLong: originData?.geometry.location.lng,
+            Constants.Url.sourceLat: originData?.geometry.location.lat,
+            Constants.Url.destLong: destinationData?.geometry.location.lng,
+            Constants.Url.destLat: destinationData?.geometry.location.lat,
+            Constants.Url.passengerCount: Int(passengers),
+            Constants.Url.date: date,
+            Constants.Url.time: time,
+            Constants.Url.setPrice: Double(amount),
+            Constants.Url.vehicleId: vehicleId,
+            Constants.Url.aboutRide: aboutRide,
+            Constants.Url.estimateTime: estimatedTime
+        ] as [String: Any]
+        
+        
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["publish": publish], options: [])
+        if let jsonData = jsonData {
+            print(jsonData)
+        } else {
+            print("Cannot convert data to JSON")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = Constants.Methods.post
+        request.httpBody = jsonData
+        request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+        
+        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        } else {
+            // Key not found or value not a String
+        }
+        
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+
+                if (200...299).contains(httpResponse.statusCode) {
+                    print(httpResponse.statusCode)
+                    self.alertSuccess.toggle()
+                } else {
+                    print(httpResponse.statusCode)
+                }
+                
+                return data
+            }
+//            .decode(type: Welcome.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }, receiveValue: { decodedData in
+                print(decodedData)
+                // Assuming you have the JSON data stored in a variable called jsonData
+//                self.encodeData(recievedData: decodedData)
+//                self.decodeData()
+
+            })
+            .store(in: &publishers)
+    }
+    
+    
+    func bookRide(publishId: Int, seats: Int) {
+        guard let url = URL(string: Constants.Url.bookRide) else { return }
+        
+        let publish = [
+            Constants.Url.publishId: publishId,
+            Constants.Url.seats: seats
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["passenger": publish], options: [])
+        var request = URLRequest(url: url)
+        request.httpMethod = Constants.Methods.post
+        request.httpBody = jsonData
+        request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        } else {
+            // Key not found or value not a String
+        }
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+
+                if (200...299).contains(httpResponse.statusCode) {
+                    print(httpResponse.statusCode)
+                } else {
+                    print(httpResponse.statusCode)
+                }
+                
+                return data
+            }
+//            .decode(type: Welcome.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }, receiveValue: { decodedData in
+                print(decodedData)
+
+            })
+            .store(in: &publishers)
+        
+        
+        
+
+    }
+    
+    func searchRide() {
         let url = generateURL()
-        guard var url = URL(string: url) else {
+        guard let url = URL(string: url) else {
             return
         }
         URLSession.shared.dataTaskPublisher(for: url)
@@ -88,8 +213,8 @@ class MapAndSearchRideViewModel: ObservableObject {
         
     
    
-    func generateURL()-> String {
-        var url = "https://0610-112-196-113-2.ngrok-free.app/search"
+    func generateURL() -> String {
+        var url = Constants.Url.searchRide
         if let og = originData?.geometry.location, let dt = destinationData?.geometry.location {
             
             url += "?source_longitude=\(og.lng)"

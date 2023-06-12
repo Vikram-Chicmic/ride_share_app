@@ -16,20 +16,8 @@ struct TabBarView: View {
             TabView {
                 SearchView()
                     .tabItem {
-                        Label(Constants.Labels.search, systemImage: Constants.Icons.magnifyingGlass)
+                        Label(Constants.Labels.search, systemImage: Constants.Icons.quotes)
                 }
-              
-                Group {
-                    Text("").tabItem {
-                        Label(Constants.Labels.publish, systemImage: Constants.Icons.pluscircle )
-                    }.onTapGesture {
-                        showPublishView = true
-                    }
-                }.sheet(isPresented: $showPublishView) {
-                   PublishView()
-               }
-             
-
                 YourRidesView().tabItem {
                     Label(Constants.Labels.ride, systemImage: Constants.Icons.car)
                 }

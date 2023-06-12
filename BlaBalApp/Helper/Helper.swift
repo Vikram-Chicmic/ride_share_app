@@ -20,4 +20,17 @@ class Helper {
             return "Invalid date format"
         }
     }
+    
+    
+      func formatDate(_ dateString: String) -> String? {
+          let dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+          if let date = dateFormatter.date(from: dateString) {
+              let formattedDateFormatter = DateFormatter()
+              formattedDateFormatter.dateFormat = "EEE, d MMMM, h:mm a"
+              formattedDateFormatter.locale = Locale(identifier: "en_US")
+              return formattedDateFormatter.string(from: date)
+          }
+          return nil
+      }
 }
