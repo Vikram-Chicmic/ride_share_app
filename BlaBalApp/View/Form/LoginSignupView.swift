@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct LoginSignupWithEmailView: View {
-    @StateObject var vm = LoginSignUpViewModel()
+    @EnvironmentObject var vm : LoginSignUpViewModel
     @State var showPassword = true
     @State var isPopoverShowing = false
     @Binding var isLoginView: Bool
     @State var navigate: Bool = false
+    @Environment(\.dismiss) var dismiss
     var body: some View {
             VStack(spacing: 10) {
                 Spacer()
@@ -96,7 +97,7 @@ struct LoginSignupWithEmailView: View {
                 showPassword = false
             }
             .padding()
-            .fullScreenCover(isPresented: Binding<Bool>(
+            .navigationDestination(isPresented: Binding<Bool>(
                 get: { vm.navigateToForm || (vm.navigate && isLoginView) },
                 set: { newValue in
                     if !newValue {
@@ -106,9 +107,9 @@ struct LoginSignupWithEmailView: View {
                 }
             )) {
                 if vm.navigateToForm {
-                    NameView(vm: vm)
+                    FormView()
                 } else if vm.navigate && isLoginView {
-                    TabBarView(vm: vm)
+                    TabBarView()
                 }
             }
 

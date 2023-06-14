@@ -9,10 +9,10 @@ import SwiftUI
 
 struct TabBarView: View {
     @State var showPublishView = false
-    @ObservedObject var vm: LoginSignUpViewModel
-    @StateObject var rideVm = MapAndSearchRideViewModel()
+    @EnvironmentObject var vm: LoginSignUpViewModel
+  
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             TabView {
                 SearchView()
                     .tabItem {
@@ -30,12 +30,12 @@ struct TabBarView: View {
                 
                 
             }.navigationBarBackButtonHidden(true)
-        }.environmentObject(rideVm)
+//        .environmentObject(rideVm)
     }
 }
 
 struct TabBarView_Previews: PreviewProvider {
     static var previews: some View {
-        TabBarView(vm: LoginSignUpViewModel())
+        TabBarView().environmentObject(LoginSignUpViewModel())
     }
 }

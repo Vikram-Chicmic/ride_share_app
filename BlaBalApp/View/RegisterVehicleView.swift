@@ -9,7 +9,9 @@ import SwiftUI
 
 struct RegisterVehicleView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm = RegisterVehicleViewModel()
+    @EnvironmentObject var vm: RegisterVehicleViewModel
+    @Binding var isUpdateVehicle: Bool
+
 
     var body: some View {
         VStack {
@@ -61,6 +63,7 @@ struct RegisterVehicleView: View {
                     
                     Button {
                         vm.registerVehicle()
+                        //update variable toggle
                     } label: {
                         Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
                     }.alert(isPresented: $vm.alertResponse) {
@@ -81,9 +84,22 @@ struct RegisterVehicleView: View {
                           
                 }.padding()
             }
-        }.navigationTitle(Constants.Header.registerVehicle).onAppear {
-            vm.isRegistering = true
-        }
+        }.onAppear {
+            if isUpdateVehicle {
+                vm.isRegistering = false
+                vm.isUpdatingVehicle = true
+            } else {
+                vm.isRegistering = true
+                vm.isUpdatingVehicle = false
+                vm.vehicleBrand = ""
+                vm.vehicleModel = ""
+                vm.plateNumber =  ""
+                vm.madeYear =  ""
+                vm.selectedVehicleType =  "Hatchback"
+                vm.selectedVehicleColor = "Black"
+                vm.selectedCountry = "Afghanistan"
+            }
+        }.navigationTitle(Constants.Header.registerVehicle)
     }
     
  
@@ -92,6 +108,6 @@ struct RegisterVehicleView: View {
 
 struct RegisterVehicleView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterVehicleView()
+        RegisterVehicleView(isUpdateVehicle: .constant(true))
     }
 }

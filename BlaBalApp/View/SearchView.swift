@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct SearchView: View {
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top){
             VStack {
                 BackgroundView().frame(height: 250)
                 Spacer()
+                Image("Image").resizable().scaledToFit().padding(.bottom).opacity(0.7)
             }.background(.white)
             VStack {
                 LocationView().frame(width: 350)
-            }
+                Spacer()
+                
+            }.padding(.top, 80)
             
             
-        }.environmentObject(vm)
+        }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchView().environmentObject(MapAndSearchRideViewModel())
     }
 }

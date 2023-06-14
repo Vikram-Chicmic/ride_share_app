@@ -31,14 +31,15 @@ struct DataClass: Codable {
     let id: Int
     let email, createdAt, updatedAt, jti: String
     let firstName, lastName, dob, title: String
-    let phoneNumber, bio, travelPreferences, postalAddress: String
+    let phoneNumber, bio, travelPreferences, postalAddress: String?
     let activationDigest: String
-    let activated: Bool
-    let activatedAt: JSONNull?
-    let activateToken, sessionKey: String
-    let averageRating: JSONNull?
+    let activated: Bool?
+//    let activatedAt: JSONNull?
+    let activateToken: String
+    let sessionKey: String?
+    let averageRating: Double?
     let otp: Int
-    let phoneVerified: Bool
+    let phoneVerified: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -54,7 +55,7 @@ struct DataClass: Codable {
         case postalAddress = "postal_address"
         case activationDigest = "activation_digest"
         case activated
-        case activatedAt = "activated_at"
+//        case activatedAt = "activated_at"
         case activateToken = "activate_token"
         case sessionKey = "session_key"
         case averageRating = "average_rating"

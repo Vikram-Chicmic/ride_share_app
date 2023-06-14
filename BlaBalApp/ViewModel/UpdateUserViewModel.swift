@@ -17,6 +17,17 @@ class UpdateUserViewModel: ObservableObject {
     
     private var publishers = Set<AnyCancellable>()
     
+    
+//    struct Password: Codable {
+//        let currentPassword, password, passwordConfirmation: String
+//
+//        enum CodingKeys: String, CodingKey {
+//            case currentPassword = "current_password"
+//            case password
+//            case passwordConfirmation = "password_confirmation"
+//        }
+//    }
+    
     func updatePassword() {
         guard let url = URL(string: Constants.Url.updatePassword) else { return }
         
@@ -26,9 +37,22 @@ class UpdateUserViewModel: ObservableObject {
             Constants.Url.confirmPassword: confirmNewPassword
         ] as [String: Any]
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: [userData], options: [])
+        print("0rwruwrueiowurwruewjrwejrwkjrwejrwjkrekjrewjrkweljrekwjrwkrjwejk", userData)
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: userData, options: [])
+       
         if let jsonData = jsonData {
             print(jsonData)
+            let decoder = JSONDecoder()
+            do {
+                let json2 = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+                print(json2)
+//                let decodedata = try decoder.decode(Password.self, from: jsonData)
+//                    print(decodedata)
+            } catch {
+                    print("Cant decode")
+                }
+              
         } else {
             print("Cannot convert data to JSON")
             return
@@ -40,6 +64,12 @@ class UpdateUserViewModel: ObservableObject {
         request.httpMethod = Constants.Methods.patch
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+        
+        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        } else {
+            // Key not found or value not a String
+        }
         
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in

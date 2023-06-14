@@ -13,7 +13,7 @@ struct CustomProgressBar: View {
         ZStack(alignment: .leading) {
             Image(Constants.Images.road).resizable().frame(height: 3).padding(.top, 21)
             HStack {
-                Image(Constants.Images.car).resizable().frame(width: 100, height: 90).padding(.leading, 85*CGFloat(step))
+                Image(Constants.Images.car).resizable().frame(width: 100, height: 90).padding(.leading, 115*CGFloat(step))
             }
             HStack {
                 Spacer()
@@ -25,6 +25,6 @@ struct CustomProgressBar: View {
 
 struct CustomProgressBar_Previews: PreviewProvider {
     static var previews: some View {
-        CustomProgressBar(step: .constant(1))
+        CustomProgressBar(step: .constant(2))
     }
 }

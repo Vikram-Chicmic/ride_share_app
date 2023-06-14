@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TitleView: View {
-    @ObservedObject var vm: LoginSignUpViewModel
+    @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigate: Bool = false
     @State var alert: Bool = false
     @Environment(\.dismiss) var dismiss
@@ -29,39 +29,15 @@ struct TitleView: View {
                           .foregroundColor(.primary)
                       }
             }
-            
-            Button {
-                if vm.selectedTitle.isEmpty {
-                    alert = true
-                } else {
-                    navigate.toggle()
-                    
-                    withAnimation {
-                        vm.step += 1
-                    }
-                }
-            } label: {
-                Buttons(image: "", text: Constants.Buttons.cont, color: Constants.Colors.bluecolor).padding(.top)
-                 }
-            Button {
-                dismiss()
-            } label: {
-                Buttons(image: "", text: Constants.Buttons.back, color: Color(red: 0.742, green: 0.742, blue: 0.754))
-            }
-          Spacer()
-            if alert {
-                CustomAlert(text: Constants.Alert.emptyfield, dismiss: $alert)
-            }
         }
         
         .onAppear {
-            withAnimation {
-                vm.step = 2
-            }
+            vm.isUpdating = false
+            print(vm.bday, vm.email, vm.password, vm.fname, vm.lname, vm.selectedTitle)
         }
         .padding()
-            .navigationDestination(isPresented: $navigate) {
-                PhoneView(vm: vm).navigationBarBackButtonHidden()
+        .navigationDestination(isPresented: $vm.navigate) {
+              TabBarView().navigationBarBackButtonHidden()
             }
         
     }
@@ -69,6 +45,6 @@ struct TitleView: View {
 
 struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
-        TitleView(vm: LoginSignUpViewModel())
+        TitleView()
     }
 }

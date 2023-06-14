@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var navigate: Bool = false
+    @State var navigateToPhoneVerification: Bool = false
     @State var navigateToRegisterVehicle = false
     @State var detail: Welcome?
     @ObservedObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
+    
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack(alignment: .leading) {
@@ -56,23 +58,29 @@ struct ProfileView: View {
                     ChangePasswordView()
                 }
                 
-                VStack(alignment: .leading, spacing: 20) {
+                Button {
+                    navigateToPhoneVerification.toggle()
+                } label: {
+                    HStack {
+                        Text("Verify Phone Number")
+                        Spacer()
+                    }
+                }.navigationDestination(isPresented: $navigateToPhoneVerification) {
+                    PhoneView()
+                }
+                
+                VStack(alignment: .leading, spacing: 15) {
                     
                     Section {
                         Divider()
                         
-                        Text(Constants.Header.varifyProfile).font(.title2).fontWeight(.semibold)
-                        Button {
-                            
-                        } label: {
-                            ProfileButtons(text: Constants.Buttons.verifyId)
-                        }
-
-                        Button {
-                            
-                        } label: {
-                            ProfileButtons(text: Constants.Buttons.verifyEmail)
-                        }
+                        Text(Constants.Header.yourProfile).font(.title2).fontWeight(.semibold)
+                        VStack(alignment: .leading, spacing: 10) {
+                            ProfileDetailTileView(image: "phone.fill", value: vm.recievedData?.status.data?.phoneNumber ?? "xxxxxxxxxx")
+                            ProfileDetailTileView(image: Constants.Icons.mail, value: vm.recievedData?.status.data?.email ?? "example@gmail.com")
+                            ProfileDetailTileView(image: "birthday.cake.fill", value: vm.recievedData?.status.data?.dob ?? "dd/mm/yyyy")
+                            ProfileDetailTileView(image: "person.text.rectangle", value: vm.recievedData?.status.data?.bio ?? "*bio is empty")
+                        }.padding(.leading)
                     }
                     
                     Section(header: Spacer()) {
@@ -87,7 +95,7 @@ struct ProfileView: View {
                             ProfileButtons(text: Constants.Buttons.addVehicle)
 
                         }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
-                            RegisterVehicleView()
+                            RegisterVehicleView(isUpdateVehicle: .constant(false))
                         }
                         
                     }

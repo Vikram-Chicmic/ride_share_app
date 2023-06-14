@@ -29,6 +29,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var passcode = ""
     @Published var sendOTP = false
     @Published var verified = false
+    @Published var showAlertSignUpProblem = false
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     }
@@ -137,19 +138,33 @@ class LoginSignUpViewModel: ObservableObject {
 
     func signUp() {
         guard let url = URL(string: Constants.Url.signUpUrl) else { return }
+        let userData: [String: Any]
+        if isUpdating {
+            userData = [
+                Constants.Url.email: email,
+                Constants.Url.password: password,
+                Constants.Url.fname: fname,
+                Constants.Url.lname: lname,
+                Constants.Url.dob: bday,
+                Constants.Url.title: selectedTitle,
+                Constants.Url.bio: bio,
+                Constants.Url.travelPreference: travelPreference,
+                Constants.Url.postalAddress: postalAddress
+            ] as [String: Any]
+        } else {
+            userData = [
+                Constants.Url.email: email,
+                Constants.Url.password: password,
+                Constants.Url.fname: fname,
+                Constants.Url.lname: lname,
+                Constants.Url.dob: bday,
+                Constants.Url.title: selectedTitle
+                ]
+        }
         
-        let userData = [
-            Constants.Url.email: email,
-            Constants.Url.password: password,
-            Constants.Url.fname: fname,
-            Constants.Url.lname: lname,
-            Constants.Url.dob: bday,
-            Constants.Url.title: selectedTitle,
-            Constants.Url.phnnumber: Int(phoneNumber) ?? 0,
-            Constants.Url.bio: bio,
-            Constants.Url.travelPreference: travelPreference,
-            Constants.Url.postalAddress: postalAddress
-        ] as [String: Any]
+      
+        
+        print(userData)
         
         let jsonData = try? JSONSerialization.data(withJSONObject: ["user": userData], options: [])
         if let jsonData = jsonData {
@@ -163,9 +178,21 @@ class LoginSignUpViewModel: ObservableObject {
         
         var request = URLRequest(url: url)
         request.httpMethod = isUpdating ? Constants.Methods.put : Constants.Methods.post
+        print(request.httpMethod)
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
         
+        let decoder = JSONDecoder()
+        if let jsonData = jsonData {
+            do {
+                let sendData = try decoder.decode(SendDataDecode.self, from: jsonData)
+                print(sendData)
+            } catch {
+                print("Cant decode senddata")
+            }
+            
+          
+        } else {}
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
@@ -181,12 +208,12 @@ class LoginSignUpViewModel: ObservableObject {
                 
                 
                 if (200...299).contains(httpResponse.statusCode) {
-                    UserDefaults.standard.set(self.isUpdating ? false : true, forKey: Constants.Url.userLoggedIN)
+                    UserDefaults.standard.set( true, forKey: Constants.Url.userLoggedIN)
                     
-                    self.navigate = true
+                    self.navigate.toggle()
                     print(httpResponse.statusCode)
                 } else {    
-                    self.showAlert = true
+                    self.showAlertSignUpProblem = true
                     print(httpResponse.statusCode)
                 }
                 
@@ -372,6 +399,11 @@ class LoginSignUpViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.get
 
+        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        } else {
+            // Key not found or value not a String
+        }
         
         URLSession.shared.dataTaskPublisher(for: url)
             .receive(on: DispatchQueue.main)
@@ -428,6 +460,8 @@ class LoginSignUpViewModel: ObservableObject {
         request.httpMethod = Constants.Methods.post
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+        
+     
         
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in

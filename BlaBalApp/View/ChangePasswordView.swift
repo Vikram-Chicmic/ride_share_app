@@ -42,9 +42,11 @@ struct ChangePasswordView: View {
                     
                 }.alert(isPresented: $showAlert) {
                     Alert(
-                        title: Text(Constants.Alert.error),
-                        message: Text(vm.response?.status.error ?? "Unknown Error"),
-                        dismissButton: .cancel(Text(Constants.Buttons.ok))
+                        title: Text(Constants.Alert.success),
+                        message: Text(vm.response?.status.message ?? ""),
+                        dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                            dismiss()
+                        })
                     )
                 }
             }.padding(.horizontal)

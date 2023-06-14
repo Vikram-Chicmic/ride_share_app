@@ -18,7 +18,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var time       = ""
     @Published var aboutRide = ""
     @Published var amount: String = "0.0"
-    @Published var originData : Result?
+    @Published var originData: Result?
     @Published var destinationData: Result?
     @Published var searchRideResult: [SearchRideResponseData]?
     @Published var vehicleId: Int = 0
@@ -33,6 +33,8 @@ class MapAndSearchRideViewModel: ObservableObject {
         }
         
         let request = URLRequest(url: url)
+        
+      
         
         URLSession.shared.dataTaskPublisher(for: request)
             .map(\.data)
@@ -86,6 +88,7 @@ class MapAndSearchRideViewModel: ObservableObject {
             print("Cannot convert data to JSON")
             return
         }
+    
 
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.post
@@ -113,7 +116,7 @@ class MapAndSearchRideViewModel: ObservableObject {
                 
                 return data
             }
-//            .decode(type: Welcome.self, decoder: JSONDecoder())
+            .decode(type: SearchRideResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -145,11 +148,13 @@ class MapAndSearchRideViewModel: ObservableObject {
         request.httpMethod = Constants.Methods.post
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+        
         if let token = UserDefaults.standard.object(forKey: "Token") as? String {
             request.setValue(token, forHTTPHeaderField: "Authorization")
         } else {
             // Key not found or value not a String
         }
+        
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {

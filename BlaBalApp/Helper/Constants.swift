@@ -24,7 +24,7 @@ struct Constants {
         static let back                     = "Back"
         static let startfrom                = "Start from"
         static let save                     = "Save"
-        static let ok                       = "Okay"
+        static let ok                       = "Ok"
         static let verifyId                 = "Verify my Id"
         static let verifyEmail              = "Verify Email"
         static let verifyPhone              = "Verify phone number"
@@ -60,7 +60,7 @@ struct Constants {
         static let details                  = "Edit Personal Details"
         static let changePassword           = "Change Password"
         static let searchLocation           = "Search Location"
-        static let varifyProfile            = "Verify your profile"
+        static let yourProfile            = "Your profile"
         static let about                    = "About you"
         static let vehicle                  = "Vehicles"
         static let registerVehicle          = "Register Vehicle"
@@ -175,7 +175,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://762b-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://a7c6-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -187,6 +187,7 @@ struct Constants {
         static let searchRide               = baseUrl+"search"
         static let publishRide              = baseUrl+"/publishes"
         static let bookRide                 = baseUrl+"/book_publish"
+        static let deleteVehicle            = baseUrl+"/"
         static let email                    = "email"
         static let password                 = "password"
         static let currentPassword          = "current_password"

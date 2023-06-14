@@ -15,7 +15,8 @@ struct SearchRideResponse: Codable {
 struct SearchRideResponseData: Codable {
     let id: Int
     let name, reachTime: String
-    let imageURL, averageRating: JSONNull1?
+    let imageURL: String?
+    let averageRating: JSONNull1?
     let aboutRide: String
     let publish: Publish
 

@@ -18,7 +18,6 @@ struct EditPersonalDetailsView: View {
             VStack(alignment: .leading) {
                 ScrollView {
                     VStack(spacing: 40) {
-//                        CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email)
                         CustomTextfield(label: Constants.Labels.fname, placeholder: Constants.Placeholders.fname, value: $vm.fname)
                         CustomTextfield(label: Constants.Labels.lname, placeholder: Constants.Placeholders.lname, value: $vm.lname)
                         
@@ -63,15 +62,13 @@ struct EditPersonalDetailsView: View {
                             }
                         }
                         
-                        CustomTextfield(label: Constants.Labels.phone, placeholder: Constants.Placeholders.phonenumber, value: $vm.phoneNumber).keyboardType(.phonePad)
+
                         
                         CustomTextfield(label: Constants.Labels.bio, placeholder: Constants.Placeholders.bio, value: $vm.bio)
                         
                         CustomTextfield(label: Constants.Labels.travelPreference, placeholder: Constants.Placeholders.travelPreference, value: $vm.travelPreference)
                         
                         CustomTextfield(label: Constants.Labels.address, placeholder: Constants.Placeholders.post, value: $vm.postalAddress)
-                        
-//                        UserDefaults.standard.set(vm.recievedData, forKey: "UserData")
                         
                         Button {
                             vm.isUpdating.toggle()
@@ -94,12 +91,13 @@ struct EditPersonalDetailsView: View {
                     vm.fname = data.firstName
                     vm.lname = data.lastName
                     vm.bday = data.dob
-                    vm.phoneNumber = data.phoneNumber
-                    vm.postalAddress = data.postalAddress
-                    vm.travelPreference = data.travelPreferences
+                    vm.phoneNumber = data.phoneNumber ?? ""
+                    vm.postalAddress = data.postalAddress ?? ""
+                    vm.travelPreference = data.travelPreferences ?? ""
+                    vm.bio = data.bio ?? ""
                     vm.selectedTitle = data.title
                     vm.email = data.email
-                    vm.bio = data.bio
+                  
                 }
             }.overlay {
                 

@@ -19,8 +19,7 @@ struct LocationView: View {
     @State var isOrigin = true
     @State var isPublishView = false
     @EnvironmentObject var vm: MapAndSearchRideViewModel
-    @StateObject var vehicleVm = RegisterVehicleViewModel()
-    
+    @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @State private var isDropdownVisible = false
     @State private var selectedVehicle: Datum?
     @State var selectedVehicleId: Int?
@@ -32,48 +31,37 @@ struct LocationView: View {
                 VStack(spacing: 5) {
                     // MARK: Segmented Buttons
                     HStack {
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.5)) {
-                                isPublishView = false
-                                selection = 0
+                        VStack {
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.5)) {
+                                    isPublishView = false
+                                }
+                            } label: {
+                                Text("Search Ride")
+                                
+                              
                             }
-                        } label: {
-                            Text("Search Ride")
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            if !isPublishView { UnderlineView().padding(.horizontal) }
                         }
-                        .frame(minWidth: 0, maxWidth: .infinity)
+                       
+                        VStack {
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.5)) {
+                                    isPublishView = true
+                                    vehicleVm.isRegistering = false
+                                    vehicleVm.registerVehicle()
+                                }
+                            } label: {
+                                Text("Publish Ride")
+                            }
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            if isPublishView { UnderlineView().padding(.horizontal) }
+                        }
                         
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.5)) {
-                                isPublishView = true
-                                vehicleVm.isRegistering = false
-                                vehicleVm.registerVehicle()
-                                selection = 1
-                            }
-                        } label: {
-                            Text("Publish Ride")
-                        }
-                        .frame(minWidth: 0, maxWidth: .infinity)
                     }
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(.secondary)
-                    
-                    // MARK: Separator
-                    Divider()
-                        .background(.white.opacity(0.5))
-                        .blendMode(.overlay)
-                        .shadow(color: .black.opacity(0.2), radius: 0, x: 0, y: 1)
-                        .blendMode(.overlay)
-                        .overlay {
-                            // MARK: Underline
-                            HStack {
-                                Divider()
-                                    .frame(width: UIScreen.main.bounds.width / 2, height: 13)
-                                    .background(Constants.Colors.underline) // Updated line
-                                    .blendMode(.overlay)
-                            }
-                            .frame(maxWidth: .infinity, alignment: selection == 0 ? .leading : .trailing)
-                            .offset(y: -1)
-                        }
                 }
                 .padding(.top, 25)
 
@@ -224,6 +212,8 @@ struct LocationView: View {
                     isPublishView ? showCarPoolView = false :  showCarPoolView.toggle()
                     
                 } label: {
+                    
+                    
                     HStack {
                         Spacer()
                         Text(isPublishView ? "Publish" : Constants.Labels.search).bold()
@@ -231,10 +221,15 @@ struct LocationView: View {
                     }.frame(height: 50).background(.blue).foregroundColor(.white)
                 }.alert(isPresented: $vm.alertSuccess) {
                     Alert(title: Text("Success"), message: Text("Ride published successfully"), dismissButton: .default(Text("Ok")))
+                  
                 }
                 .disabled((vm.destinationData==nil && vm.originData == nil)).navigationDestination(isPresented: $showCarPoolView, destination: {
                     CarPoolView().transition(.opacity)
                 })
+                
+                
+               
+                
             }.background(.white).cornerRadius(20).shadow(color: .gray, radius: 20)
         
     }
