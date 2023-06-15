@@ -13,7 +13,7 @@ struct BirthdayView: View {
     @State var navigate: Bool = false
     @Environment(\.dismiss) var dismiss
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
-    let maxDate = Calendar.current.date(from: DateComponents(year: 2015, month: 12, day: 31))!
+    let maxDate = Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!
     
     var body: some View {
         ScrollView {
@@ -31,10 +31,8 @@ struct BirthdayView: View {
                               .padding()
                               .cornerRadius(25)
             } .onDisappear {
-                let formatter = DateFormatter()
-                formatter.dateFormat = Constants.Date.dateFormat
-                vm.bday = formatter.string(from: selectedDate)
-                print(vm.bday, selectedDate)
+               let newDate = Helper().dateToString(selectedDate: selectedDate)
+                vm.bday = newDate
             }.padding()
         }
         

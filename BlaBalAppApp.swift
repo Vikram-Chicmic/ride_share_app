@@ -15,6 +15,7 @@ struct BlaBalAppApp: App {
     @StateObject var vm = LoginSignUpViewModel()
     @StateObject var vehicleVm = RegisterVehicleViewModel()
     @StateObject var mapVm = MapAndSearchRideViewModel()
+    @StateObject var sessionManager = SessionManager()
     var body: some Scene {
         WindowGroup {
             Group {
@@ -31,6 +32,7 @@ struct BlaBalAppApp: App {
             }.environmentObject(vm)
                 .environmentObject(vehicleVm)
                 .environmentObject(mapVm)
+                .environmentObject(sessionManager)
             }
              
             

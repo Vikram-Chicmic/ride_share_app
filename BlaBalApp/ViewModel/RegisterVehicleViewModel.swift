@@ -49,16 +49,13 @@ class RegisterVehicleViewModel: ObservableObject {
             request.httpMethod = Constants.Methods.post
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-        }
-        else if isDeletingVehicle {
+        } else if isDeletingVehicle {
                 request.httpMethod = Constants.Methods.delete
-            }
-        else if isUpdatingVehicle {
+            } else if isUpdatingVehicle {
                 request.httpMethod = Constants.Methods.put
                 request.httpBody = jsonData
                 request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-            }
-        else {
+            } else {
                 request.httpMethod = Constants.Methods.get
             }
         print(url, request.httpMethod)

@@ -44,7 +44,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var formIsValid = false
     @Published var isUserEmailValid = false
     @Published var isUserPasswordValid = false
-    
+    @Published var updateAlertProblem = false
     
     static var authorizationToken = ""
     
@@ -193,6 +193,7 @@ class LoginSignUpViewModel: ObservableObject {
             
           
         } else {}
+        
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
@@ -211,12 +212,22 @@ class LoginSignUpViewModel: ObservableObject {
                     UserDefaults.standard.set( true, forKey: Constants.Url.userLoggedIN)
                     
                     self.navigate.toggle()
+                    self.alert.toggle()
                     print(httpResponse.statusCode)
                 } else {    
-                    self.showAlertSignUpProblem = true
+                   
+                    if self.isUpdating {
+                        self.updateAlertProblem = true
+                    }
+                    else {
+                        self.showAlertSignUpProblem = true
+                    }
+              
                     print(httpResponse.statusCode)
                 }
-                
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                        print(json)
+                                    }
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())
@@ -241,6 +252,8 @@ class LoginSignUpViewModel: ObservableObject {
     // MARK: - CheckEmail
 
     func checkEmail() {
+    
+        
         guard let url = URL(string: Constants.Url.checkEmail+"?email=\(email)") else {
             return
         }
@@ -253,7 +266,10 @@ class LoginSignUpViewModel: ObservableObject {
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
-                print(httpResponse.statusCode)
+//                print(httpResponse.statusCode)
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                        print(json)
+                                    }
                 return (httpResponse.statusCode, data)
             }
             .receive(on: DispatchQueue.main)
@@ -320,6 +336,9 @@ class LoginSignUpViewModel: ObservableObject {
                     print(httpResponse.statusCode)
                     self.showAlert = true
                 }
+//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                                        print(json)
+//                                    }
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())
@@ -333,7 +352,7 @@ class LoginSignUpViewModel: ObservableObject {
                 }
             }, receiveValue: { decodedData in
                 // MARK: encode recieved data and store in userDefaults
-                print("Recieved Data :\(decodedData)")
+//                print("Recieved Data :\(decodedData)")
                 self.encodeData(recievedData: decodedData)
                 self.decodeData()
             })
@@ -350,7 +369,7 @@ class LoginSignUpViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
 
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
+        if let token = UserDefaults.standard.string(forKey: Constants.Url.token) {
             request.setValue(token, forHTTPHeaderField: "Authorization")
         } else {
             // Key not found or value not a String
@@ -375,10 +394,11 @@ class LoginSignUpViewModel: ObservableObject {
                 if response.statusCode == 200 {
                     print("Signed Out successfully")
                     UserDefaults.standard.set(false, forKey: "userLoggedIn")
-                    
-                    // MARK: Assign empty data to userdefault
+                    UserDefaults.standard.removeObject(forKey: Constants.Url.token)
+//                   MARK: Assign empty data to userdefault so that when user relogin it must be assign by new value without data confiction
                     UserDefaults.standard.removeObject(forKey: "UserDataKey")
                 } else {
+                    //TODO: - alert
                     print("Failed to logout user, status code: \(response.statusCode)")
                 }
             })
@@ -392,36 +412,62 @@ class LoginSignUpViewModel: ObservableObject {
 
     // MARK: - Get user
     func getUser() {
-        guard let url = URL(string: Constants.Url.signUpUrl+"?email=\(email)") else {
+        guard let baseURL = URL(string: "https://eec3-112-196-113-2.ngrok-free.app") else {
+            print("Invalid base URL")
             return
         }
-        print(url)
-        var request = URLRequest(url: url)
+        
+        let userEndpoint = baseURL.appendingPathComponent("users")
+        
+        var request = URLRequest(url: userEndpoint)
         request.httpMethod = Constants.Methods.get
-
+        
         if let token = UserDefaults.standard.object(forKey: "Token") as? String {
             request.setValue(token, forHTTPHeaderField: "Authorization")
         } else {
             // Key not found or value not a String
         }
-        
-        URLSession.shared.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.main)
-            .tryMap { (data, response) -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 else {
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
+                
+                // Check if the response is successful
+                if (200...299).contains(httpResponse.statusCode) {
+                    // Handle the received data
+                    // Assuming you have a decoder and a data model for the user information
+                    let decoder = JSONDecoder()
+                    let user = try decoder.decode(Welcome.self, from: data)
+                    print("User: \(user)")
+                } else {
+                    // Handle the error response
+                    print("Error response: \(httpResponse.statusCode)")
+                }
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                                        print(json)
+                                                    }
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())
-            .sink { (completiion) in
-                print("Completion: \(completiion)")
-            } receiveValue: { [weak self] user in
-                self?.recievedData = user
-                print(user)
-            }
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }, receiveValue: { decodedData in
+                // Handle the received value if needed
+                print("Received data: \(decodedData)")
+                self.recievedData = decodedData
+                print(self.recievedData)
+               
+            })
             .store(in: &publishers)
     }
+
+
     
     
    
@@ -477,13 +523,17 @@ class LoginSignUpViewModel: ObservableObject {
                 } else {
                     print(httpResponse.statusCode)
                     DispatchQueue.main.async {
-                        self.alert = true
+                        self.alert.toggle()
                     }
                  
                 }
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    print(json)
+                }
                 
                 return data
-            }.decode(type: Welcome.self, decoder: JSONDecoder())
+            }
+//            .decode(type: Welcome.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -493,7 +543,7 @@ class LoginSignUpViewModel: ObservableObject {
                     print("Error: \(error.localizedDescription)")
                 }
             }, receiveValue: { decodedData in
-                self.recievedData = decodedData
+//                self.recievedData = decodedData
                 print(decodedData)
             })
             .store(in: &publishers)

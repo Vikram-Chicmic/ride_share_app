@@ -9,9 +9,10 @@ import SwiftUI
 
 struct EditPersonalDetailsView: View {
     @Environment(\.dismiss) var dismiss
-//    @EnvironmentObject var vm: LoginSignUpViewModel
-    @ObservedObject var vm: LoginSignUpViewModel
+    @EnvironmentObject var vm: LoginSignUpViewModel
+//    @ObservedObject var vm: LoginSignUpViewModel
     @State var openCalendar: Bool = false
+    @State var selectedDate = Date()
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
     let maxDate = Calendar.current.date(from: DateComponents(year: 2015, month: 12, day: 31))!
     var body: some View {
@@ -53,12 +54,15 @@ struct EditPersonalDetailsView: View {
                             } label: {
                                 HStack(spacing: 20) {
                                     Image(systemName: Constants.Icons.calander).font(.title2).padding(.leading)
-                                    Text(vm.bday).foregroundColor(.black)
+                                    
+                                    HStack {
+                                        Text(Helper().dateToString(selectedDate: selectedDate)).foregroundColor(.black)
+                                        DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                                    }
+                                   
                                     Spacer()
                                 }.padding(.trailing, 10).frame(height: 50).background(.gray.opacity(0.2))
                                     .cornerRadius(24)
-                            }.sheet(isPresented: $openCalendar) {
-                                CalendarView(selectedDate: .constant(Date()), isDob: .constant(true))
                             }
                         }
                         
@@ -71,12 +75,21 @@ struct EditPersonalDetailsView: View {
                         CustomTextfield(label: Constants.Labels.address, placeholder: Constants.Placeholders.post, value: $vm.postalAddress)
                         
                         Button {
-                            vm.isUpdating.toggle()
-                            vm.signUp()
+                            vm.bday = Helper().dateToString(selectedDate: selectedDate)
+                            print(vm.bday)
+                                    vm.signUp()
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
-                        }.alert( isPresented: $vm.alert) {
-                            Alert(title: Text("Success"), message: Text("User Updated Successfully"), dismissButton: .cancel() )
+                        }
+                        .alert( isPresented: $vm.updateAlertProblem) {
+                            Alert(title: Text("Error"), message: Text("Error While Updating User"), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                                dismiss()
+                            } ) )
+                        }
+                        .alert( isPresented: $vm.alert) {
+                            Alert(title: Text("Success"), message: Text("User Updated Successfully"), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                                dismiss()
+                            } ) )
                         }
                     // MARK: - Alert user updated successfully
                     }.padding()
@@ -85,20 +98,23 @@ struct EditPersonalDetailsView: View {
               
                 
                 Spacer()
-            }.navigationTitle(Constants.Header.details).onAppear {
-//                vm.getUser()
-                if let data = vm.recievedData?.status.data {
-                    vm.fname = data.firstName
-                    vm.lname = data.lastName
-                    vm.bday = data.dob
-                    vm.phoneNumber = data.phoneNumber ?? ""
-                    vm.postalAddress = data.postalAddress ?? ""
-                    vm.travelPreference = data.travelPreferences ?? ""
-                    vm.bio = data.bio ?? ""
-                    vm.selectedTitle = data.title
-                    vm.email = data.email
-                  
-                }
+            }.navigationTitle(Constants.Header.details)
+               .onAppear {
+                   if let data = vm.recievedData?.status.data {
+                       vm.fname = data.firstName
+                       vm.lname = data.lastName
+                       vm.bday = data.dob
+                       vm.phoneNumber = data.phoneNumber ?? ""
+                       vm.postalAddress = data.postalAddress ?? ""
+                       vm.travelPreference = data.travelPreferences ?? ""
+                       vm.bio = data.bio ?? ""
+                       vm.selectedTitle = data.title
+                       vm.email = data.email
+                   }
+               vm.isUpdating.toggle()
+            print("Current date is :", vm.bday)
+               selectedDate = Helper().stringTodate(date: vm.bday)
+               
             }.overlay {
                 
             }
@@ -108,6 +124,6 @@ struct EditPersonalDetailsView: View {
 
 struct EditPersonalDetailsViw_Previews: PreviewProvider {
     static var previews: some View {
-        EditPersonalDetailsView(vm: LoginSignUpViewModel())
+        EditPersonalDetailsView().environmentObject(LoginSignUpViewModel())
     }
 }

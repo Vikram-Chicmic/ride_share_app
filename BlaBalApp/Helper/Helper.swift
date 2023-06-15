@@ -33,4 +33,15 @@ class Helper {
           }
           return nil
       }
+    
+    func dateToString(selectedDate: Date)-> String{
+        let formatter = DateFormatter()
+        formatter.dateFormat = Constants.Date.dateFormat
+        return formatter.string(from: selectedDate)
+    }
+    
+    func stringTodate(date: String)-> Date {
+        let dateFormatter = DateFormatter()
+        return dateFormatter.date(from: date) ?? Date()
+    }
 }

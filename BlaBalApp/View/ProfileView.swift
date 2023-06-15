@@ -15,7 +15,7 @@ struct ProfileView: View {
     @ObservedObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
-    
+    @EnvironmentObject var sessionManager: SessionManager
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,7 +38,7 @@ struct ProfileView: View {
                             Text(Constants.Buttons.editprofile).font(.system(size: 20))
                         }.padding(.vertical)
                             .navigationDestination(isPresented: $navigate) {
-                                EditPersonalDetailsView( vm: vm)
+                                EditPersonalDetailsView()
                             }
                         
                     }
@@ -114,7 +114,12 @@ struct ProfileView: View {
                     // MARK: - Logout Button
                     Button {
                         vm.logoutUser()
-                        presentationMode.wrappedValue.dismiss()
+                        sessionManager.isLoggedIn.toggle()
+//                        withAnimation {
+//                            presentationMode.wrappedValue.dismiss()
+//                        }
+                        
+                        
                     }label: {
                         HStack {
                             Spacer()

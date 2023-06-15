@@ -18,7 +18,7 @@ struct Status: Codable {
     let error: String?
     let message: String?
     let data: DataClass?
-    let imageURL: JSONNull?
+    let imageURL: String?
 
     enum CodingKeys: String, CodingKey {
         case code, data, error, message

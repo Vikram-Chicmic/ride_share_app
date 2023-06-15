@@ -84,7 +84,9 @@ class UpdateUserViewModel: ObservableObject {
 //                    self.showAlert = true //cant update
                     print(httpResponse.statusCode)
                 }
-                
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                        print(json)
+                                    }
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())
