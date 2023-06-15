@@ -42,7 +42,7 @@
 		9391E19F2A0E0DFE00427F22 /* NameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E19E2A0E0DFE00427F22 /* NameView.swift */; };
 		9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A02A0E0EA600427F22 /* BirthdayView.swift */; };
 		9391E1A32A0E10F300427F22 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A22A0E10F300427F22 /* TitleView.swift */; };
-		9391E1A52A0E13CA00427F22 /* PhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A42A0E13CA00427F22 /* PhoneView.swift */; };
+		9391E1A52A0E13CA00427F22 /* PhoneVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A42A0E13CA00427F22 /* PhoneVerificationView.swift */; };
 		9391E1A72A0E327600427F22 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A62A0E327600427F22 /* Alert.swift */; };
 		9391E1A92A0E4E7E00427F22 /* ProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1A82A0E4E7E00427F22 /* ProfileButtons.swift */; };
 		9391E1AB2A0E5B3D00427F22 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391E1AA2A0E5B3D00427F22 /* UserModel.swift */; };
@@ -111,7 +111,7 @@
 		9391E19E2A0E0DFE00427F22 /* NameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameView.swift; sourceTree = "<group>"; };
 		9391E1A02A0E0EA600427F22 /* BirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayView.swift; sourceTree = "<group>"; };
 		9391E1A22A0E10F300427F22 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
-		9391E1A42A0E13CA00427F22 /* PhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneView.swift; sourceTree = "<group>"; };
+		9391E1A42A0E13CA00427F22 /* PhoneVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationView.swift; sourceTree = "<group>"; };
 		9391E1A62A0E327600427F22 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		9391E1A82A0E4E7E00427F22 /* ProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileButtons.swift; sourceTree = "<group>"; };
 		9391E1AA2A0E5B3D00427F22 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -184,6 +184,68 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		937B446A2A3B4C410032903F /* ImageViews */ = {
+			isa = PBXGroup;
+			children = (
+				937B44682A3B0C2E0032903F /* AddImageView.swift */,
+				936540B72A1C7B58004240D1 /* ImageView.swift */,
+			);
+			name = ImageViews;
+			sourceTree = "<group>";
+		};
+		937B446B2A3B4C5A0032903F /* VehicleViews */ = {
+			isa = PBXGroup;
+			children = (
+				934F676D2A39CE0600209F81 /* VehicleDetailView.swift */,
+				93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */,
+				9391DC1A2A1DD323007B5ADE /* RegisterVehicleView.swift */,
+			);
+			path = VehicleViews;
+			sourceTree = "<group>";
+		};
+		937B446C2A3B4CB40032903F /* SearchRideSubviews */ = {
+			isa = PBXGroup;
+			children = (
+				938077F32A0BC53A008A889A /* LocationView.swift */,
+				93C2C9302A1F61EB00CA4C92 /* MapView.swift */,
+				93D0E1772A37377F0095E3EA /* BookRide.swift */,
+				938886032A207A9200A838BC /* CarPoolDetailView.swift */,
+				93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */,
+				93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */,
+			);
+			path = SearchRideSubviews;
+			sourceTree = "<group>";
+		};
+		937B446D2A3B4CDD0032903F /* PhoneVerification */ = {
+			isa = PBXGroup;
+			children = (
+				9313A7722A2716E00034CC31 /* ConfirmOTP.swift */,
+				9391E1A42A0E13CA00427F22 /* PhoneVerificationView.swift */,
+			);
+			path = PhoneVerification;
+			sourceTree = "<group>";
+		};
+		937B446E2A3B4CFD0032903F /* TabBarViews */ = {
+			isa = PBXGroup;
+			children = (
+				93D291A82A0CAA8000E0D13C /* InboxView.swift */,
+				93D291A42A0CA2BB00E0D13C /* TabBarView.swift */,
+				93D291A62A0CA6CB00E0D13C /* YourRidesView.swift */,
+				93D291AA2A0CAB4300E0D13C /* ProfileView.swift */,
+				938077F12A0BC4F4008A889A /* SearchView.swift */,
+			);
+			path = TabBarViews;
+			sourceTree = "<group>";
+		};
+		937B446F2A3B4D340032903F /* EditAndUpdateView */ = {
+			isa = PBXGroup;
+			children = (
+				936540B92A1C7DDB004240D1 /* EditPersonalDetailsView.swift */,
+				9313A7782A277BD40034CC31 /* ChangePasswordView.swift */,
+			);
+			path = EditAndUpdateView;
+			sourceTree = "<group>";
+		};
 		938077C22A0B79C8008A889A = {
 			isa = PBXGroup;
 			children = (
@@ -211,10 +273,8 @@
 				9391E1942A0E00C100427F22 /* API Manager */,
 				93D291B02A0D0F7300E0D13C /* Extensions */,
 				938077EA2A0BA0D4008A889A /* ViewModel */,
-				938077DF2A0B815E008A889A /* Components */,
 				938077DC2A0B79EF008A889A /* View */,
 				938077D42A0B79CA008A889A /* Preview Content */,
-				93A5E1DE2A2B5CEA000EAC4D /* GoogleMapsProvider.swift */,
 				938077D22A0B79CA008A889A /* Assets.xcassets */,
 			);
 			path = BlaBalApp;
@@ -231,31 +291,18 @@
 		938077DC2A0B79EF008A889A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				938077DF2A0B815E008A889A /* Components */,
+				937B446F2A3B4D340032903F /* EditAndUpdateView */,
+				937B446E2A3B4CFD0032903F /* TabBarViews */,
+				937B446D2A3B4CDD0032903F /* PhoneVerification */,
+				937B446C2A3B4CB40032903F /* SearchRideSubviews */,
+				937B446B2A3B4C5A0032903F /* VehicleViews */,
+				937B446A2A3B4C410032903F /* ImageViews */,
 				9391E19D2A0E0DEE00427F22 /* Form */,
 				938077D02A0B79C8008A889A /* LandingPageView.swift */,
-				9391E1A42A0E13CA00427F22 /* PhoneView.swift */,
-				93C2C9302A1F61EB00CA4C92 /* MapView.swift */,
 				938077E42A0B8B0D008A889A /* BackgroundView.swift */,
-				93D291A42A0CA2BB00E0D13C /* TabBarView.swift */,
-				93D291A62A0CA6CB00E0D13C /* YourRidesView.swift */,
-				93D291A82A0CAA8000E0D13C /* InboxView.swift */,
-				93D291AA2A0CAB4300E0D13C /* ProfileView.swift */,
-				93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */,
-				938077F12A0BC4F4008A889A /* SearchView.swift */,
-				938077F32A0BC53A008A889A /* LocationView.swift */,
 				93D291AE2A0D07E000E0D13C /* CalendarView.swift */,
-				936540B72A1C7B58004240D1 /* ImageView.swift */,
-				936540B92A1C7DDB004240D1 /* EditPersonalDetailsView.swift */,
-				9391DC1A2A1DD323007B5ADE /* RegisterVehicleView.swift */,
-				9313A7782A277BD40034CC31 /* ChangePasswordView.swift */,
-				934F676D2A39CE0600209F81 /* VehicleDetailView.swift */,
-				93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */,
-				938886032A207A9200A838BC /* CarPoolDetailView.swift */,
-				9313A7722A2716E00034CC31 /* ConfirmOTP.swift */,
-				93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */,
 				93A5E1DC2A2B5A49000EAC4D /* userLocationView.swift */,
-				93D0E1772A37377F0095E3EA /* BookRide.swift */,
-				937B44682A3B0C2E0032903F /* AddImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,10 +374,11 @@
 		93A5E1E02A2B704D000EAC4D /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				934F67662A39907A00209F81 /* Enums */,
-				938077DD2A0B8054008A889A /* Constants.swift */,
+				93A5E1DE2A2B5CEA000EAC4D /* GoogleMapsProvider.swift */,
 				93A5E1E12A2B705B000EAC4D /* Helper.swift */,
 				937B44642A3AC9BD0032903F /* Logout.swift */,
+				938077DD2A0B8054008A889A /* Constants.swift */,
+				934F67662A39907A00209F81 /* Enums */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -480,7 +528,7 @@
 				93A5E1DB2A2B0227000EAC4D /* SearchRideResponseModel.swift in Sources */,
 				93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */,
 				93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */,
-				9391E1A52A0E13CA00427F22 /* PhoneView.swift in Sources */,
+				9391E1A52A0E13CA00427F22 /* PhoneVerificationView.swift in Sources */,
 				934F676E2A39CE0600209F81 /* VehicleDetailView.swift in Sources */,
 				937B44652A3AC9BD0032903F /* Logout.swift in Sources */,
 				93D291A52A0CA2BB00E0D13C /* TabBarView.swift in Sources */,

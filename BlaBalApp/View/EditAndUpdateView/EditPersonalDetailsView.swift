@@ -99,7 +99,10 @@ struct EditPersonalDetailsView: View {
                 
                 Spacer()
             }.navigationTitle(Constants.Header.details)
-               .onAppear {
+            .onDisappear {
+                vm.isUpdating = false
+            }
+            .onAppear {
                    if let data = vm.recievedData?.status.data {
                        vm.fname = data.firstName
                        vm.lname = data.lastName
@@ -109,10 +112,9 @@ struct EditPersonalDetailsView: View {
                        vm.travelPreference = data.travelPreferences ?? ""
                        vm.bio = data.bio ?? ""
                        vm.selectedTitle = data.title
-                       vm.email = data.email
                    }
-               vm.isUpdating.toggle()
-            print("Current date is :", vm.bday)
+               vm.isUpdating = true
+               print("Current date is :", vm.bday)
                selectedDate = Helper().stringTodate(date: vm.bday)
                
             }.overlay {

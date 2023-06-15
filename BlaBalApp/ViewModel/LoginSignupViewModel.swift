@@ -141,8 +141,6 @@ class LoginSignUpViewModel: ObservableObject {
         let userData: [String: Any]
         if isUpdating {
             userData = [
-                Constants.Url.email: email,
-                Constants.Url.password: password,
                 Constants.Url.fname: fname,
                 Constants.Url.lname: lname,
                 Constants.Url.dob: bday,
@@ -190,9 +188,14 @@ class LoginSignUpViewModel: ObservableObject {
             } catch {
                 print("Cant decode senddata")
             }
-            
-          
         } else {}
+        
+        if let token = UserDefaults.standard.string(forKey: Constants.Url.token) {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        } else {
+            // Key not found or value not a String
+        }
+
         
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
@@ -252,9 +255,7 @@ class LoginSignUpViewModel: ObservableObject {
     // MARK: - CheckEmail
 
     func checkEmail() {
-    
-        
-        guard let url = URL(string: Constants.Url.checkEmail+"?email=\(email)") else {
+   guard let url = URL(string: Constants.Url.checkEmail + "?email=\(email)") else {
             return
         }
         print(url)
@@ -262,35 +263,38 @@ class LoginSignUpViewModel: ObservableObject {
         request.httpMethod = Constants.Methods.get
 
         URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, response -> (Int, Data) in
+            .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
                 }
-//                print(httpResponse.statusCode)
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                                        print(json)
-                                    }
-                return (httpResponse.statusCode, data)
-            }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
-            }, receiveValue: { statusCode, _ in
-                if statusCode == 204 {
-                    self.navigateToForm = true
-                } else if statusCode == 422 {
-                    self.showAlert.toggle()
+                print(httpResponse.statusCode)
+                
+                
+                
+                if httpResponse.statusCode == 204 {
+                        self.navigateToForm.toggle()
+                    
+                } else if httpResponse.statusCode == 422 {
+                    DispatchQueue.main.async {
+                        self.showAlert.toggle()
+                    }
                 } else {
                     print("Unexpected response")
                 }
+                
+                return data
+            }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+               
+            }, receiveValue: { data in
+                
+                self.navigateToForm.toggle()
             })
             .store(in: &publishers)
     }
+
+ 
 
     // MARK: - Login
     
@@ -336,9 +340,9 @@ class LoginSignUpViewModel: ObservableObject {
                     print(httpResponse.statusCode)
                     self.showAlert = true
                 }
-//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-//                                        print(json)
-//                                    }
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                                        print(json)
+                                    }
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())

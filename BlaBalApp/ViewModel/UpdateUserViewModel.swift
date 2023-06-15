@@ -16,18 +16,7 @@ class UpdateUserViewModel: ObservableObject {
     @Published var response: Welcome?
     
     private var publishers = Set<AnyCancellable>()
-    
-    
-//    struct Password: Codable {
-//        let currentPassword, password, passwordConfirmation: String
-//
-//        enum CodingKeys: String, CodingKey {
-//            case currentPassword = "current_password"
-//            case password
-//            case passwordConfirmation = "password_confirmation"
-//        }
-//    }
-    
+
     func updatePassword() {
         guard let url = URL(string: Constants.Url.updatePassword) else { return }
         

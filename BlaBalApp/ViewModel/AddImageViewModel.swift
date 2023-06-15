@@ -64,8 +64,12 @@ class AddImageViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
+                    self.alert.toggle()
+                    self.success.toggle()
                     print("Image upload completed")
                 case .failure(let error):
+                    self.alert.toggle()
+                    self.error.toggle()
                     print("Image upload failed with error: \(error.localizedDescription)")
                 }
             }, receiveValue: { responseData in

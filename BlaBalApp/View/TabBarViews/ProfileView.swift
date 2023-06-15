@@ -113,11 +113,12 @@ struct ProfileView: View {
                     
                     // MARK: - Logout Button
                     Button {
-                        vm.logoutUser()
+                    
                         sessionManager.isLoggedIn.toggle()
 //                        withAnimation {
 //                            presentationMode.wrappedValue.dismiss()
 //                        }
+                        vm.logoutUser()
                         
                         
                     }label: {
@@ -145,9 +146,8 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
+        ProfileView(vm: LoginSignUpViewModel())
+                .environmentObject(SessionManager()) // Inject the SessionManager environment object
         
-        NavigationStack {
-            ProfileView(vm: LoginSignUpViewModel())
-        }
     }
 }

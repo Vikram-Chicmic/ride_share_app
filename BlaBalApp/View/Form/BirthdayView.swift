@@ -25,6 +25,10 @@ struct BirthdayView: View {
                 }.padding()
                     .background(.gray.opacity(0.2))
                     .cornerRadius(24)
+                HStack {
+                    Spacer()
+                    Text("* minimum age 14 year").foregroundColor(.gray).font(.subheadline).padding(.trailing)
+                }
                 Spacer()
                 DatePicker("", selection: $selectedDate, in: minDate...maxDate)
                     .datePickerStyle(.graphical)

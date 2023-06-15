@@ -67,7 +67,9 @@ struct FormView: View {
                         }
                     }
                 } label: {
-                    Buttons(image: "", text: Constants.Buttons.back, color: .gray.opacity(0.5))
+                    if step>0 {
+                        Buttons(image: "", text: Constants.Buttons.back, color: .gray.opacity(0.5))
+                    }
                 }
 
             }.padding(.horizontal)

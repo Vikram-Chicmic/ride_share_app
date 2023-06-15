@@ -70,6 +70,7 @@ class RegisterVehicleViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .tryMap { (data, response) -> Data in
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 else {
+                    
                     throw URLError(.badServerResponse)
                 }
                 print(httpResponse.statusCode, url, request.httpMethod)
@@ -82,6 +83,7 @@ class RegisterVehicleViewModel: ObservableObject {
                     self?.alertResponse.toggle()
                 } else {
                     // Handle retrieval of data
+                    
                     guard let vehicles = try? JSONDecoder().decode(VehicleDataModel.self, from: data) else {
                         print("Failed to decode response")
                         return
