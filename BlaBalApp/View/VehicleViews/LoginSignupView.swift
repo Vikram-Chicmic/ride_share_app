@@ -18,14 +18,25 @@ struct LoginSignupWithEmailView: View {
             VStack(spacing: 10) {
                 Spacer()
                 Text(isLoginView ? Constants.Header.login : Constants.Header.signup).foregroundColor(Constants.Colors.bluecolor).font(.largeTitle).fontWeight(.semibold).padding(.bottom, 50)
+                
                 VStack {
-                    CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never)
+                    CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never).keyboardType(.emailAddress)
                     HStack {
                         Spacer()
-                        Text(!vm.isUserEmailValid ? Constants.Texts.invalidEmail : Constants.Texts.validEmail).font(.subheadline).foregroundColor(vm.isUserEmailValid ? .green : .red)
+                        if !vm.email.isEmpty && !isLoginView{
+                            Text(!vm.isUserEmailValid ? Constants.Texts.invalidEmail : Constants.Texts.validEmail).font(.subheadline).foregroundColor(vm.isUserEmailValid ? .green : .red)
+                        }else{
+                            Text("")
+                        }
                     }
                 }
+                
+                
                 VStack {
+                    HStack {
+                        Text(Constants.Labels.password)
+                        Spacer()
+                    }
                     HStack {
                         if showPassword {
                             TextField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding()
@@ -49,7 +60,12 @@ struct LoginSignupWithEmailView: View {
                     }
                     HStack {
                         Spacer()
-                        Text(!vm.isUserPasswordValid ? Constants.Texts.invalidPasswod : Constants.Texts.validPasswod).font(.subheadline).foregroundColor(vm.isUserPasswordValid ? .green : .red)
+                        if !vm.password.isEmpty && !isLoginView{
+                            Text(!vm.isUserPasswordValid ? Constants.Texts.invalidPasswod : Constants.Texts.validPasswod).font(.subheadline).foregroundColor(vm.isUserPasswordValid ? .green : .red)
+                        } else {
+                            Text("")
+                        }
+                        
                         if !vm.isUserPasswordValid {
                             Button(action: {
                                                isPopoverShowing.toggle()
@@ -89,12 +105,14 @@ struct LoginSignupWithEmailView: View {
                 .alert(isPresented: $vm.showAlert) {
                     Alert(title: Text(Constants.Alert.error), message: Text(isLoginView ? Constants.Alert.userNotExist : Constants.Alert.usrExist), dismissButton: .default(Text(Constants.Buttons.ok)))
                 }
-                .disabled(!vm.formIsValid)
+                .disabled(!vm.formIsValid && !isLoginView)
                Spacer()
             Spacer()
             }.environmentObject(vm)
             .onAppear {
                 showPassword = false
+                vm.password = ""
+                vm.email = ""
             }
             .padding()
             .navigationDestination(isPresented: Binding<Bool>(

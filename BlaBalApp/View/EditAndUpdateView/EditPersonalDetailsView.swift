@@ -10,11 +10,10 @@ import SwiftUI
 struct EditPersonalDetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: LoginSignUpViewModel
-//    @ObservedObject var vm: LoginSignUpViewModel
     @State var openCalendar: Bool = false
     @State var selectedDate = Date()
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
-    let maxDate = Calendar.current.date(from: DateComponents(year: 2015, month: 12, day: 31))!
+    let maxDate = Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!
     var body: some View {
             VStack(alignment: .leading) {
                 ScrollView {
@@ -57,7 +56,7 @@ struct EditPersonalDetailsView: View {
                                     
                                     HStack {
                                         Text(Helper().dateToString(selectedDate: selectedDate)).foregroundColor(.black)
-                                        DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                                        DatePicker("", selection: $selectedDate, in: minDate...maxDate, displayedComponents: .date)
                                     }
                                    
                                     Spacer()
@@ -82,14 +81,16 @@ struct EditPersonalDetailsView: View {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
                         }
                         .alert( isPresented: $vm.updateAlertProblem) {
-                            Alert(title: Text("Error"), message: Text("Error While Updating User"), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                            Alert(title: Text(Constants.Alert.error), message: Text(Constants.Alert.updateUserFail), dismissButton: .default(Text(Constants.Buttons.ok), action: {
                                 dismiss()
-                            } ) )
+                            }))
                         }
-                        .alert( isPresented: $vm.alert) {
-                            Alert(title: Text("Success"), message: Text("User Updated Successfully"), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                        .alert( isPresented: $vm.successUpdate) {
+                            Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.updateUserSucess), dismissButton: .default(Text(Constants.Buttons.ok), action: {
                                 dismiss()
-                            } ) )
+                            }))
+                            
+                            
                         }
                     // MARK: - Alert user updated successfully
                     }.padding()
@@ -103,6 +104,7 @@ struct EditPersonalDetailsView: View {
                 vm.isUpdating = false
             }
             .onAppear {
+                vm.isUpdating = true
                    if let data = vm.recievedData?.status.data {
                        vm.fname = data.firstName
                        vm.lname = data.lastName
@@ -113,8 +115,7 @@ struct EditPersonalDetailsView: View {
                        vm.bio = data.bio ?? ""
                        vm.selectedTitle = data.title
                    }
-               vm.isUpdating = true
-               print("Current date is :", vm.bday)
+      
                selectedDate = Helper().stringTodate(date: vm.bday)
                
             }.overlay {

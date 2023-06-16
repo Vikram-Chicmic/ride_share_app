@@ -45,7 +45,7 @@ struct CarPoolCard: View {
                 }
                 VStack(alignment: .leading) {
                     Text("\(data.name)").font(.system(size: 20))
-                    Text("No ratings").font(.subheadline).foregroundColor(.gray)
+                    Text(Constants.DefaultValues.noRatings).font(.subheadline).foregroundColor(.gray)
                 }
                 
                 Spacer()

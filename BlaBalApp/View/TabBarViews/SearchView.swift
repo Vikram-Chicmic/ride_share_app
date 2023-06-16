@@ -14,7 +14,7 @@ struct SearchView: View {
             VStack {
                 BackgroundView().frame(height: 250)
                 Spacer()
-                Image("Image").resizable().scaledToFit().padding(.bottom).opacity(0.7)
+                Image(Constants.Images.image).resizable().scaledToFit().padding(.bottom).opacity(0.7)
             }.background(.white)
             VStack {
                 LocationView().frame(width: 350)

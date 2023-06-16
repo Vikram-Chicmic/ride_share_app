@@ -12,7 +12,6 @@ struct TabBarView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
   
     var body: some View {
-//        NavigationStack {
             TabView {
                 SearchView()
                     .tabItem {
@@ -30,7 +29,6 @@ struct TabBarView: View {
                 
                 
             }.navigationBarBackButtonHidden(true)
-//        .environmentObject(rideVm)
     }
 }
 

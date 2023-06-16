@@ -13,15 +13,15 @@ struct VehicleDetailView: View {
     var index: Int?
     var body: some View {
         VStack {
-            Image("carbg").resizable().scaledToFit()
+            Image(Constants.Images.carbg).resizable().scaledToFit()
             if let data = vm.decodedVehicleData?.data, let index = index {
                 Text(data[index].vehicleBrand).fontWeight(.semibold).font(.title)
                 VStack(spacing: 10) {
-                    RideDetailTileView(title: "Model", value: data[index].vehicleName) //MODEL
-                    RideDetailTileView(title: "Vehicle Number", value: data[index].vehicleNumber)
-                    RideDetailTileView(title: "Manufactured year", value: String(data[index].vehicleModelYear))
-                    RideDetailTileView(title: "Vehicle Type", value: data[index].vehicleType)
-                    RideDetailTileView(title: "Color", value: data[index].vehicleColor)
+                    RideDetailTileView(title: Constants.Texts.model, value: data[index].vehicleName) //MODEL
+                    RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data[index].vehicleNumber)
+                    RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear))
+                    RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType)
+                    RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor)
                 }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
             }
             Spacer()
@@ -40,7 +40,7 @@ struct VehicleDetailView: View {
                 navigateToUpdateView.toggle()
                 
             } label: {
-                Text("Update")
+                Text(Constants.Texts.update)
             }.navigationDestination(isPresented: $navigateToUpdateView) {
             
                 RegisterVehicleView(isUpdateVehicle: .constant(true))

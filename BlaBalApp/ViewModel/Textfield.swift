@@ -29,6 +29,6 @@ struct CustomTextfield: View {
 struct CustomTextfield_Previews: PreviewProvider {
     static var previews: some View {
 
-        CustomTextfield(label: "email", placeholder: "Enter your email", value: .constant("heleo"))
+        CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: .constant("heleo"))
     }
 }

@@ -24,11 +24,11 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var vehicleId: Int = 0
     @Published var estimatedTime: String = ""
     @Published var alertSuccess = false
-    private let apiKey = "AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4"
+    @Published var alertSuccessRide = false
+    private let apiKey = Constants.API.apiKey
     
     func fetchPlaces() {
         guard let url = createURL(for: searchText) else {
-            print("Invalid URL")
             return
         }
         
@@ -57,7 +57,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     private func createURL(for query: String) -> URL? {
         let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let urlString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=\(encodedQuery)&key=\(apiKey)"
+        let urlString = Constants.Url.mapUrl+"\(encodedQuery)&key=\(apiKey)"
         return URL(string: urlString)
     }
     
@@ -81,11 +81,11 @@ class MapAndSearchRideViewModel: ObservableObject {
         
         
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["publish": publish], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.publish: publish], options: [])
         if let jsonData = jsonData {
             print(jsonData)
         } else {
-            print("Cannot convert data to JSON")
+            print(Constants.Errors.cantConvertJson)
             return
         }
     
@@ -95,8 +95,8 @@ class MapAndSearchRideViewModel: ObservableObject {
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
         
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -143,14 +143,14 @@ class MapAndSearchRideViewModel: ObservableObject {
             Constants.Url.publishId: publishId,
             Constants.Url.seats: seats
         ]
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["passenger": publish], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.passenger: publish], options: [])
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.post
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
         
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -163,6 +163,7 @@ class MapAndSearchRideViewModel: ObservableObject {
 
                 if (200...299).contains(httpResponse.statusCode) {
                     print(httpResponse.statusCode)
+                    self.alertSuccessRide.toggle()
                 } else {
                     print(httpResponse.statusCode)
                 }
@@ -194,7 +195,13 @@ class MapAndSearchRideViewModel: ObservableObject {
         guard let url = URL(string: url) else {
             return
         }
-        URLSession.shared.dataTaskPublisher(for: url)
+        var request = URLRequest(url: url)
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
+        } else {
+            // Key not found or value not a String
+        }
+        URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
@@ -206,7 +213,7 @@ class MapAndSearchRideViewModel: ObservableObject {
                 print("Completion: \(completion)")
             } receiveValue: { [weak self] data in
                 guard let respones = try? JSONDecoder().decode(SearchRideResponse.self, from: data) else {
-                    print("Failed to decode response")
+                    print(Constants.Errors.decodeerror)
                     return
                 }
                 print(respones.data)
@@ -222,12 +229,12 @@ class MapAndSearchRideViewModel: ObservableObject {
         var url = Constants.Url.searchRide
         if let og = originData?.geometry.location, let dt = destinationData?.geometry.location {
             
-            url += "?source_longitude=\(og.lng)"
-            url += "&source_latitude=\(og.lat)"
-            url += "&destination_longitude=\(dt.lng)"
-            url += "&destination_latitude=\(dt.lat)"
-            url += "&passengers_count=\(passengers)"
-            url += "&date=\(date)"
+            url += Constants.Url.srcLong+"\(og.lng)"
+            url += Constants.Url.srcLat+"\(og.lat)"
+            url += Constants.Url.desLong+"\(dt.lng)"
+            url += Constants.Url.desLat+"\(dt.lat)"
+            url += Constants.Url.passCount+"\(passengers)"
+            url += Constants.Url.dateUrl+"\(date)"
             print(url)
         }
         

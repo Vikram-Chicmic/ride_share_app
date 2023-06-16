@@ -17,35 +17,46 @@ struct AllVehicleView: View {
             
             List {
                 if let data = vm.decodedVehicleData?.data {
-                    ForEach(data.indices, id: \.self) { index in
-                        NavigationLink {
-                            VehicleDetailView( index: index)
-                        } label: {
-                            HStack {
-                                Image("car2").resizable().frame(width: 80, height: 80).padding(.trailing)
-                                Spacer()
-                                Text(data[index].vehicleBrand)
-                                Spacer()
-                            }
-                        }
-
-                    }.onDelete { index in
-                        deleteIndex = index
-                        alertToDelete.toggle()
-                    }
                     
+                    if data.count > 0 {
+                        ForEach(data.indices, id: \.self) { index in
+                            NavigationLink {
+                                VehicleDetailView( index: index)
+                            } label: {
+                                HStack {
+                                    Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing)
+                                    Spacer()
+                                    Text(data[index].vehicleBrand)
+                                    Spacer()
+                                }
+                            }
+
+                        }.onDelete { index in
+                            deleteIndex = index
+                            alertToDelete.toggle()
+                        }
+                        
+                    } else {
+                        VStack {
+                            Image("carsaf").resizable().scaledToFit().frame(width: 300)
+                            Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
+                        }
+                    }
+                   
                     
                 } else { }
-                
             }.toolbar {
               EditButton()
             }.listStyle(.plain)
+            
+         
+            
         }.alert(isPresented: $alertToDelete) {
             Alert(
-                title: Text("Warning"),
-                message: Text("Are you sure you want to delete this item?"),
+                title: Text(Constants.Alert.warning),
+                message: Text(Constants.Alert.deleteItem),
                 primaryButton: .destructive(
-                    Text("Delete"),
+                    Text(Constants.Alert.delete),
                     action: {
                         if let index = deleteIndex {
                             delete(at: index)

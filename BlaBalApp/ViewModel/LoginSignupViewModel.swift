@@ -20,6 +20,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var alert: Bool = false
     @Published var recievedData: Welcome?
     @Published var showAlert: Bool = false
+    @Published var successUpdate: Bool = false
     @Published var navigate: Bool = false
     @Published var navigateToForm = false
     @Published var isUpdating = false
@@ -30,6 +31,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var sendOTP = false
     @Published var verified = false
     @Published var showAlertSignUpProblem = false
+    @Published var failtToSendOtpAlert = false
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     }
@@ -164,11 +166,11 @@ class LoginSignUpViewModel: ObservableObject {
         
         print(userData)
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["user": userData], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.user: userData], options: [])
         if let jsonData = jsonData {
             print(jsonData)
         } else {
-            print("Cannot convert data to JSON")
+         
             return
         }
         
@@ -186,12 +188,12 @@ class LoginSignUpViewModel: ObservableObject {
                 let sendData = try decoder.decode(SendDataDecode.self, from: jsonData)
                 print(sendData)
             } catch {
-                print("Cant decode senddata")
+                print(Constants.Errors.decodeerror)
             }
         } else {}
         
         if let token = UserDefaults.standard.string(forKey: Constants.Url.token) {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -213,14 +215,16 @@ class LoginSignUpViewModel: ObservableObject {
                 
                 if (200...299).contains(httpResponse.statusCode) {
                     UserDefaults.standard.set( true, forKey: Constants.Url.userLoggedIN)
-                    
+                    if self.isUpdating {
+                        self.successUpdate.toggle()
+                    }
                     self.navigate.toggle()
                     self.alert.toggle()
                     print(httpResponse.statusCode)
                 } else {    
                    
                     if self.isUpdating {
-                        self.updateAlertProblem = true
+                        self.updateAlertProblem.toggle()
                     }
                     else {
                         self.showAlertSignUpProblem = true
@@ -279,7 +283,7 @@ class LoginSignUpViewModel: ObservableObject {
                         self.showAlert.toggle()
                     }
                 } else {
-                    print("Unexpected response")
+                    print(Constants.Errors.unexpected)
                 }
                 
                 return data
@@ -308,7 +312,7 @@ class LoginSignUpViewModel: ObservableObject {
             Constants.Url.email: email,
             Constants.Url.password: password
         ]
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["user": userData], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.user: userData], options: [])
         
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.post
@@ -371,10 +375,10 @@ class LoginSignUpViewModel: ObservableObject {
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
+        request.httpMethod = Constants.Methods.delete
 
         if let token = UserDefaults.standard.string(forKey: Constants.Url.token) {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -396,14 +400,14 @@ class LoginSignUpViewModel: ObservableObject {
                 }
             }, receiveValue: { response in
                 if response.statusCode == 200 {
-                    print("Signed Out successfully")
-                    UserDefaults.standard.set(false, forKey: "userLoggedIn")
+                    print(Constants.Errors.signOut)
+                    UserDefaults.standard.set(false, forKey: Constants.UserDefaultsKeys.userLoggedIn)
                     UserDefaults.standard.removeObject(forKey: Constants.Url.token)
 //                   MARK: Assign empty data to userdefault so that when user relogin it must be assign by new value without data confiction
-                    UserDefaults.standard.removeObject(forKey: "UserDataKey")
+                    UserDefaults.standard.removeObject(forKey: Constants.UserDefaultsKeys.userDataKey)
                 } else {
                     //TODO: - alert
-                    print("Failed to logout user, status code: \(response.statusCode)")
+                    print("Failed: \(response.statusCode)")
                 }
             })
             .store(in: &publishers)
@@ -416,18 +420,17 @@ class LoginSignUpViewModel: ObservableObject {
 
     // MARK: - Get user
     func getUser() {
-        guard let baseURL = URL(string: "https://eec3-112-196-113-2.ngrok-free.app") else {
-            print("Invalid base URL")
+        guard let baseURL = URL(string: Constants.Url.signUpUrl) else {
             return
         }
         
-        let userEndpoint = baseURL.appendingPathComponent("users")
+    
         
-        var request = URLRequest(url: userEndpoint)
+        var request = URLRequest(url: baseURL)
         request.httpMethod = Constants.Methods.get
         
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -443,7 +446,7 @@ class LoginSignUpViewModel: ObservableObject {
                     // Assuming you have a decoder and a data model for the user information
                     let decoder = JSONDecoder()
                     let user = try decoder.decode(Welcome.self, from: data)
-                    print("User: \(user)")
+                    print("\(user)")
                 } else {
                     // Handle the error response
                     print("Error response: \(httpResponse.statusCode)")
@@ -512,7 +515,11 @@ class LoginSignUpViewModel: ObservableObject {
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
         
      
-        
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
+        } else {
+            // Key not found or value not a String
+        }
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
@@ -526,10 +533,7 @@ class LoginSignUpViewModel: ObservableObject {
                     self.verified = true
                 } else {
                     print(httpResponse.statusCode)
-                    DispatchQueue.main.async {
-                        self.alert.toggle()
-                    }
-                 
+                        self.failtToSendOtpAlert.toggle()
                 }
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                     print(json)

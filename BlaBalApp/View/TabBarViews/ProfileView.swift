@@ -29,46 +29,14 @@ struct ProfileView: View {
                         if let data = vm.recievedData?.status.data {
                             Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                         }
-              
-                        
-                // MARK: - edit personal detail
-                        Button {
-                            navigate.toggle()
-                        }label: {
-                            Text(Constants.Buttons.editprofile).font(.system(size: 20))
-                        }.padding(.vertical)
-                            .navigationDestination(isPresented: $navigate) {
-                                EditPersonalDetailsView()
-                            }
-                        
                     }
                     
                     Spacer()
                    
                 }
                 
-                Button {
-                    navigateToChangePassword.toggle()
-                } label: {
-                    HStack {
-                        Text("Change password")
-                        Spacer()
-                    }
-                }.fullScreenCover(isPresented: $navigateToChangePassword) {
-                    ChangePasswordView()
-                }
                 
-                Button {
-                    navigateToPhoneVerification.toggle()
-                } label: {
-                    HStack {
-                        Text("Verify Phone Number")
-                        Spacer()
-                    }
-                }.navigationDestination(isPresented: $navigateToPhoneVerification) {
-                    PhoneView()
-                }
-                
+      
                 VStack(alignment: .leading, spacing: 15) {
                     
                     Section {
@@ -76,51 +44,96 @@ struct ProfileView: View {
                         
                         Text(Constants.Header.yourProfile).font(.title2).fontWeight(.semibold)
                         VStack(alignment: .leading, spacing: 10) {
-                            ProfileDetailTileView(image: "phone.fill", value: vm.recievedData?.status.data?.phoneNumber ?? "xxxxxxxxxx")
-                            ProfileDetailTileView(image: Constants.Icons.mail, value: vm.recievedData?.status.data?.email ?? "example@gmail.com")
-                            ProfileDetailTileView(image: "birthday.cake.fill", value: vm.recievedData?.status.data?.dob ?? "dd/mm/yyyy")
-                            ProfileDetailTileView(image: "person.text.rectangle", value: vm.recievedData?.status.data?.bio ?? "*bio is empty")
+                            ProfileDetailTileView(image: Constants.Icons.phone, value: vm.recievedData?.status.data?.phoneNumber ?? Constants.DefaultValues.noPhone)
+                            ProfileDetailTileView(image: Constants.Icons.mail, value: vm.recievedData?.status.data?.email ?? "")
+                            ProfileDetailTileView(image: Constants.Icons.calander, value: vm.recievedData?.status.data?.dob ?? Constants.DefaultValues.bday)
+                            ProfileDetailTileView(image: Constants.Icons.personText, value: vm.recievedData?.status.data?.bio ?? Constants.DefaultValues.bio)
                         }.padding(.leading)
                     }
                     
-                    Section(header: Spacer()) {
-         
+                    VStack {
+                        // MARK: - edit personal detail
+                    Divider()
+                        Button {
+                            navigate.toggle()
+                        }label: {
+                            HStack{
+                                Text(Constants.Buttons.editprofile)
+                                Spacer()
+                        Image(systemName: Constants.Icons.rightChevron)
+                    }
+                        }.frame(minHeight: 40)
+                            .navigationDestination(isPresented: $navigate) {
+                                EditPersonalDetailsView()
+                            }
+                            Divider()
                         
-                        Divider()
-                        
-                        Text(Constants.Header.vehicle).font(.title2).fontWeight(.semibold)
+                        //MARK: - Change Password
+                            Button {
+                                navigateToChangePassword.toggle()
+                            } label: {
+                                HStack {
+                                    Text(Constants.Buttons.changePassword)
+                                    Spacer()
+                                    Image(systemName: Constants.Icons.rightChevron)                    }
+                            }.frame(minHeight: 40).fullScreenCover(isPresented: $navigateToChangePassword) {
+                                ChangePasswordView()
+                            }
+                            Divider()
+                            
+                        //MARK: - Phone verification
+                            Button {
+                                navigateToPhoneVerification.toggle()
+                            } label: {
+                                HStack {
+                                    Text(Constants.Buttons.verifyNumber)
+                                    Spacer()
+                                    Image(systemName: Constants.Icons.rightChevron)
+                                }
+                            }.frame(minHeight: 40).navigationDestination(isPresented: $navigateToPhoneVerification) {
+                                PhoneView()
+                            }
+                            
+                    }
+                    
+                    Divider()
+                    
+                    Section() {
+                        Text(Constants.Header.vehicle).font(.title2).fontWeight(.semibold).padding(.top)
                         Button {
                             navigateToRegisterVehicle.toggle()
                         } label: {
-                            ProfileButtons(text: Constants.Buttons.addVehicle)
+                            HStack {
+                                ProfileButtons(text: Constants.Buttons.addVehicle)
+                                Spacer()
+                                Image(systemName: Constants.Icons.rightChevron)
+                            }
+
 
                         }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
                             RegisterVehicleView(isUpdateVehicle: .constant(false))
                         }
                         
                     }
-                    
-                 Spacer()
-                    
+                    Divider()
                     Button {
                         navigateToAllVehiclePage.toggle()
                     } label: {
-                        Text(Constants.Buttons.getVehicleInfo)
-                    }.navigationDestination(isPresented: $navigateToAllVehiclePage) {
+                        HStack {
+                            Text(Constants.Buttons.getVehicleInfo)
+                            Spacer()
+                            Image(systemName: Constants.Icons.rightChevron)
+                        }
+                    }.frame(minHeight: 40).navigationDestination(isPresented: $navigateToAllVehiclePage) {
                         AllVehicleView()
                     }
                     
                     
                     // MARK: - Logout Button
                     Button {
-                    
+//                        vm.logoutUser()
                         sessionManager.isLoggedIn.toggle()
-//                        withAnimation {
-//                            presentationMode.wrappedValue.dismiss()
-//                        }
-                        vm.logoutUser()
-                        
-                        
+                           
                     }label: {
                         HStack {
                             Spacer()

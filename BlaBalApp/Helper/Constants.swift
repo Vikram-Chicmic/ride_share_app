@@ -33,6 +33,12 @@ struct Constants {
         static let addVehicle               = "Add vehicle"
         static let logout                   = "Logout"
         static let getVehicleInfo           = "Your Vehicles"
+        static let changePassword           = "Change Password"
+        static let verifyNumber             = "Verify Phone Number"
+        static let searchRide               = "Search Ride"
+        static let publishRide              = "Publish Ride"
+        static let numberOfSeats            = "Select number of seats :"
+        static let bookRide                 = "Book Ride"
     }
     // MARK: - Placeholderss
     struct Placeholders {
@@ -48,6 +54,12 @@ struct Constants {
         static let year                     = "2016"
         static let brand                    = "Maruti"
         static let model                    = "Swift"
+        static let oldPassword              = "Old password"
+        static let NewPassword              = "New password"
+        static let ConfirmNewPassword       = "Confirm new password"
+        static let description              = "Write ride description here :"
+        static let enterAmount              = "Enter Amount"
+        static let searchHere               = "Search Location here"
     }
     // MARK: - Headers
     struct Header {
@@ -60,10 +72,14 @@ struct Constants {
         static let details                  = "Edit Personal Details"
         static let changePassword           = "Change Password"
         static let searchLocation           = "Search Location"
-        static let yourProfile            = "Your profile"
+        static let yourProfile             = "Your profile"
         static let about                    = "About you"
         static let vehicle                  = "Vehicles"
         static let registerVehicle          = "Register Vehicle"
+        static let confirmPasscode          = "Confirm Passcode"
+        static let startLocation            = "Choose Start Location"
+        static let destinationLocation      = "Choose Destination"
+        static let rideDetails              = "Ride Details"
         
     }
     // MARK: Texts
@@ -77,17 +93,32 @@ struct Constants {
         static let invalidEmail             = "*invalid email"
         static let validPasswod             = "*valid password"
         static let validEmail               = "*valid email"
+        static let age                      = "* minimum age 14 year"
         static let travel                   = "Find the perfect ride from thousands of destinations, or publish to  share your travel costs."
         static let nomsg                    = "No message right now.Book or offer a ride to contact someone."
         static let newcomer                 = "New comer"
-
+        static let confirm                  = "Confirm"
+        static let deptTime                 = "Departure time"
+        static let estTime                  = "Estimated time"
+        static let value                    = "2 hours"
+        static let passengers               = "Passengers"
+        static let reachTime                = "Reach time"
+        static let ridestatus               = "Ride status"
+        static let totalPrice               = "Total price"
+        static let model                    = "Model"
+        static let vehicleNumber            = "Vehicle Number"
+        static let Manufactureyear          = "Manufactured year"
+        static let VehicleType              = "Vehicle Type"
+        static let color                    = "Color"
+        static let update                   = "Update"
+        
     }
     // MARK: - Labels
     struct Labels {
         static let email                    = "Email"
         static let password                 = "Password"
         static let help                     = "Help"
-        static let ok                       = "Okay"
+        static let ok                       = "Ok"
         static let fname                    = "First name"
         static let lname                    = "Last name"
         static let gender                   = "Gender"
@@ -110,6 +141,9 @@ struct Constants {
         static let vehicleColor             = "Vehicle color :"
         static let year                     = "Manufactured year"
         static let plateNumber              = "License plate number"
+        static let oldPassword              = "Old password"
+        static let NewPassword              = "New password"
+        static let ConfirmNewPassword       = "Confirm new password"
         
     }
     // MARK: - Images
@@ -118,6 +152,9 @@ struct Constants {
         static let car                      = "car"
         static let road                     = "road"
         static let dest                     = "destination"
+        static let image                    = "Image"
+        static let carbg                    = "carbg"
+        static let car2                     = "car2"
     }
     // MARK: - Icons
     struct Icons {
@@ -151,6 +188,11 @@ struct Constants {
         static let arrowRight               = "arrowshape.right.fill"
         static let quotes                   = "quote.closing"
         static let clock                    = "clock"
+        static let phone                    = "phone.fill"
+        static let personText               = "person.text.rectangle"
+        static let checkmark                = "checkmark.seal.fill"
+        static let carfill                  = "car.fill"
+        static let rupeeSign                = "rupeesign"
 
     }
     // MARK: - Validations
@@ -171,11 +213,18 @@ struct Constants {
         static let usrExist                 = "User already exist"
         static let userNotExist             = "Invalid User Password"
         static let success                  = "Success"
-        static let vehicleAddSuccess     = "Vehicle Added Successfully"
+        static let vehicleAddSuccess        = "Vehicle Added Successfully"
+        static let updateUserFail           = "Eroor While Updating User"
+        static let updateUserSucess         = "User Updated Successfully"
+        static let numberVerified           = "Phone Number Verified"
+        static let ridePublishSuccess       = "Ride published successfully"
+        static let warning                  = "Warning"
+        static let deleteItem               = "Are you sure you want to delete this item?"
+        static let delete                   = "Delete"
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://eec3-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://30b8-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -189,6 +238,13 @@ struct Constants {
         static let bookRide                 = baseUrl+"/book_publish"
         static let deleteVehicle            = baseUrl+"/"
         static let addImage                 = baseUrl+"user_images"
+        static let mapUrl                   = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+        static let srcLong                  = "?source_longitude="
+        static let srcLat                   = "&source_latitude="
+        static let desLong                  = "&destination_longitude="
+        static let desLat                   = "&destination_latitude="
+        static let passCount                = "&passengers_count="
+        static let dateUrl                  = "&date="
         static let email                    = "email"
         static let password                 = "password"
         static let currentPassword          = "current_password"
@@ -234,6 +290,57 @@ struct Constants {
     
     }
     
+    struct ImageUrl {
+        
+        static let mimeType                   = "image/jpeg"
+        static let fileName                   = "image.jpg"
+        static let fieldName                  = "image"
+        static let multipart                  = "mmultipart/form-data; boundary="
+        static let boundary                   = "boundary="
+        static let formData                   = "Content-Disposition: form-data; name="
+        
+    }
+    
+    struct API {
+        static let apiKey                   = "AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4"
+    }
+    
+    struct DefaultValues {
+        static let country                  = "Afganistan"
+        static let vehicleColor             = "Black"
+        static let vehicleType              = "Hatchback"
+        static let noRatings                = "No ratings"
+        static let noPhone                  = "unverified"
+        static let bday                     = "dd/mm/yyyy"
+        static let bio                      = "bio is empty"
+        static let start                    = "Start From"
+        static let dest                     = "Going to"
+        static let unknown                  = "Unknown"
+        static let selectVehicle            = "Select your vehicle"
+        static let publish                  = "Publish"
+    }
+    
+    struct Errors {
+        static let decodeerror              = "Can't decode the data"
+        static let unexpected               = "Unexpected Response"
+        static let signOut                  = "Signed Out successfully"
+        static let cantConvertJson          = "Cannot convert data to JSON"
+        static let imageUploadSuccess       = "Image upload Successfully"
+        static let errorUploadImage         = "Error while uploaing Image, try after sometime"
+    }
+    
+    struct UserDefaultsKeys {
+        static let userLoggedIn             = "userLoggedIn"
+        static let userDataKey              = "UserDataKey"
+    }
+    
+    struct JsonKey {
+        static let vehicle                  = "vehicle"
+        static let user                     = "user"
+        static let publish                  = "publish"
+        static let passenger                = "passenger"
+    }
+    
     // MARK: - Request Methods
     struct Methods {
         static let post                     = "POST"
@@ -245,11 +352,13 @@ struct Constants {
     // MARK: - Errors
     struct Error {
         static let invalidUrl               = "Invalid Url"
+       
     }
     // MARK: - DateFormat
     struct Date {
         static let dateFormat               = "dd/MM/yyyy"
         static let dateTimeFormat           =  "dd/MM/yyyy HH:mm a"
+        static let timeFormat               = "hh:mm a"
     }
     // MARK: - Titles
     struct Titles {
@@ -272,10 +381,6 @@ struct Constants {
 
     }
 
-    struct API {
-        static let GooglePlaceAPIkey               = "AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4"
-
-
-    }
+ 
    
 }

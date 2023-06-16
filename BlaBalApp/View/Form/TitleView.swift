@@ -10,7 +10,7 @@ import SwiftUI
 struct TitleView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigate: Bool = false
-    @State var alert: Bool = false
+    @Binding var alert: Bool
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -29,6 +29,10 @@ struct TitleView: View {
                           .foregroundColor(.primary)
                       }
             }
+            Spacer()
+            if alert {
+                CustomAlert(text: Constants.Alert.emptyfield, dismiss: $alert)
+            }
         }
         
         .onAppear {
@@ -45,6 +49,6 @@ struct TitleView: View {
 
 struct TitleView_Previews: PreviewProvider {
     static var previews: some View {
-        TitleView()
+        TitleView(alert: .constant(false)).environmentObject(LoginSignUpViewModel())
     }
 }

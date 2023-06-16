@@ -95,9 +95,9 @@ struct RegisterVehicleView: View {
                 vm.vehicleModel = ""
                 vm.plateNumber =  ""
                 vm.madeYear =  ""
-                vm.selectedVehicleType =  "Hatchback"
-                vm.selectedVehicleColor = "Black"
-                vm.selectedCountry = "Afghanistan"
+                vm.selectedVehicleType =  Constants.DefaultValues.vehicleType
+                vm.selectedVehicleColor = Constants.DefaultValues.vehicleColor
+                vm.selectedCountry = Constants.DefaultValues.country
             }
         }.navigationTitle(Constants.Header.registerVehicle)
     }

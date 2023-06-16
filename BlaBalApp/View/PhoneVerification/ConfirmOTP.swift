@@ -25,7 +25,7 @@ struct ConfirmOTPView: View {
     @State var otp1 = ""
     var body: some View {
         VStack {
-            Text("Confirm Passcode").foregroundColor(.black).padding().font(.title2).fontWeight(.semibold)
+            Text(Constants.Header.confirmPasscode).foregroundColor(.black).padding().font(.title2).fontWeight(.semibold)
                 Spacer()
             TextField("", text: Binding(
                 get: { vmm.passcode },
@@ -45,12 +45,12 @@ struct ConfirmOTPView: View {
                     //Alert("Cant varify")
                 }
             } label: {
-                Buttons(image: "", text: "Confirm", color: vmm.passcode.count != 4 ? .gray : Constants.Colors.bluecolor).frame(width: 220).padding(.top, 20)
+                Buttons(image: "", text: Constants.Texts.confirm, color: vmm.passcode.count != 4 ? .gray : Constants.Colors.bluecolor).frame(width: 220).padding(.top, 20)
             }.disabled(vmm.passcode.count != 4)
             Button {
                 showview.toggle()
             } label: {
-                Text("Back").frame(height: 50)
+                Text(Constants.Buttons.back).frame(height: 50)
             }
 
             Spacer()

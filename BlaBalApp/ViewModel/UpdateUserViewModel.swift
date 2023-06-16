@@ -26,24 +26,24 @@ class UpdateUserViewModel: ObservableObject {
             Constants.Url.confirmPassword: confirmNewPassword
         ] as [String: Any]
         
-        print("0rwruwrueiowurwruewjrwejrwkjrwejrwjkrekjrewjrkweljrekwjrwkrjwejk", userData)
+       
         
         let jsonData = try? JSONSerialization.data(withJSONObject: userData, options: [])
        
         if let jsonData = jsonData {
             print(jsonData)
-            let decoder = JSONDecoder()
+            _ = JSONDecoder()
             do {
                 let json2 = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
-                print(json2)
+                print(json2 as Any)
 //                let decodedata = try decoder.decode(Password.self, from: jsonData)
 //                    print(decodedata)
             } catch {
-                    print("Cant decode")
+                print(Constants.Errors.decodeerror)
                 }
               
         } else {
-            print("Cannot convert data to JSON")
+            print(Constants.Errors.cantConvertJson)
             return
         }
         
@@ -54,8 +54,8 @@ class UpdateUserViewModel: ObservableObject {
         request.httpBody = jsonData
         request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
         
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -67,7 +67,6 @@ class UpdateUserViewModel: ObservableObject {
                 }
                 if (200...299).contains(httpResponse.statusCode) {
                     print(httpResponse.statusCode)
-                    print("success")
                     self.success = true
                 } else {
 //                    self.showAlert = true //cant update

@@ -35,7 +35,11 @@ struct PhoneView: View {
                              } else {
                                     vm.sendOTP = true
                                     vm.phoneVerify()
-                                 navigate.toggle()
+                                 if vm.failtToSendOtpAlert {
+                                     print("Fail to send otp")
+                                 } else {
+                                     navigate.toggle()
+                                 }
                              }
                          }
                         
@@ -73,14 +77,14 @@ struct PhoneView: View {
 
             if alertSuccess {
                 VStack {
-                    Image(systemName: "checkmark.seal.fill")
+                    Image(systemName: Constants.Icons.checkmark)
                         .foregroundColor(.green)
                         .font(.title)
-                    Text("Phone Number Verified")
+                    Text(Constants.Alert.numberVerified)
                     Button {
                         dismiss()
                     } label: {
-                        Buttons(image: "", text: "Ok", color: Color.green)
+                        Buttons(image: "", text: Constants.Labels.ok, color: Color.green)
                     }
 
                     

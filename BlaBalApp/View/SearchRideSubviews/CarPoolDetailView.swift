@@ -23,7 +23,7 @@ struct CarPoolDetailView: View {
                             Image(systemName: Constants.Icons.back).fontWeight(.semibold).font(.title)
                         }
                         Spacer()
-                        Text("Ride Details").bold().font(.title2)
+                        Text(Constants.Header.rideDetails).bold().font(.title2)
                         Spacer()
                     }
                    
@@ -55,18 +55,18 @@ struct CarPoolDetailView: View {
                             
                             Text("Details").font(.title3).fontWeight(.semibold).padding(.vertical)
                             VStack(spacing: 10) {
-                                RideDetailTileView(title: "Departure time", value: Helper().formatDate(details.publish.time) ?? "")
-                                RideDetailTileView(title: "Estimated time", value: "2 Hours")
-                                RideDetailTileView(title: "Passengers", value: String(details.publish.passengersCount))
-                                RideDetailTileView(title: "Reach time", value: Helper().formatDate(details.reachTime) ?? "")
-                                RideDetailTileView(title: "Ride status", value: details.publish.status)
+                                RideDetailTileView(title: Constants.Texts.deptTime, value: Helper().formatDate(details.publish.time) ?? "")
+                                RideDetailTileView(title: Constants.Texts.estTime, value: "2 Hours")
+                                RideDetailTileView(title: Constants.Texts.passengers, value: String(details.publish.passengersCount))
+                                RideDetailTileView(title: Constants.Texts.reachTime, value: Helper().formatDate(details.reachTime) ?? "")
+                                RideDetailTileView(title: Constants.Texts.ridestatus, value: details.publish.status)
                             }
                             
                             Divider()
                             
                             VStack {
                                 HStack {
-                                    Text("Total price ")
+                                    Text(Constants.Texts.totalPrice)
                                     Spacer()
                                     Text("Rs. \(details.publish.setPrice)").font(.title2).bold()
                                 }.padding().background(
@@ -94,7 +94,7 @@ struct CarPoolDetailView: View {
                                 } label: {
                                     HStack {
                                         Spacer()
-                                        Text("Book Ride").font(.title3).bold()
+                                        Text(Constants.Buttons.bookRide).font(.title3).bold()
                                         Spacer()
                                     }
                                 }.padding(.vertical).background(

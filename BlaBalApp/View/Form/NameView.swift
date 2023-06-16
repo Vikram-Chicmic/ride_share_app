@@ -10,30 +10,28 @@ import SwiftUI
 struct NameView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigate: Bool = false
-    @State var alert: Bool =  false
-    @Environment(\.dismiss) var dismiss
+    @Binding var alert: Bool
     var body: some View {
-        ZStack {
-            VStack {
+        
+            ZStack {
                     VStack(alignment: .leading) {
-                            Text(Constants.Titles.name).font(.title).fontWeight(.semibold).padding(.vertical).padding(.bottom, 40)
+                            Text(Constants.Titles.name).font(.title).fontWeight(.semibold).padding(.vertical)
                         CustomTextfield(label: Constants.Labels.fname, placeholder: Constants.Placeholders.fname, value: $vm.fname)
                             CustomTextfield(label: Constants.Labels.lname, placeholder: Constants.Placeholders.lname, value: $vm.lname)
                             Spacer()
-                            
+                
                             if alert {
                                 CustomAlert(text: Constants.Alert.emptyfield, dismiss: $alert)
                                }
-                  
                         }
-                        .padding()
-                    }
-            }.padding(.vertical)
+
+            }.padding(.horizontal)
+        
         }
 }
 
 struct NameView_Previews: PreviewProvider {
     static var previews: some View {
-        NameView()
+        NameView(alert: .constant(false)).environmentObject(LoginSignUpViewModel())
     }
 }

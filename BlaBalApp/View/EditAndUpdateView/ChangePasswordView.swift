@@ -25,9 +25,9 @@ struct ChangePasswordView: View {
                 Spacer()
             }.padding(.bottom)
             VStack {
-                CustomTextfield(label: "Old password", placeholder: "Old password", value: $vm.oldPassword)
-                CustomTextfield(label: "New password", placeholder: "New password", value: $vm.newPassword)
-                CustomTextfield(label: "Confirm new password", placeholder: "Confirm new password", value: $vm.confirmNewPassword)
+                CustomTextfield(label: Constants.Labels.oldPassword, placeholder: Constants.Placeholders.oldPassword, value: $vm.oldPassword)
+                CustomTextfield(label: Constants.Labels.NewPassword, placeholder: Constants.Placeholders.NewPassword, value: $vm.newPassword)
+                CustomTextfield(label: Constants.Labels.ConfirmNewPassword, placeholder: Constants.Placeholders.ConfirmNewPassword, value: $vm.confirmNewPassword)
                Spacer()
                 Button {
                     vm.updatePassword()

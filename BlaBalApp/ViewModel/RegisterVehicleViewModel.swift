@@ -9,9 +9,9 @@ import Foundation
 import Combine
 
 class RegisterVehicleViewModel: ObservableObject {
-    @Published var selectedCountry = "Afghanistan"
-    @Published var selectedVehicleColor = "Black"
-    @Published var selectedVehicleType = "Hatchback"
+    @Published var selectedCountry = Constants.DefaultValues.country
+    @Published var selectedVehicleColor = Constants.DefaultValues.vehicleColor
+    @Published var selectedVehicleType = Constants.DefaultValues.vehicleType
     @Published var madeYear = ""
     @Published var plateNumber = ""
     @Published var vehicleBrand = ""
@@ -42,7 +42,7 @@ class RegisterVehicleViewModel: ObservableObject {
             Constants.Url.model: madeYear
         ] as [String: Any]
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["vehicle": userData], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.vehicle: userData], options: [])
         
         var request = URLRequest(url: url)
         if isRegistering {
@@ -60,8 +60,8 @@ class RegisterVehicleViewModel: ObservableObject {
             }
         print(url, request.httpMethod)
         
-        if let token = UserDefaults.standard.object(forKey: "Token") as? String {
-            request.setValue(token, forHTTPHeaderField: "Authorization")
+        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
+            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
         } else {
             // Key not found or value not a String
         }
@@ -77,15 +77,12 @@ class RegisterVehicleViewModel: ObservableObject {
                 return data
             }
             .sink { (completion) in
-                print("Completion: \(completion)")
+               
             } receiveValue: { [weak self] data in
                 if self?.isRegistering == true {
                     self?.alertResponse.toggle()
                 } else {
-                    // Handle retrieval of data
-                    
                     guard let vehicles = try? JSONDecoder().decode(VehicleDataModel.self, from: data) else {
-                        print("Failed to decode response")
                         return
                     }
                     self?.decodedVehicleData = vehicles

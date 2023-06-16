@@ -40,9 +40,9 @@ struct AddImageView: View {
             }.padding()
                 .alert(isPresented: $vm.alert) {
                     
-                    vm.success ?  Alert(title: Text("Success"), message: Text("Image Uploaded Successfully"), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                    vm.success ?  Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.imageUploadSuccess), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                         dismiss()
-                    })) : Alert(title: Text(Constants.Alert.error), message: Text("Error while uploaing Image, try after sometime"), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                    })) : Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.errorUploadImage), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                         dismiss()
                     }))
                 }

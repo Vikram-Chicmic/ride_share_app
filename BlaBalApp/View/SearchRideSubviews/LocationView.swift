@@ -37,7 +37,7 @@ struct LocationView: View {
                                     isPublishView = false
                                 }
                             } label: {
-                                Text("Search Ride")
+                                Text(Constants.Buttons.searchRide)
                                 
                               
                             }
@@ -53,7 +53,7 @@ struct LocationView: View {
                                     vehicleVm.registerVehicle()
                                 }
                             } label: {
-                                Text("Publish Ride")
+                                Text(Constants.Buttons.publishRide)
                             }
                             .frame(minWidth: 0, maxWidth: .infinity)
                             if isPublishView { UnderlineView().padding(.horizontal) }
@@ -72,7 +72,7 @@ struct LocationView: View {
                 }label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.circle).bold().padding(.leading).foregroundColor(.blue)
-                        Text(vm.originData?.name.isEmpty ?? true ? "Start From" : vm.originData?.name ?? "Unknown").foregroundColor(.black)
+                        Text(vm.originData?.name.isEmpty ?? true ? Constants.DefaultValues.start : vm.originData?.name ?? Constants.DefaultValues.unknown).foregroundColor(.black)
                         Spacer()
                     }
                 }.sheet(isPresented: $showMapView, content: {
@@ -90,7 +90,7 @@ struct LocationView: View {
                     } label: {
                     HStack(spacing: 30) {
                         Image(systemName: Constants.Icons.location).bold().padding(.leading).foregroundColor(.blue)
-                        Text(vm.destinationData?.name.isEmpty ?? true ? "Going to" : vm.destinationData?.name ?? "Unknown").foregroundColor(.black)
+                        Text(vm.destinationData?.name.isEmpty ?? true ? Constants.DefaultValues.dest : vm.destinationData?.name ?? Constants.DefaultValues.unknown).foregroundColor(.black)
                         Spacer()
                     }
                 }
@@ -117,7 +117,7 @@ struct LocationView: View {
                     }
                     .onChange(of: selectedDate) { _ in
                         let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat =  "yyyy-MM-dd"  // Updated line
+                        dateFormatter.dateFormat =  Constants.Date.dateFormat  // Updated line
                         vm.date = dateFormatter.string(from: selectedDate)
                     }
 
@@ -152,13 +152,13 @@ struct LocationView: View {
                     Divider().padding(.horizontal)
                     
                     HStack {
-                        Image(systemName: "pencil").font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                        TextField("Write ride description here :", text: $vm.aboutRide).frame(height: 60).padding(.horizontal)
+                        Image(systemName: Constants.Icons.pencil).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+                        TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 60).padding(.horizontal)
                     }
                     Divider().padding(.horizontal)
                     
                     HStack(spacing: 20) {
-                        Image(systemName: "car.fill")
+                        Image(systemName: Constants.Icons.carfill)
                             .font(.title2)
                             .foregroundColor(.blue)
                             .padding(.leading)
@@ -177,7 +177,7 @@ struct LocationView: View {
                                }
                            } label: {
                                HStack {
-                                   Text(selectedVehicle == nil ? "Select your vehicle" : selectedVehicle?.vehicleBrand ?? "").foregroundColor(.black)
+                                   Text(selectedVehicle == nil ? Constants.DefaultValues.selectVehicle : selectedVehicle?.vehicleBrand ?? "").foregroundColor(.black)
                                    Spacer()
                                    Image(systemName: Constants.Icons.rightChevron).foregroundColor(.gray)
                                }
@@ -190,8 +190,8 @@ struct LocationView: View {
                     Divider()
     
                         HStack {
-                            Image(systemName: "rupeesign").font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                            TextField("Enter amount ", text: $vm.amount).frame(height: 60).padding(.horizontal).keyboardType(.numberPad)
+                            Image(systemName: Constants.Icons.rupeeSign).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+                            TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 60).padding(.horizontal).keyboardType(.numberPad)
                         
                         }
                     
@@ -203,7 +203,7 @@ struct LocationView: View {
                 // MARK: - Search
                 Button {
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "hh:mm a"
+                    dateFormatter.dateFormat = Constants.Date.timeFormat
 
                     // Convert Date to String
                     vm.time = dateFormatter.string(from: currentDate)
@@ -216,11 +216,11 @@ struct LocationView: View {
                     
                     HStack {
                         Spacer()
-                        Text(isPublishView ? "Publish" : Constants.Labels.search).bold()
+                        Text(isPublishView ? Constants.DefaultValues.publish : Constants.Labels.search).bold()
                         Spacer()
                     }.frame(height: 50).background(.blue).foregroundColor(.white)
                 }.alert(isPresented: $vm.alertSuccess) {
-                    Alert(title: Text("Success"), message: Text("Ride published successfully"), dismissButton: .default(Text("Ok")))
+                    Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.ridePublishSuccess), dismissButton: .default(Text(Constants.Buttons.ok)))
                   
                 }
                 .disabled((vm.destinationData==nil && vm.originData == nil)).navigationDestination(isPresented: $showCarPoolView, destination: {

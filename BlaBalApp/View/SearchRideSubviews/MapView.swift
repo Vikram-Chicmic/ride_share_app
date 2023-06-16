@@ -21,7 +21,7 @@ struct MapView: View {
                     Image(systemName: Constants.Icons.back).padding().font(.title2).foregroundColor(Constants.Colors.bluecolor)
                 }
                 Spacer()
-                Text(isOrigin ? "Choose Start Location" : "Choose Destination").font(.title2).fontWeight(.semibold)
+                Text(isOrigin ? Constants.Header.startLocation : Constants.Header.destinationLocation ).font(.title2).fontWeight(.semibold)
                 Spacer()
                 Spacer()
                 
@@ -30,7 +30,7 @@ struct MapView: View {
                 
             HStack {
                 Image(systemName: Constants.Icons.magnifyingGlass).foregroundColor(.gray).padding()
-                TextField("Search Location here", text: $vm.searchText).onChange(of: vm.searchText) { _ in
+                TextField(Constants.Placeholders.searchHere, text: $vm.searchText).onChange(of: vm.searchText) { _ in
                     vm.fetchPlaces()
                 }
             }.background {
