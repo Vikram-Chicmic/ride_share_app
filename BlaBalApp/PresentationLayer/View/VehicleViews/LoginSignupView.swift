@@ -110,26 +110,16 @@ struct LoginSignupWithEmailView: View {
             Spacer()
             }.environmentObject(vm)
             .onAppear {
+                vm.navigateToForm = false
                 showPassword = false
                 vm.password = ""
                 vm.email = ""
             }
             .padding()
-            .navigationDestination(isPresented: Binding<Bool>(
-                get: { vm.navigateToForm || (vm.navigate && isLoginView) },
-                set: { newValue in
-                    if !newValue {
-                        vm.navigateToForm = false
-                        vm.navigate = false
-                    }
-                }
-            )) {
-                if vm.navigateToForm {
-                    FormView()
-                } else if vm.navigate && isLoginView {
-                    TabBarView()
-                }
-            }
+            .navigationDestination(isPresented: $vm.navigateToForm, destination: {
+                FormView()
+            })
+            
 
             
         

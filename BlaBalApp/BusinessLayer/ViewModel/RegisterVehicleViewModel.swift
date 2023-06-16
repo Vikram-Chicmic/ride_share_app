@@ -79,7 +79,7 @@ class RegisterVehicleViewModel: ObservableObject {
             .sink { (completion) in
                
             } receiveValue: { [weak self] data in
-                if self?.isRegistering == true {
+                if self?.isRegistering == true || self?.isUpdatingVehicle == true {
                     self?.alertResponse.toggle()
                 } else {
                     guard let vehicles = try? JSONDecoder().decode(VehicleDataModel.self, from: data) else {

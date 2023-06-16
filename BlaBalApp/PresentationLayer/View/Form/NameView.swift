@@ -25,7 +25,11 @@ struct NameView: View {
                                }
                         }
 
-            }.padding(.horizontal)
+            }.onAppear {
+                vm.fname = ""
+                vm.lname = ""
+            }
+            .padding(.horizontal)
         
         }
 }

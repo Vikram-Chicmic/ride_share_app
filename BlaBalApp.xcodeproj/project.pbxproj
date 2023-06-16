@@ -267,14 +267,10 @@
 		938077CD2A0B79C8008A889A /* BlaBalApp */ = {
 			isa = PBXGroup;
 			children = (
-				93A5E1E02A2B704D000EAC4D /* Helper */,
-				9391E1982A0E04C600427F22 /* Models */,
-				9391E1942A0E00C100427F22 /* API Manager */,
-				93D291B02A0D0F7300E0D13C /* Extensions */,
-				938077EA2A0BA0D4008A889A /* ViewModel */,
-				938077DC2A0B79EF008A889A /* View */,
+				93E7901A2A3C5AD800BD7E28 /* NetworkLayer */,
+				93E790192A3C5AC500BD7E28 /* BusinessLayer */,
 				938077D42A0B79CA008A889A /* Preview Content */,
-				938077D22A0B79CA008A889A /* Assets.xcassets */,
+				93E790182A3C5AA600BD7E28 /* PresentationLayer */,
 			);
 			path = BlaBalApp;
 			sourceTree = "<group>";
@@ -283,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				938077D52A0B79CA008A889A /* Preview Assets.xcassets */,
+				938077D22A0B79CA008A889A /* Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -309,6 +306,7 @@
 		938077DF2A0B815E008A889A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				938077E62A0B9918008A889A /* Textfield.swift */,
 				938077E02A0B816E008A889A /* Buttons.swift */,
 				9391E1A62A0E327600427F22 /* Alert.swift */,
 				9391E1A82A0E4E7E00427F22 /* ProfileButtons.swift */,
@@ -326,7 +324,6 @@
 		938077EA2A0BA0D4008A889A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				938077E62A0B9918008A889A /* Textfield.swift */,
 				938077EB2A0BA0ED008A889A /* LoginSignupViewModel.swift */,
 				9391DC1C2A1E0DFE007B5ADE /* RegisterVehicleViewModel.swift */,
 				93C26B552A1F295A00E7989F /* MapViewModel.swift */,
@@ -386,6 +383,33 @@
 				93D291B12A0D0F8C00E0D13C /* DateExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		93E790182A3C5AA600BD7E28 /* PresentationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				938077DC2A0B79EF008A889A /* View */,
+			);
+			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
+		93E790192A3C5AC500BD7E28 /* BusinessLayer */ = {
+			isa = PBXGroup;
+			children = (
+				93A5E1E02A2B704D000EAC4D /* Helper */,
+				9391E1982A0E04C600427F22 /* Models */,
+				93D291B02A0D0F7300E0D13C /* Extensions */,
+				938077EA2A0BA0D4008A889A /* ViewModel */,
+			);
+			path = BusinessLayer;
+			sourceTree = "<group>";
+		};
+		93E7901A2A3C5AD800BD7E28 /* NetworkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				9391E1942A0E00C100427F22 /* API Manager */,
+			);
+			path = NetworkLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

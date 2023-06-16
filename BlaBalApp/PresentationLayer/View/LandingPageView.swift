@@ -40,6 +40,7 @@ struct LandingView: View {
 
             }.onAppear {
                 isLoginView = false
+                
             }
                 .padding()
                 .navigationDestination(isPresented: $navigate) {

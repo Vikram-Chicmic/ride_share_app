@@ -259,7 +259,7 @@ class LoginSignUpViewModel: ObservableObject {
     // MARK: - CheckEmail
 
     func checkEmail() {
-   guard let url = URL(string: Constants.Url.checkEmail + "?email=\(email)") else {
+   guard let url = URL(string: Constants.Url.checkEmail+"?email=\(email)") else {
             return
         }
         print(url)
@@ -279,9 +279,7 @@ class LoginSignUpViewModel: ObservableObject {
                         self.navigateToForm.toggle()
                     
                 } else if httpResponse.statusCode == 422 {
-                    DispatchQueue.main.async {
-                        self.showAlert.toggle()
-                    }
+                    self.showAlert.toggle()
                 } else {
                     print(Constants.Errors.unexpected)
                 }
@@ -293,7 +291,7 @@ class LoginSignUpViewModel: ObservableObject {
                
             }, receiveValue: { data in
                 
-                self.navigateToForm.toggle()
+//                self.navigateToForm.toggle()
             })
             .store(in: &publishers)
     }

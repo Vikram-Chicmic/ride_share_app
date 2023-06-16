@@ -131,7 +131,7 @@ struct ProfileView: View {
                     
                     // MARK: - Logout Button
                     Button {
-//                        vm.logoutUser()
+                        vm.logoutUser()
                         sessionManager.isLoggedIn.toggle()
                            
                     }label: {

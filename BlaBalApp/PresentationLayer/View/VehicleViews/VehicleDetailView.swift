@@ -42,7 +42,6 @@ struct VehicleDetailView: View {
             } label: {
                 Text(Constants.Texts.update)
             }.navigationDestination(isPresented: $navigateToUpdateView) {
-            
                 RegisterVehicleView(isUpdateVehicle: .constant(true))
             }
 

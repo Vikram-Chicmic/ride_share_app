@@ -68,13 +68,15 @@ struct AllVehicleView: View {
         }.navigationTitle("Your Vehicles")
             .onAppear {
             vm.isRegistering = false
+            vm.isDeletingVehicle = false
+            vm.isUpdatingVehicle = false
             vm.registerVehicle()
         }.onDisappear {
-
+            vm.isDeletingVehicle = false
         }
     }
     func delete(at offsets: IndexSet) {
-        vm.isDeletingVehicle.toggle()
+        vm.isDeletingVehicle = true
         vm.deletingVehicleId = vm.decodedVehicleData?.data[offsets.first ?? 0].id
         print(vm.decodedVehicleData?.data[offsets.first ?? 0].id)
         vm.registerVehicle() //toggle before calling function
