@@ -12,20 +12,26 @@ struct VehicleDetailView: View {
     @State var navigateToUpdateView = false
     var index: Int?
     var body: some View {
-        VStack {
-            Image(Constants.Images.carbg).resizable().scaledToFit()
-            if let data = vm.decodedVehicleData?.data, let index = index {
-                Text(data[index].vehicleBrand).fontWeight(.semibold).font(.title)
-                VStack(spacing: 10) {
-                    RideDetailTileView(title: Constants.Texts.model, value: data[index].vehicleName) //MODEL
-                    RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data[index].vehicleNumber)
-                    RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear))
-                    RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType)
-                    RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor)
-                }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
+        ZStack {
+            VStack {
+                Image(Constants.Images.carbg).resizable().scaledToFit()
+                if let data = vm.decodedVehicleData?.data, let index = index {
+                    Text(data[index].vehicleBrand).fontWeight(.semibold).font(.title)
+                    VStack(spacing: 10) {
+                        RideDetailTileView(title: Constants.Texts.model, value: data[index].vehicleName) //MODEL
+                        RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data[index].vehicleNumber)
+                        RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear))
+                        RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType)
+                        RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor)
+                    }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
+                }
+                Spacer()
+            }.padding()
+            if vm.isLoading {
+                ProgressView().progressViewStyle(.circular)
             }
-            Spacer()
-        }.padding().navigationTitle("Vehicle Details").toolbar {
+
+        }.navigationTitle("Vehicle Details").toolbar {
             Button {
                 if let data = vm.decodedVehicleData?.data, let index = index {
                     vm.vehicleBrand = data[index].vehicleBrand
@@ -44,7 +50,6 @@ struct VehicleDetailView: View {
             }.navigationDestination(isPresented: $navigateToUpdateView) {
                 RegisterVehicleView(isUpdateVehicle: .constant(true))
             }
-
         }
         
     }

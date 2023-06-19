@@ -10,7 +10,7 @@
 		931171092A1B85E400D33B4E /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931171082A1B85E400D33B4E /* CustomProgressBar.swift */; };
 		9313A7732A2716E00034CC31 /* ConfirmOTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7722A2716E00034CC31 /* ConfirmOTP.swift */; };
 		9313A7792A277BD40034CC31 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7782A277BD40034CC31 /* ChangePasswordView.swift */; };
-		934F67682A39908D00209F81 /* FormViewEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F67672A39908D00209F81 /* FormViewEnum.swift */; };
+		934F67682A39908D00209F81 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F67672A39908D00209F81 /* Enumerations.swift */; };
 		934F676A2A3992C000209F81 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F67692A3992C000209F81 /* FormView.swift */; };
 		934F676C2A39A29500209F81 /* SendDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F676B2A39A29500209F81 /* SendDataModel.swift */; };
 		934F676E2A39CE0600209F81 /* VehicleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F676D2A39CE0600209F81 /* VehicleDetailView.swift */; };
@@ -33,6 +33,7 @@
 		938077EC2A0BA0ED008A889A /* LoginSignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938077EB2A0BA0ED008A889A /* LoginSignupViewModel.swift */; };
 		938077F22A0BC4F4008A889A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938077F12A0BC4F4008A889A /* SearchView.swift */; };
 		938077F42A0BC53A008A889A /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938077F32A0BC53A008A889A /* LocationView.swift */; };
+		938517DB2A403525007A9DCA /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938517DA2A403525007A9DCA /* CircleProgressView.swift */; };
 		938886042A207A9200A838BC /* CarPoolDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938886032A207A9200A838BC /* CarPoolDetailView.swift */; };
 		938886082A20807D00A838BC /* DistanceCircleShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938886072A20807D00A838BC /* DistanceCircleShowView.swift */; };
 		9391DC1B2A1DD323007B5ADE /* RegisterVehicleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9391DC1A2A1DD323007B5ADE /* RegisterVehicleView.swift */; };
@@ -49,7 +50,10 @@
 		93A5E1DD2A2B5A49000EAC4D /* userLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A5E1DC2A2B5A49000EAC4D /* userLocationView.swift */; };
 		93A5E1DF2A2B5CEA000EAC4D /* GoogleMapsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A5E1DE2A2B5CEA000EAC4D /* GoogleMapsProvider.swift */; };
 		93A5E1E22A2B705B000EAC4D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A5E1E12A2B705B000EAC4D /* Helper.swift */; };
-		93C26B562A1F295A00E7989F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C26B552A1F295A00E7989F /* MapViewModel.swift */; };
+		93BD9F6C2A40523B002BF186 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD9F6B2A40523B002BF186 /* ViewExtension.swift */; };
+		93BD9F6E2A405F51002BF186 /* ApiManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD9F6D2A405F51002BF186 /* ApiManger.swift */; };
+		93BD9F702A4066BE002BF186 /* ServiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD9F6F2A4066BE002BF186 /* ServiceHelper.swift */; };
+		93BD9F722A40690E002BF186 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD9F712A40690E002BF186 /* ErrorResponse.swift */; };
 		93C2C9312A1F61EB00CA4C92 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9302A1F61EB00CA4C92 /* MapView.swift */; };
 		93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */; };
 		93C2C9352A1F8D3900CA4C92 /* CarPoolCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9342A1F8D3900CA4C92 /* CarPoolCard.swift */; };
@@ -76,7 +80,7 @@
 		931171082A1B85E400D33B4E /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		9313A7722A2716E00034CC31 /* ConfirmOTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOTP.swift; sourceTree = "<group>"; };
 		9313A7782A277BD40034CC31 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
-		934F67672A39908D00209F81 /* FormViewEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewEnum.swift; sourceTree = "<group>"; };
+		934F67672A39908D00209F81 /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		934F67692A3992C000209F81 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		934F676B2A39A29500209F81 /* SendDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataModel.swift; sourceTree = "<group>"; };
 		934F676D2A39CE0600209F81 /* VehicleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailView.swift; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 		938077EB2A0BA0ED008A889A /* LoginSignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSignupViewModel.swift; sourceTree = "<group>"; };
 		938077F12A0BC4F4008A889A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		938077F32A0BC53A008A889A /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		938517DA2A403525007A9DCA /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		938886032A207A9200A838BC /* CarPoolDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolDetailView.swift; sourceTree = "<group>"; };
 		938886072A20807D00A838BC /* DistanceCircleShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceCircleShowView.swift; sourceTree = "<group>"; };
 		9391DC1A2A1DD323007B5ADE /* RegisterVehicleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVehicleView.swift; sourceTree = "<group>"; };
@@ -117,7 +122,10 @@
 		93A5E1DC2A2B5A49000EAC4D /* userLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userLocationView.swift; sourceTree = "<group>"; };
 		93A5E1DE2A2B5CEA000EAC4D /* GoogleMapsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsProvider.swift; sourceTree = "<group>"; };
 		93A5E1E12A2B705B000EAC4D /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		93C26B552A1F295A00E7989F /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		93BD9F6B2A40523B002BF186 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		93BD9F6D2A405F51002BF186 /* ApiManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManger.swift; sourceTree = "<group>"; };
+		93BD9F6F2A4066BE002BF186 /* ServiceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHelper.swift; sourceTree = "<group>"; };
+		93BD9F712A40690E002BF186 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		93C2C9302A1F61EB00CA4C92 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolView.swift; sourceTree = "<group>"; };
 		93C2C9342A1F8D3900CA4C92 /* CarPoolCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolCard.swift; sourceTree = "<group>"; };
@@ -177,7 +185,7 @@
 		934F67662A39907A00209F81 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				934F67672A39908D00209F81 /* FormViewEnum.swift */,
+				934F67672A39908D00209F81 /* Enumerations.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -299,6 +307,7 @@
 				938077E42A0B8B0D008A889A /* BackgroundView.swift */,
 				93D291AE2A0D07E000E0D13C /* CalendarView.swift */,
 				93A5E1DC2A2B5A49000EAC4D /* userLocationView.swift */,
+				938517DA2A403525007A9DCA /* CircleProgressView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -326,7 +335,6 @@
 			children = (
 				938077EB2A0BA0ED008A889A /* LoginSignupViewModel.swift */,
 				9391DC1C2A1E0DFE007B5ADE /* RegisterVehicleViewModel.swift */,
-				93C26B552A1F295A00E7989F /* MapViewModel.swift */,
 				93EAAD3C2A285A61003607DE /* UpdateUserViewModel.swift */,
 				93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */,
 				937B44662A3B08260032903F /* AddImageViewModel.swift */,
@@ -337,6 +345,7 @@
 		9391E1942A0E00C100427F22 /* API Manager */ = {
 			isa = PBXGroup;
 			children = (
+				93BD9F6D2A405F51002BF186 /* ApiManger.swift */,
 			);
 			path = "API Manager";
 			sourceTree = "<group>";
@@ -350,6 +359,7 @@
 				93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */,
 				93A5E1DA2A2B0227000EAC4D /* SearchRideResponseModel.swift */,
 				934F676B2A39A29500209F81 /* SendDataModel.swift */,
+				93BD9F712A40690E002BF186 /* ErrorResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -372,6 +382,8 @@
 				93A5E1E12A2B705B000EAC4D /* Helper.swift */,
 				937B44642A3AC9BD0032903F /* Logout.swift */,
 				938077DD2A0B8054008A889A /* Constants.swift */,
+				93BD9F6F2A4066BE002BF186 /* ServiceHelper.swift */,
+				9391E1982A0E04C600427F22 /* Models */,
 				934F67662A39907A00209F81 /* Enums */,
 			);
 			path = Helper;
@@ -381,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				93D291B12A0D0F8C00E0D13C /* DateExtension.swift */,
+				93BD9F6B2A40523B002BF186 /* ViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -397,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				93A5E1E02A2B704D000EAC4D /* Helper */,
-				9391E1982A0E04C600427F22 /* Models */,
 				93D291B02A0D0F7300E0D13C /* Extensions */,
 				938077EA2A0BA0D4008A889A /* ViewModel */,
 			);
@@ -550,17 +562,18 @@
 				93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */,
 				93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */,
 				9391E1A52A0E13CA00427F22 /* PhoneVerificationView.swift in Sources */,
+				93BD9F722A40690E002BF186 /* ErrorResponse.swift in Sources */,
 				934F676E2A39CE0600209F81 /* VehicleDetailView.swift in Sources */,
 				937B44652A3AC9BD0032903F /* Logout.swift in Sources */,
 				93D291A52A0CA2BB00E0D13C /* TabBarView.swift in Sources */,
 				9391E1A32A0E10F300427F22 /* TitleView.swift in Sources */,
 				938077EC2A0BA0ED008A889A /* LoginSignupViewModel.swift in Sources */,
 				93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */,
-				934F67682A39908D00209F81 /* FormViewEnum.swift in Sources */,
+				934F67682A39908D00209F81 /* Enumerations.swift in Sources */,
 				938077E72A0B9918008A889A /* Textfield.swift in Sources */,
 				9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */,
 				93D291A92A0CAA8000E0D13C /* InboxView.swift in Sources */,
-				93C26B562A1F295A00E7989F /* MapViewModel.swift in Sources */,
+				938517DB2A403525007A9DCA /* CircleProgressView.swift in Sources */,
 				938077E52A0B8B0D008A889A /* BackgroundView.swift in Sources */,
 				938077F22A0BC4F4008A889A /* SearchView.swift in Sources */,
 				9391DC1F2A1E0F3E007B5ADE /* VehicleModel.swift in Sources */,
@@ -583,6 +596,7 @@
 				93D291AF2A0D07E000E0D13C /* CalendarView.swift in Sources */,
 				9313A7732A2716E00034CC31 /* ConfirmOTP.swift in Sources */,
 				938077E92A0B9E1D008A889A /* LoginSignupView.swift in Sources */,
+				93BD9F6E2A405F51002BF186 /* ApiManger.swift in Sources */,
 				9391E19F2A0E0DFE00427F22 /* NameView.swift in Sources */,
 				938886082A20807D00A838BC /* DistanceCircleShowView.swift in Sources */,
 				938077D12A0B79C8008A889A /* LandingPageView.swift in Sources */,
@@ -598,7 +612,9 @@
 				93A5E1DF2A2B5CEA000EAC4D /* GoogleMapsProvider.swift in Sources */,
 				938077E12A0B816E008A889A /* Buttons.swift in Sources */,
 				93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */,
+				93BD9F702A4066BE002BF186 /* ServiceHelper.swift in Sources */,
 				93C2C9352A1F8D3900CA4C92 /* CarPoolCard.swift in Sources */,
+				93BD9F6C2A40523B002BF186 /* ViewExtension.swift in Sources */,
 				9391E1A92A0E4E7E00427F22 /* ProfileButtons.swift in Sources */,
 				936540BC2A1C9260004240D1 /* UpdateUserModel.swift in Sources */,
 				9391E1AB2A0E5B3D00427F22 /* UserModel.swift in Sources */,

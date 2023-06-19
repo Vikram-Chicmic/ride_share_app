@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddImageView: View {
     @StateObject var vm = AddImageViewModel()
+    @EnvironmentObject var vmm: LoginSignUpViewModel
     @State var showImagePicker = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -22,8 +23,35 @@ struct AddImageView: View {
                 }
 
             } else {
-                Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 150, height: 150).foregroundColor(.gray)
-                    .clipShape(Circle())
+              
+                if let imageURLString = vmm.recievedData?.status.imageURL,
+                   let imageURL = URL(string: imageURLString) {
+                    AsyncImage(url: imageURL) { phase in
+                        switch phase {
+                        case .empty,.failure(_):
+                            // Show placeholder while loading
+                            Image(systemName: Constants.Icons.perosncircle)
+                                .resizable()
+                                .frame(width: 150, height: 150)
+                                .clipShape(Circle())
+                        case .success(let image):
+                            // Show the loaded image
+                            image
+                                .resizable()
+                                .resizable()
+                                .frame(width: 150, height: 150)
+                                .clipShape(Circle())
+                   
+                        @unknown default:
+                            fatalError()
+                        }
+                    }
+                } else {
+                    Image(systemName: Constants.Icons.perosncircle)
+                        .resizable()
+                        .frame(width: 150, height: 150)
+                        .clipShape(Circle())                }
+
             }
             
             Button("Edit image") {
@@ -52,6 +80,6 @@ struct AddImageView: View {
 
 struct AddImageView_Previews: PreviewProvider {
     static var previews: some View {
-        AddImageView(vm: AddImageViewModel())
+        AddImageView(vm: AddImageViewModel()).environmentObject(LoginSignUpViewModel())
     }
 }

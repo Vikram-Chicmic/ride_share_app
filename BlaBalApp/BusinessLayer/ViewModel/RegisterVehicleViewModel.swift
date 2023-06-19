@@ -23,6 +23,7 @@ class RegisterVehicleViewModel: ObservableObject {
     @Published var deletingVehicleId: Int?
     @Published var updatingVehicleId: Int?
     @Published var isUpdatingVehicle: Bool = false
+    @Published var isLoading = false
     private var publishers = Set<AnyCancellable>()
     
     // MARK: - Register and Get vehicle
@@ -31,7 +32,7 @@ class RegisterVehicleViewModel: ObservableObject {
         guard let url = URL(string: isDeletingVehicle ? Constants.Url.vehicleUrl+"/\(deletingVehicleId!)" : isUpdatingVehicle
                                     ? Constants.Url.vehicleUrl+"/\(updatingVehicleId!)"
                                     : Constants.Url.vehicleUrl) else { return }
-      
+        self.isLoading = true
         let userData = [
             Constants.Url.country: selectedCountry,
             Constants.Url.vehicleNumber: plateNumber,
@@ -77,7 +78,7 @@ class RegisterVehicleViewModel: ObservableObject {
                 return data
             }
             .sink { (completion) in
-               
+                self.isLoading = false
             } receiveValue: { [weak self] data in
                 if self?.isRegistering == true || self?.isUpdatingVehicle == true {
                     self?.alertResponse.toggle()

@@ -224,7 +224,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://30b8-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://732c-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -287,6 +287,7 @@ struct Constants {
         static let aboutRide                = "about_ride"
         static let vehicleId                = "vehicle_id"
         static let estimateTime             = "estimate_time"
+        static let userData                 = "userData"
     
     }
     

@@ -35,6 +35,7 @@ class LoginSignUpViewModel: ObservableObject {
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     }
+    @Published var isLoading = false
     
 //    @Published var userLoggedIn = UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     enum Title: String, CaseIterable {
@@ -140,6 +141,7 @@ class LoginSignUpViewModel: ObservableObject {
 
     func signUp() {
         guard let url = URL(string: Constants.Url.signUpUrl) else { return }
+        self.isLoading = true
         let userData: [String: Any]
         if isUpdating {
             userData = [
@@ -240,6 +242,7 @@ class LoginSignUpViewModel: ObservableObject {
             .decode(type: Welcome.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 switch completion {
                 case .finished:
                     break
@@ -258,10 +261,11 @@ class LoginSignUpViewModel: ObservableObject {
 
     // MARK: - CheckEmail
 
-    func checkEmail() {
+func checkEmail() {
    guard let url = URL(string: Constants.Url.checkEmail+"?email=\(email)") else {
             return
         }
+        self.isLoading = true
         print(url)
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.get
@@ -273,7 +277,7 @@ class LoginSignUpViewModel: ObservableObject {
                 }
                 print(httpResponse.statusCode)
                 
-                
+  
                 
                 if httpResponse.statusCode == 204 {
                         self.navigateToForm.toggle()
@@ -288,10 +292,9 @@ class LoginSignUpViewModel: ObservableObject {
             }
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
-               
+                self.isLoading = false
             }, receiveValue: { data in
                 
-//                self.navigateToForm.toggle()
             })
             .store(in: &publishers)
     }
@@ -305,6 +308,8 @@ class LoginSignUpViewModel: ObservableObject {
             print(Constants.Error.invalidUrl)
             return
         }
+        
+        self.isLoading = true
         
         let userData = [
             Constants.Url.email: email,
@@ -350,6 +355,7 @@ class LoginSignUpViewModel: ObservableObject {
             .decode(type: Welcome.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 switch completion {
                 case .finished:
                     break
@@ -371,7 +377,7 @@ class LoginSignUpViewModel: ObservableObject {
             print("Invalid URL")
             return
         }
-
+        self.isLoading = true
         var request = URLRequest(url: url)
         request.httpMethod = Constants.Methods.delete
 
@@ -390,6 +396,7 @@ class LoginSignUpViewModel: ObservableObject {
             }
             .receive(on: DispatchQueue.main) // Ensure the following code executes on the main queue
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 switch completion {
                 case .finished:
                     break
@@ -423,7 +430,7 @@ class LoginSignUpViewModel: ObservableObject {
         }
         
     
-        
+        self.isLoading = true
         var request = URLRequest(url: baseURL)
         request.httpMethod = Constants.Methods.get
         
@@ -454,8 +461,10 @@ class LoginSignUpViewModel: ObservableObject {
                                                     }
                 return data
             }
+            .receive(on: RunLoop.main)
             .decode(type: Welcome.self, decoder: JSONDecoder())
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 switch completion {
                 case .finished:
                     break
@@ -492,7 +501,7 @@ class LoginSignUpViewModel: ObservableObject {
             print(Constants.Error.invalidUrl)
             return
         }
-        
+        self.isLoading = true
         var userData: [String: Any]?
         if !sendOTP {
              userData = [
@@ -542,6 +551,7 @@ class LoginSignUpViewModel: ObservableObject {
 //            .decode(type: Welcome.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 switch completion {
                 case .finished:
                     break

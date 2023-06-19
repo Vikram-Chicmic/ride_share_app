@@ -17,7 +17,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var date       = ""
     @Published var time       = ""
     @Published var aboutRide = ""
-    @Published var amount: String = "0.0"
+    @Published var amount: String = "0"
     @Published var originData: Result?
     @Published var destinationData: Result?
     @Published var searchRideResult: [SearchRideResponseData]?

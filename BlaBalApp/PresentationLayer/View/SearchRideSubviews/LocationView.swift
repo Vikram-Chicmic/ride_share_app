@@ -24,6 +24,7 @@ struct LocationView: View {
     @State private var selectedVehicle: Datum?
     @State var selectedVehicleId: Int?
     @State var selection = 0
+    @FocusState var isFocused: Bool
     
     var body: some View {
         
@@ -153,7 +154,7 @@ struct LocationView: View {
                     
                     HStack {
                         Image(systemName: Constants.Icons.pencil).font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                        TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 60).padding(.horizontal)
+                        TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 60).padding(.horizontal).focused($isFocused)
                     }
                     Divider().padding(.horizontal)
                     
@@ -191,7 +192,7 @@ struct LocationView: View {
     
                         HStack {
                             Image(systemName: Constants.Icons.rupeeSign).font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                            TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 60).padding(.horizontal).keyboardType(.numberPad)
+                            TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 60).padding(.horizontal).keyboardType(.numberPad).focused($isFocused)
                         
                         }
                     
@@ -230,9 +231,12 @@ struct LocationView: View {
                 
                
                 
+            }.onTapGesture {
+                self.isFocused = false
             }.background(.white).cornerRadius(20).shadow(color: .gray, radius: 20)
         
     }
+   
 }
 
 struct LocationView_Previews: PreviewProvider {
