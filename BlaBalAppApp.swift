@@ -12,9 +12,9 @@ struct BlaBalAppApp: App {
     init() {
             GoogleMapsProvider.configure()
         }
-    @StateObject var vm = LoginSignUpViewModel()
-    @StateObject var vehicleVm = RegisterVehicleViewModel()
-    @StateObject var mapVm = MapAndSearchRideViewModel()
+    @StateObject var vm = LoginSignUpViewModel.shared
+    @StateObject var vehicleVm = RegisterVehicleViewModel.shared
+    @StateObject var mapVm = MapAndSearchRideViewModel.shared
     @StateObject var sessionManager = SessionManager()
     var body: some Scene {
         WindowGroup {

@@ -28,7 +28,7 @@ struct EditPersonalDetailsView: View {
                             }.padding(.bottom, 5)
                             
                             HStack {
-                                ForEach(LoginSignUpViewModel.Title.allCases, id: \.self) { title in
+                                ForEach(Title.allCases, id: \.self) { title in
                                           HStack {
                                               Image(systemName: vm.selectedTitle == title.rawValue ? Constants.Icons.squarecheckmark : Constants.Icons.square).foregroundColor(.blue)
                                                   .onTapGesture {
@@ -76,7 +76,8 @@ struct EditPersonalDetailsView: View {
                         Button {
                             vm.bday = Helper().dateToString(selectedDate: selectedDate)
                             print(vm.bday)
-                                    vm.signUp()
+//                                    vm.signUp()
+                            vm.apiCall(forMethod: .signUp)
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
                         }

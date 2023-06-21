@@ -7,20 +7,11 @@
 
 import SwiftUI
 
-//class OTPDataModel: ObservableObject {
-//    @Published var code = ""
-//    @Published var arr : [String] = ["","","",""]
-//    @Published var isSelectArr : [Bool] = [false, false, false, false]
-//}
-
 struct ConfirmOTPView: View {
     var textboxColor = Color(red: 235/255, green: 235/255, blue: 235/255)
     var selectedColor = Color(red: 122/255, green: 177/255, blue: 253/255)
-//    var otpArr :
-//    @StateObject var vm = OTPDataModel()
     @ObservedObject var vmm: LoginSignUpViewModel
     @State var isSelected: Bool = false
-//    @Environment(\.dismiss) var dismiss
     @Binding var showview: Bool
     @State var otp1 = ""
     var body: some View {
@@ -38,7 +29,7 @@ struct ConfirmOTPView: View {
             
             Button {
                 vmm.sendOTP = false
-                vmm.phoneVerify()
+                vmm.apiCall(forMethod: .otpVerify)
                 if vmm.verified {
                     showview.toggle()
                 } else {

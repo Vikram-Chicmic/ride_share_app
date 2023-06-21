@@ -34,7 +34,7 @@ struct PhoneView: View {
                                  alert.toggle()
                              } else {
                                     vm.sendOTP = true
-                                    vm.phoneVerify()
+                                 vm.apiCall(forMethod: .phoneVerify)
                                  if vm.failtToSendOtpAlert {
                                      print("Fail to send otp")
                                  } else {

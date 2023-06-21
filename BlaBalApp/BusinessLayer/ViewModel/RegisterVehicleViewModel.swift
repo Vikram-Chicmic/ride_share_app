@@ -17,83 +17,85 @@ class RegisterVehicleViewModel: ObservableObject {
     @Published var vehicleBrand = ""
     @Published var vehicleModel = ""
     @Published var isRegistering = false
-    @Published var alertResponse = false
+    @Published var successAlert = false
+    @Published var failAlert = false
     @Published var decodedVehicleData: VehicleDataModel?
     @Published var isDeletingVehicle = false
     @Published var deletingVehicleId: Int?
     @Published var updatingVehicleId: Int?
     @Published var isUpdatingVehicle: Bool = false
     @Published var isLoading = false
+    @Published var deleteSuccess = false
     private var publishers = Set<AnyCancellable>()
     
-    // MARK: - Register and Get vehicle
     
-    func registerVehicle() {
-        guard let url = URL(string: isDeletingVehicle ? Constants.Url.vehicleUrl+"/\(deletingVehicleId!)" : isUpdatingVehicle
-                                    ? Constants.Url.vehicleUrl+"/\(updatingVehicleId!)"
-                                    : Constants.Url.vehicleUrl) else { return }
-        self.isLoading = true
-        let userData = [
-            Constants.Url.country: selectedCountry,
-            Constants.Url.vehicleNumber: plateNumber,
-            Constants.Url.vehicleBrand: vehicleBrand,
-            Constants.Url.vehicleName: vehicleModel,
-            Constants.Url.vehicleType: selectedVehicleType,
-            Constants.Url.vehicleColor: selectedVehicleColor,
-            Constants.Url.model: madeYear
-        ] as [String: Any]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.vehicle: userData], options: [])
-        
-        var request = URLRequest(url: url)
-        if isRegistering {
-            request.httpMethod = Constants.Methods.post
+    static var shared = RegisterVehicleViewModel()
+    
+
+    // MARK: Function for making API calls
+    func apiCall(method: APIcallsForVehicle) {
+        switch method {
+        case .vehicleRegister:
+            ApiManager.shared.apiCallForVehicle(method: .vehicleRegister, request: createRequest(method: .vehicleRegister))
+        case .vehicleUpdate:
+            ApiManager.shared.apiCallForVehicle(method: .vehicleUpdate, request: createRequest(method: .vehicleRegister))
+        case .getVehicle:
+            ApiManager.shared.apiCallForVehicle(method: .getVehicle, request: createRequest(method: .getVehicle))
+        case .deleteVehicle:
+            ApiManager.shared.apiCallForVehicle(method: .deleteVehicle, request: createRequest(method: .deleteVehicle))
+        }
+    }
+    
+    // MARK: Function to generate JSON for API request
+    func getData(method: APIcallsForVehicle) -> [String: Any] {
+        switch method {
+        case .vehicleRegister, .vehicleUpdate:
+            return [Constants.JsonKey.vehicle: [
+                Constants.Url.country: selectedCountry,
+                Constants.Url.vehicleNumber: plateNumber,
+                Constants.Url.vehicleBrand: vehicleBrand,
+                Constants.Url.vehicleName: vehicleModel,
+                Constants.Url.vehicleType: selectedVehicleType,
+                Constants.Url.vehicleColor: selectedVehicleColor,
+                Constants.Url.model: madeYear
+            ]]
+        case .getVehicle, .deleteVehicle: return [:]
+        }
+    }
+    
+    // MARK: Function to generate Request
+    func createRequest(method: APIcallsForVehicle) -> URLRequest {
+        var request: URLRequest
+        switch method {
+        case .vehicleRegister, .vehicleUpdate:
+            request = URLRequest(url: createUrl(method: .vehicleRegister))
+            request.httpMethod =  isRegistering ? Constants.Methods.post : Constants.Methods.put
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .vehicleRegister), options: [])
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-        } else if isDeletingVehicle {
-                request.httpMethod = Constants.Methods.delete
-            } else if isUpdatingVehicle {
-                request.httpMethod = Constants.Methods.put
-                request.httpBody = jsonData
-                request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-            } else {
-                request.httpMethod = Constants.Methods.get
-            }
-        print(url, request.httpMethod)
-        
-        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
-            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
-        } else {
-            // Key not found or value not a String
+            return request
+       
+        case .getVehicle:
+            request = URLRequest(url: createUrl(method: .getVehicle))
+            request.httpMethod = Constants.Methods.get
+            return request
+            
+        case .deleteVehicle:
+            request = URLRequest(url: createUrl(method: .deleteVehicle))
+            request.httpMethod = Constants.Methods.delete
+            return request
         }
-        
-        URLSession.shared.dataTaskPublisher(for: request)
-            .receive(on: DispatchQueue.main)
-            .tryMap { (data, response) -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 300 else {
-                    
-                    throw URLError(.badServerResponse)
-                }
-                print(httpResponse.statusCode, url, request.httpMethod)
-                return data
-            }
-            .sink { (completion) in
-                self.isLoading = false
-            } receiveValue: { [weak self] data in
-                if self?.isRegistering == true || self?.isUpdatingVehicle == true {
-                    self?.alertResponse.toggle()
-                } else {
-                    guard let vehicles = try? JSONDecoder().decode(VehicleDataModel.self, from: data) else {
-                        return
-                    }
-                    self?.decodedVehicleData = vehicles
-                    print(vehicles)
-                }
-            }
-            .store(in: &publishers)
     }
-
     
+    // MARK: function for Generate url
+    func createUrl(method: APIcallsForVehicle) -> URL {
+        switch method {
+        case .vehicleRegister, .vehicleUpdate, .getVehicle, .deleteVehicle:
+            let url = URL(string: Constants.Url.vehicleUrl + (isDeletingVehicle ? "/\(deletingVehicleId!)" : isUpdatingVehicle ? "/\(updatingVehicleId!)" : ""))!
+            print(url)
+            return url
+        }
+    }
     
     
 

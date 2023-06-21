@@ -56,7 +56,7 @@ struct FormView: View {
                         if vm.selectedTitle.isEmpty {
                                 alert.toggle()
                                     } else {
-                                        vm.signUp()
+                                        vm.apiCall(forMethod: .signUp)
                                         }
                     }
 

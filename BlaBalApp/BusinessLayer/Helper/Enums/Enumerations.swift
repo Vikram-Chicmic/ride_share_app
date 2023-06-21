@@ -11,26 +11,54 @@ enum ProfileViewEnum {
     case nameView, dOBView, titleView
 }
 
-enum HttpMethod: String {
-    case POST
-    case GET
-    case PUT
-    case DELETE
+enum Title: String, CaseIterable {
+     case mr = "Mr."
+     case miss = "Miss."
+     case mrs = "Mrs."
+ }
+
+enum DecodeType {
+    case signIn, signUp, getUser
+}
+
+enum CreateJsonForUserAPI {
+    case signUp
+    case login
+    case profileUpdate
+    case phoneVerify
+    case otpVerify
+    case changePassword
+}
+
+enum APIcallsForUser {
+    case signUp
+    case login
+    case logout
+    case getUser
+    case checkEmail
+    case profileUpdate
+    case phoneVerify
+    case otpVerify
+    case changePassword
+}
+
+enum APIcallsForVehicle {
+    case vehicleRegister
+    case vehicleUpdate
+    case getVehicle
+    case deleteVehicle
+}
+
+enum APIcallsForRides {
+    case publishRide
+    case bookRide
+    case searchRide
+    case fetchPlaces
+    case publishRideDetail
 }
 
 
-enum ApiMethods: String {
-    case signIn = "POST"
-    case signUp = "POST "
-    case signOut = "DELETE"
-    case emailCheck = "GET"
-    case profileUpdate = "PUT"
-}
 
-enum ApiVehicleMethods: String{
-    case addVehicle = "POST"
-    case vehicleList = "GET"
-}
 
 
 enum AuthenticateError: LocalizedError{

@@ -58,6 +58,7 @@ struct Constants {
         static let NewPassword              = "New password"
         static let ConfirmNewPassword       = "Confirm new password"
         static let description              = "Write ride description here :"
+        static let estimatedTime            = "Write the estimated time here"
         static let enterAmount              = "Enter Amount"
         static let searchHere               = "Search Location here"
     }
@@ -224,7 +225,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://732c-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://791c-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -234,8 +235,8 @@ struct Constants {
         static let sendOTP                  = baseUrl+"phone"
         static let updatePassword           = baseUrl+"update_password"
         static let searchRide               = baseUrl+"search"
-        static let publishRide              = baseUrl+"/publishes"
-        static let bookRide                 = baseUrl+"/book_publish"
+        static let publishRide              = baseUrl+"publishes"
+        static let bookRide                 = baseUrl+"book_publish"
         static let deleteVehicle            = baseUrl+"/"
         static let addImage                 = baseUrl+"user_images"
         static let mapUrl                   = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="

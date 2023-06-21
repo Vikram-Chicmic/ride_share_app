@@ -38,12 +38,8 @@ struct ImageViewMainContent: View {
                                     switch phase {
                                     case .empty:
                                         // Show placeholder while loading
-                                        Image(systemName: Constants.Icons.perosncircle)
-                                            .resizable()
-                                            .rotationEffect(Angle(degrees: -20))
-                                            .clipShape(ImageShape(imageSize: size - (size/10)))
-                                            .frame(width: size - (size/10), height: size - (size/10))
-                                            .foregroundColor(.white)
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle())
                                     case .success(let image):
                                         // Show the loaded image
                                         image

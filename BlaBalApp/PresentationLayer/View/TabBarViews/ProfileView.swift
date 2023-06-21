@@ -125,14 +125,16 @@ struct ProfileView: View {
                                 Spacer()
                                 Image(systemName: Constants.Icons.rightChevron)
                             }
-                        }.frame(minHeight: 40).navigationDestination(isPresented: $navigateToAllVehiclePage) {
+                        }
+                        .frame(minHeight: 40)
+                        .navigationDestination(isPresented: $navigateToAllVehiclePage) {
                             AllVehicleView()
                         }
                         
                         
                         // MARK: - Logout Button
                         Button {
-                            vm.logoutUser()
+                            vm.apiCall(forMethod: .logout)
                             sessionManager.isLoggedIn.toggle()
                                
                         }label: {
@@ -160,7 +162,7 @@ struct ProfileView: View {
             }
             
         }.onAppear {
-            vm.getUser()
+            vm.apiCall(forMethod: .getUser)
     }
     }
 }

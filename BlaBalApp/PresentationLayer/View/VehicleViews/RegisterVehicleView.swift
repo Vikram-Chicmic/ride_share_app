@@ -58,15 +58,15 @@ struct RegisterVehicleView: View {
                         .padding()
                     }
                     
-                    CustomTextfield(label: Constants.Labels.year, placeholder: Constants.Placeholders.year, value: $vm.madeYear)
+                    CustomTextfield(label: Constants.Labels.year, placeholder: Constants.Placeholders.year, value: $vm.madeYear).keyboardType(.numberPad)
                     
                     
                     Button {
-                        vm.registerVehicle()
+                        vm.apiCall(method: .vehicleRegister )
                         //update variable toggle
                     } label: {
                         Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
-                    }.alert(isPresented: $vm.alertResponse) {
+                    }.alert(isPresented: $vm.successAlert) {
                         Alert(title: Text(Constants.Alert.success),
                               message: Text(Constants.Alert.vehicleAddSuccess),
                               dismissButton: .cancel(Text(Constants.Labels.ok)) {

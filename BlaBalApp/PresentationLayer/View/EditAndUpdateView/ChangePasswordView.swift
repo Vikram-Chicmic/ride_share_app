@@ -10,7 +10,7 @@ import SwiftUI
 struct ChangePasswordView: View {
     @Environment(\.dismiss) var dismiss
     @State var showAlert = false
-    @StateObject var vm = UpdateUserViewModel()
+    @EnvironmentObject var vm: LoginSignUpViewModel
     var body: some View {
         VStack {
             HStack {
@@ -30,8 +30,8 @@ struct ChangePasswordView: View {
                 CustomTextfield(label: Constants.Labels.ConfirmNewPassword, placeholder: Constants.Placeholders.ConfirmNewPassword, value: $vm.confirmNewPassword)
                Spacer()
                 Button {
-                    vm.updatePassword()
-                    if vm.success {
+                    vm.apiCall(forMethod: .changePassword )
+                    if vm.passwordChangeAlert {
                         dismiss()
                     } else {
                         showAlert.toggle()
@@ -40,10 +40,10 @@ struct ChangePasswordView: View {
                 } label: {
                     Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
                     
-                }.alert(isPresented: $showAlert) {
+                }.alert(isPresented: $vm.passwordChangeAlert) {
                     Alert(
                         title: Text(Constants.Alert.success),
-                        message: Text(vm.response?.status.message ?? ""),
+                        message: Text("Updated successfully"),
                         dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                             dismiss()
                         })
@@ -51,13 +51,13 @@ struct ChangePasswordView: View {
                 }
             }.padding(.horizontal)
         }.onAppear {
-            vm.success = false
+            vm.passwordChangeAlert = false
         }
     }
 }
 
 struct ChangePasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangePasswordView()
+        ChangePasswordView().environmentObject(LoginSignUpViewModel())
     }
 }

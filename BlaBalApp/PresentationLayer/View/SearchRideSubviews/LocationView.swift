@@ -25,6 +25,7 @@ struct LocationView: View {
     @State var selectedVehicleId: Int?
     @State var selection = 0
     @FocusState var isFocused: Bool
+    @State var showMap = false
     
     var body: some View {
         
@@ -51,7 +52,7 @@ struct LocationView: View {
                                 withAnimation(.easeInOut(duration: 0.5)) {
                                     isPublishView = true
                                     vehicleVm.isRegistering = false
-                                    vehicleVm.registerVehicle()
+                                    vehicleVm.apiCall(method: .getVehicle)
                                 }
                             } label: {
                                 Text(Constants.Buttons.publishRide)
@@ -155,8 +156,19 @@ struct LocationView: View {
                     HStack {
                         Image(systemName: Constants.Icons.pencil).font(.title2).foregroundColor(.blue).padding(.leading).bold()
                         TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 60).padding(.horizontal).focused($isFocused)
+                        
+                        Divider().frame(height: 20)
+                        
+                        
                     }
                     Divider().padding(.horizontal)
+                    
+                    
+//                    HStack {
+//                        Image(systemName: Constants.Icons.pencil).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+//                        TextField(Constants.Placeholders.estimatedTime, text: $vm.estimatedTime).frame(height: 60).padding(.horizontal).focused($isFocused)
+//                    }
+//                    Divider().padding(.horizontal)
                     
                     HStack(spacing: 20) {
                         Image(systemName: Constants.Icons.carfill)
@@ -185,9 +197,22 @@ struct LocationView: View {
                            }
                            .frame(height: 60)
         
+                        Divider().frame(height: 40)
                         
+                        Button {
+                            vm.apiCall(for: .publishRideDetail)
+                            self.showMap.toggle()
+                        } label: {
+                            HStack{
+                                Text("Open map").padding()
+                                Image(systemName: Constants.Icons.rightChevron)
+                            }.padding(.horizontal)
+                        }
                         Spacer()
+                    }.navigationDestination(isPresented: $showMap) {
+                        ShowPolylineView()
                     }
+                    
                     Divider()
     
                         HStack {
@@ -208,8 +233,8 @@ struct LocationView: View {
 
                     // Convert Date to String
                     vm.time = dateFormatter.string(from: currentDate)
-                    
-                    isPublishView ? vm.publishRide() : vm.searchRide()
+                    vm.getDistance()
+                    isPublishView ? vm.apiCall(for: .publishRide) : vm.apiCall(for: .searchRide)
                     isPublishView ? showCarPoolView = false :  showCarPoolView.toggle()
                     
                 } label: {
@@ -221,12 +246,15 @@ struct LocationView: View {
                         Spacer()
                     }.frame(height: 50).background(.blue).foregroundColor(.white)
                 }.alert(isPresented: $vm.alertSuccess) {
-                    Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.ridePublishSuccess), dismissButton: .default(Text(Constants.Buttons.ok)))
+                    Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.ridePublishSuccess), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                       
+                    }))
                   
                 }
                 .disabled((vm.destinationData==nil && vm.originData == nil)).navigationDestination(isPresented: $showCarPoolView, destination: {
                     CarPoolView().transition(.opacity)
                 })
+       
                 
                 
                
@@ -241,6 +269,7 @@ struct LocationView: View {
 
 struct LocationView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationView().environmentObject(MapAndSearchRideViewModel())
+        LocationView()
+            .environmentObject(RegisterVehicleViewModel()).environmentObject(MapAndSearchRideViewModel())
     }
 }

@@ -65,23 +65,27 @@ struct AllVehicleView: View {
                 ),
                 secondaryButton: .cancel()
             )
-        }.navigationTitle("Your Vehicles")
-            .onAppear {
+        }
+        .navigationTitle("Your Vehicles")
+        .onAppear {
             vm.isRegistering = false
             vm.isDeletingVehicle = false
             vm.isUpdatingVehicle = false
-            vm.registerVehicle()
+            vm.apiCall(method: .getVehicle)
         }.onDisappear {
             vm.isDeletingVehicle = false
         }
     }
+    
+    // MARK: - Delete a vehicle with indexValue
     func delete(at offsets: IndexSet) {
         vm.isDeletingVehicle = true
         vm.deletingVehicleId = vm.decodedVehicleData?.data[offsets.first ?? 0].id
         print(vm.decodedVehicleData?.data[offsets.first ?? 0].id)
-        vm.registerVehicle() //toggle before calling function
+        vm.apiCall(method: .deleteVehicle ) //toggle before calling function
         dismiss()
     }
+    
 }
 
 struct AllVehiclePage_Previews: PreviewProvider {

@@ -16,7 +16,7 @@ struct TitleView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(Constants.Titles.title).font(.title).fontWeight(.semibold).padding(.bottom, 40)
             HStack {
-                ForEach(LoginSignUpViewModel.Title.allCases, id: \.self) { title in
+                ForEach(Title.allCases, id: \.self) { title in
                           HStack {
                               Image(systemName: vm.selectedTitle == title.rawValue ? Constants.Icons.squarecheckmark : Constants.Icons.square).foregroundColor(.blue)
                                   .onTapGesture {

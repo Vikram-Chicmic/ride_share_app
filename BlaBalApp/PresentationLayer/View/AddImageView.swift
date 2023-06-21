@@ -28,7 +28,12 @@ struct AddImageView: View {
                    let imageURL = URL(string: imageURLString) {
                     AsyncImage(url: imageURL) { phase in
                         switch phase {
-                        case .empty,.failure(_):
+                        case .empty:
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle()).frame(width: 150, height: 150)
+                                .clipShape(Circle())
+                            
+                        case .failure(_):
                             // Show placeholder while loading
                             Image(systemName: Constants.Icons.perosncircle)
                                 .resizable()

@@ -31,7 +31,7 @@ struct MapView: View {
             HStack {
                 Image(systemName: Constants.Icons.magnifyingGlass).foregroundColor(.gray).padding()
                 TextField(Constants.Placeholders.searchHere, text: $vm.searchText).onChange(of: vm.searchText) { _ in
-                    vm.fetchPlaces()
+                    vm.apiCall(for: .fetchPlaces)
                 }
             }.background {
                 Color.gray.opacity(0.2).cornerRadius(25)

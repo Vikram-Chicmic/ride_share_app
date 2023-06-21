@@ -67,7 +67,9 @@ struct BookRide: View {
             
             Spacer()
             Button {
-                vm.bookRide(publishId: details.id, seats: seats)
+                vm.publishId = details.id
+                vm.noOfSeatsToBook = seats
+                vm.apiCall(for: .bookRide)
             } label: {
                 Buttons(image: "", text: Constants.Buttons.bookRide, color: Constants.Colors.bluecolor)
             }
