@@ -30,6 +30,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var noOfSeatsToBook = 0
     @Published var polylineString: String = ""
     private let apiKey = Constants.API.apiKey
+    @Published var allPublishRides: [AllPublishRideData]?
     
     static var shared = MapAndSearchRideViewModel()
     
@@ -41,7 +42,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     func createUrl(method: APIcallsForRides) -> URL {
         switch method {
-        case .publishRide:
+        case .publishRide, .getAllRidePublisghRideOfCurrentUser:
             return URL(string: Constants.Url.publishRide)!
         case .bookRide:
             return URL(string: Constants.Url.bookRide)!
@@ -49,8 +50,12 @@ class MapAndSearchRideViewModel: ObservableObject {
             return URL(string: generateURL())!
         case .fetchPlaces:
             return URL(string: createURL(for: searchText))!
-        case .publishRideDetail:
+        case .fetchPolylineAndDistanceOfRide:
             return URL(string: generateUrlForFetchPublishRideDetails())!
+        case .updateRide:
+            return URL(string: Constants.Url.publishRide+"/\(RegisterVehicleViewModel.shared.updatingRidePublishId)")!
+        case .cancelRide:
+            return URL(string: Constants.Url.cancelRide)!
         }
     }
     
@@ -67,7 +72,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     func generateJSONfor(mehod: APIcallsForRides) -> [String: Any]{
         switch mehod {
-        case .publishRide:
+        case .publishRide, .updateRide:
             return [Constants.JsonKey.publish: [
                 Constants.Url.source: originData?.name,
                 Constants.Url.destination: destinationData?.name,
@@ -91,8 +96,12 @@ class MapAndSearchRideViewModel: ObservableObject {
         case .searchRide, .fetchPlaces:
             return [:]
        
-        case .publishRideDetail:
+        case .fetchPolylineAndDistanceOfRide:
             return [:]
+        case .getAllRidePublisghRideOfCurrentUser:
+            return [:]
+        case .cancelRide:
+            return ["id": publishId]
         }
     }
     
@@ -101,50 +110,6 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     
     
-    
-    func getDistance() {
-        var directionURLString: String = ""
-        if let originData1 = originData?.geometry.location, let destinationData1 = destinationData?.geometry.location {
-             directionURLString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(originData1.lat),\(originData1.lng)&destination=\(destinationData1.lat),\(destinationData1.lng)&key=\(Constants.API.apiKey)"
-        }
-        print(directionURLString)
-        if let directionURL = URL(string: directionURLString) {
-            let task = URLSession.shared.dataTask(with: directionURL) { (data, response, error) in
-                if let error = error {
-                    // Handle error
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let data = data {
-                    do {
-                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                        
-                        if let routes = jsonResponse?["routes"] as? [[String: Any]] {
-                            for route in routes {
-                                if let legs = route["legs"] as? [[String: Any]], let leg = legs.first {
-                                    if let duration = leg["duration"] as? [String: Any], let durationText = duration["text"] as? String {
-                                        print("Duration: \(durationText)")
-                                        self.estimatedTime = durationText
-                                    }
-                                    
-                                    if let distance = leg["distance"] as? [String: Any], let distanceText = distance["text"] as? String {
-                                        self.estimatedDistance = distanceText
-                                        print("Distance: \(distanceText)")
-                                    }
-                                }
-                            }
-                        }
-                    } catch {
-                        // Handle JSON parsing error
-                        print("JSON parsing error: \(error)")
-                    }
-                }
-            }
-            
-            task.resume()
-        }
-    }
 
     
     
@@ -153,17 +118,6 @@ class MapAndSearchRideViewModel: ObservableObject {
         switch method {
         case .publishRide:
             let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .publishRide), options: [])
-            do {
-                if let json = try JSONSerialization.jsonObject(with: jsonData!, options: []) as? [String: Any] {
-                    print(json)
-                }
-                
-                
-                
-            } catch {
-                print("error")
-            }
-            
             request = URLRequest(url: createUrl(method: .publishRide))
             request.httpMethod = Constants.Methods.post
             request.httpBody = jsonData
@@ -181,12 +135,32 @@ class MapAndSearchRideViewModel: ObservableObject {
         case .searchRide:
             var request = URLRequest(url: createUrl(method: .searchRide))
             return request
+      
         case .fetchPlaces:
             var request = URLRequest(url: createUrl(method: .fetchPlaces))
             return request
-        case .publishRideDetail:
-            var request = URLRequest(url: createUrl(method: .publishRideDetail))
+            
+        case .fetchPolylineAndDistanceOfRide:
+            var request = URLRequest(url: createUrl(method: .fetchPolylineAndDistanceOfRide))
             request.httpMethod = Constants.Methods.get
+            return request
+        case .getAllRidePublisghRideOfCurrentUser:
+            var request = URLRequest(url: createUrl(method: .getAllRidePublisghRideOfCurrentUser))
+            request.httpMethod = Constants.Methods.get
+            return request
+        case .updateRide:
+            let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .updateRide), options: [])
+            var request = URLRequest(url: createUrl(method: .updateRide))
+            request.httpMethod = Constants.Methods.put
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
+        case .cancelRide:
+            let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .cancelRide), options: [])
+            var request = URLRequest(url: createUrl(method: .cancelRide))
+            request.httpMethod = Constants.Methods.post
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
             return request
         }
     }
@@ -201,8 +175,14 @@ class MapAndSearchRideViewModel: ObservableObject {
             ApiManager.shared.apiCallForRides(method: .searchRide, request: createRequest(method: .searchRide))
         case .fetchPlaces:
             ApiManager.shared.apiCallForRides(method: .fetchPlaces, request: createRequest(method: .fetchPlaces))
-        case .publishRideDetail:
-            ApiManager.shared.apiCallForRides(method: .publishRideDetail, request: createRequest(method: .publishRideDetail))
+        case .fetchPolylineAndDistanceOfRide:
+            ApiManager.shared.apiCallForRides(method: .fetchPolylineAndDistanceOfRide, request: createRequest(method: .fetchPolylineAndDistanceOfRide))
+        case .getAllRidePublisghRideOfCurrentUser:
+            ApiManager.shared.apiCallForRides(method: .getAllRidePublisghRideOfCurrentUser, request: createRequest(method: .getAllRidePublisghRideOfCurrentUser))
+        case .updateRide:
+            ApiManager.shared.apiCallForRides(method: .updateRide, request: createRequest(method: .updateRide))
+        case .cancelRide:
+            ApiManager.shared.apiCallForRides(method: .cancelRide, request: createRequest(method: .cancelRide))
         }
     }
     
@@ -222,80 +202,7 @@ class MapAndSearchRideViewModel: ObservableObject {
             return url
         }
     
-//    func publishRide() {
-//        guard let url = URL(string: Constants.Url.publishRide ) else { return }
-//        let publish = [
-//            Constants.Url.source: originData?.name,
-//            Constants.Url.destination: destinationData?.name,
-//            Constants.Url.sourceLong: originData?.geometry.location.lng,
-//            Constants.Url.sourceLat: originData?.geometry.location.lat,
-//            Constants.Url.destLong: destinationData?.geometry.location.lng,
-//            Constants.Url.destLat: destinationData?.geometry.location.lat,
-//            Constants.Url.passengerCount: Int(passengers),
-//            Constants.Url.date: date,
-//            Constants.Url.time: time,
-//            Constants.Url.setPrice: Double(amount),
-//            Constants.Url.vehicleId: vehicleId,
-//            Constants.Url.aboutRide: aboutRide,
-//            Constants.Url.estimateTime: estimatedTime
-//        ] as [String: Any]
-//
-//
-//
-//        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.publish: publish], options: [])
-//        if let jsonData = jsonData {
-//            print(jsonData)
-//        } else {
-//            print(Constants.Errors.cantConvertJson)
-//            return
-//        }
-//
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = Constants.Methods.post
-//        request.httpBody = jsonData
-//        request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-//
-//        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
-//            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
-//        } else {
-//            // Key not found or value not a String
-//        }
-//
-//        URLSession.shared.dataTaskPublisher(for: request)
-//            .tryMap { data, response -> Data in
-//                guard let httpResponse = response as? HTTPURLResponse else {
-//                    throw URLError(.badServerResponse)
-//                }
-//
-//                if (200...299).contains(httpResponse.statusCode) {
-//                    print(httpResponse.statusCode)
-//                    self.alertSuccess.toggle()
-//                } else {
-//                    print(httpResponse.statusCode)
-//                }
-//
-//                return data
-//            }
-//            .decode(type: SearchRideResponse.self, decoder: JSONDecoder())
-//            .receive(on: DispatchQueue.main)
-//            .sink(receiveCompletion: { completion in
-//                switch completion {
-//                case .finished:
-//                    break
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }, receiveValue: { decodedData in
-//                print(decodedData)
-//                // Assuming you have the JSON data stored in a variable called jsonData
-////                self.encodeData(recievedData: decodedData)
-////                self.decodeData()
-//
-//            })
-//            .store(in: &publishers)
-//    }
-//
+
 //    func bookRide(publishId: Int, seats: Int) {
 //        guard let url = URL(string: Constants.Url.bookRide) else { return }
 //
@@ -350,41 +257,7 @@ class MapAndSearchRideViewModel: ObservableObject {
 //
 //    }
 //
-//    func searchRide() {
-//        let url = generateURL()
-//        guard let url = URL(string: url) else {
-//            return
-//        }
-//        var request = URLRequest(url: url)
-//        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
-//            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
-//        } else {
-//            // Key not found or value not a String
-//        }
-//        URLSession.shared.dataTaskPublisher(for: request)
-//            .tryMap { data, response -> Data in
-//                guard let httpResponse = response as? HTTPURLResponse else {
-//                    throw URLError(.badServerResponse)
-//                }
-//                print(httpResponse.statusCode)
-//                return data
-//            }.receive(on: DispatchQueue.main)
-//            .sink { (completion) in
-//                print("Completion: \(completion)")
-//            } receiveValue: { [weak self] data in
-//                guard let respones = try? JSONDecoder().decode(SearchRideResponse.self, from: data) else {
-//                    print(Constants.Errors.decodeerror)
-//                    return
-//                }
-//                print(respones.data)
-//                self?.searchRideResult = respones.data
-//            }
-//        .store(in: &publishers)
-//
-//    }
-//
-    
-   
+
 
 
 

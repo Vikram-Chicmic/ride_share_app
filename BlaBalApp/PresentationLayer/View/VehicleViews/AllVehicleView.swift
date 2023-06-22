@@ -21,7 +21,7 @@ struct AllVehicleView: View {
                     if data.count > 0 {
                         ForEach(data.indices, id: \.self) { index in
                             NavigationLink {
-                                VehicleDetailView( index: index)
+                                VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
                             } label: {
                                 HStack {
                                     Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing)

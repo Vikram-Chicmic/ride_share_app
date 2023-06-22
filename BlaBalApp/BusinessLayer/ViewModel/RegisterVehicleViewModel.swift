@@ -26,6 +26,9 @@ class RegisterVehicleViewModel: ObservableObject {
     @Published var isUpdatingVehicle: Bool = false
     @Published var isLoading = false
     @Published var deleteSuccess = false
+    @Published var specificVehicleDetails: Datum?
+    @Published var getVehicleId: Int = 0
+    @Published var updatingRidePublishId: Int = 0
     private var publishers = Set<AnyCancellable>()
     
     
@@ -43,6 +46,8 @@ class RegisterVehicleViewModel: ObservableObject {
             ApiManager.shared.apiCallForVehicle(method: .getVehicle, request: createRequest(method: .getVehicle))
         case .deleteVehicle:
             ApiManager.shared.apiCallForVehicle(method: .deleteVehicle, request: createRequest(method: .deleteVehicle))
+        case .getVehicleDetailsById:
+            ApiManager.shared.apiCallForVehicle(method: .getVehicleDetailsById, request: createRequest(method: .getVehicleDetailsById))
         }
     }
     
@@ -59,7 +64,8 @@ class RegisterVehicleViewModel: ObservableObject {
                 Constants.Url.vehicleColor: selectedVehicleColor,
                 Constants.Url.model: madeYear
             ]]
-        case .getVehicle, .deleteVehicle: return [:]
+        case .getVehicle, .deleteVehicle, .getVehicleDetailsById:  return [:]
+            
         }
     }
     
@@ -84,6 +90,10 @@ class RegisterVehicleViewModel: ObservableObject {
             request = URLRequest(url: createUrl(method: .deleteVehicle))
             request.httpMethod = Constants.Methods.delete
             return request
+        case .getVehicleDetailsById:
+            request = URLRequest(url: createUrl(method: .getVehicleDetailsById))
+            request.httpMethod = Constants.Methods.get
+            return request
         }
     }
     
@@ -94,6 +104,10 @@ class RegisterVehicleViewModel: ObservableObject {
             let url = URL(string: Constants.Url.vehicleUrl + (isDeletingVehicle ? "/\(deletingVehicleId!)" : isUpdatingVehicle ? "/\(updatingVehicleId!)" : ""))!
             print(url)
             return url
+        
+        case .getVehicleDetailsById:
+            let url = URL(string: Constants.Url.vehicleUrl+"/\(getVehicleId)")
+            return url!
         }
     }
     

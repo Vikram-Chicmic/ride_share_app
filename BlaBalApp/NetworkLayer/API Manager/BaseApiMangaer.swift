@@ -105,6 +105,13 @@ class BaseApiManager {
             RegisterVehicleViewModel.shared.decodedVehicleData = vehicles
         case .deleteVehicle:
             RegisterVehicleViewModel.shared.deleteSuccess.toggle()
+        
+        case .getVehicleDetailsById:
+            guard let vehicles = try? JSONDecoder().decode(Datum.self, from: data) else {
+                return
+            }
+            RegisterVehicleViewModel.shared.specificVehicleDetails = vehicles
+            print(vehicles)
         }
     }
     ///failure case
@@ -118,6 +125,8 @@ class BaseApiManager {
             print("Fail to fetch data")
         case .deleteVehicle:
             print("Error while deleting")
+        case .getVehicleDetailsById:
+            print("Error while fetching vehicle data")
         }
     }
     
@@ -139,15 +148,27 @@ class BaseApiManager {
                 return
             }
             MapAndSearchRideViewModel.shared.searchResultArr = result
-        case .publishRideDetail:
+        case .fetchPolylineAndDistanceOfRide:
             guard let result = try? JSONDecoder().decode(DirectionsResponse.self, from: data) else {
                 print("Cant decode the direction response")
                
                 return
             }
+            MapAndSearchRideViewModel.shared.estimatedTime = result.routes?[0].legs[0].duration.text ?? "can't estimate"
             MapAndSearchRideViewModel.shared.polylineString = result.routes?[0].overviewPolyline.points ?? ""
    
             
+        case .getAllRidePublisghRideOfCurrentUser:
+            guard let result = try? JSONDecoder().decode(AllPublishRide.self, from: data) else {
+                print("Cant decode response for all rides published")
+                return
+            }
+            MapAndSearchRideViewModel.shared.allPublishRides = result.data
+            print(result.data)
+        case .updateRide:
+            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+        case .cancelRide:
+            print("Ride cancelled successfull")
         }
     }
     
@@ -162,8 +183,14 @@ class BaseApiManager {
             print("No data found")
         case .fetchPlaces:
             print("Failed to fetch places")
-        case .publishRideDetail:
+        case .fetchPolylineAndDistanceOfRide:
             print("unable to fetch data for directions")
+        case .getAllRidePublisghRideOfCurrentUser:
+            print("Unable to fetch your publish rides")
+        case .updateRide:
+            print("Cant update ride")
+        case .cancelRide:
+            print("Cant cancel ride")
         }
     }
     

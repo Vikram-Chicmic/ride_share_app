@@ -47,6 +47,7 @@ enum APIcallsForVehicle {
     case vehicleUpdate
     case getVehicle
     case deleteVehicle
+    case getVehicleDetailsById
 }
 
 enum APIcallsForRides {
@@ -54,7 +55,10 @@ enum APIcallsForRides {
     case bookRide
     case searchRide
     case fetchPlaces
-    case publishRideDetail
+    case fetchPolylineAndDistanceOfRide
+    case getAllRidePublisghRideOfCurrentUser
+    case updateRide
+    case cancelRide
 }
 
 

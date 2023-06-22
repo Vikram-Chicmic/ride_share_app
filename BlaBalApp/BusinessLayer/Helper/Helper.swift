@@ -44,4 +44,18 @@ class Helper {
         let dateFormatter = DateFormatter()
         return dateFormatter.date(from: date) ?? Date()
     }
+    
+    func formatDateToMMM(_ dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "MMMM d, yyyy"
+        
+        if let date = inputFormatter.date(from: dateString) {
+            return outputFormatter.string(from: date)
+        } else {
+            return "Invalid Date"
+        }
+    }
 }

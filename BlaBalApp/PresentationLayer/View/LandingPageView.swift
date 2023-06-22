@@ -33,7 +33,8 @@ struct LandingView: View {
                         isLoginView = true
                         navigate.toggle()
                     } label: {
-                        Text(Constants.Buttons.login).foregroundColor(Constants.Colors.bluecolor).frame(height: 50)
+                        HollowButton(image: "", text: Constants.Buttons.login, color: Constants.Colors.bluecolor)
+                       
                     }
                     .accentColor(Color(red: 0.993, green: 0.452, blue: 0.366))
                 }.padding(.top, 30)

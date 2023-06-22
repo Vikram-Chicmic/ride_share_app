@@ -10,14 +10,14 @@ import Foundation
 
 // MARK: - PlacesResponse
 struct PlacesResponse: Codable {
-    let results: [Result]
+    var results: [Result]
 }
 
 // MARK: - Result
 struct Result: Codable {
-    let name: String
-    let formattedAddress: String
-    let geometry: Geometry
+    var name: String
+    var formattedAddress: String
+    var geometry: Geometry
 
     enum CodingKeys: String, CodingKey {
         case formattedAddress = "formatted_address"
@@ -28,10 +28,10 @@ struct Result: Codable {
 
 // MARK: - Geometry
 struct Geometry: Codable {
-    let location: Location
+    var location: Location
 }
 
 // MARK: - Location
 struct Location: Codable {
-    let lat, lng: Double
+    var lat, lng: Double
 }

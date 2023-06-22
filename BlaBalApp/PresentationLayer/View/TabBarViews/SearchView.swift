@@ -8,27 +8,23 @@
 import SwiftUI
 
 struct SearchView: View {
-    
+    @State var isPublishView = true
     var body: some View {
-        ScrollView {
-            ZStack(alignment: .top) {
                 VStack {
-                    BackgroundView().frame(height: 250)
+                    LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false))
                     Spacer()
-                    Image(Constants.Images.image).resizable().scaledToFit().padding(.bottom).opacity(0.7)
-                }.background(.white)
+                }
+            .background {
                 VStack {
-                    LocationView().frame(width: 350)
                     Spacer()
-                    
-                }.padding(.top, 80)
-                
-                
+                    Image(Constants.Images.image).resizable().scaledToFit().padding(.bottom).opacity(0.5)
+                }
             }.onTapGesture {
                 self.hideKeyboard()
             }
 
-        }
+        
+
     }
 }
 

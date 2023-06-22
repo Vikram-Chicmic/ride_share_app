@@ -23,6 +23,11 @@
 		937B44672A3B08260032903F /* AddImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B44662A3B08260032903F /* AddImageViewModel.swift */; };
 		937B44692A3B0C2E0032903F /* AddImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B44682A3B0C2E0032903F /* AddImageView.swift */; };
 		937B92F72A382BA20068CAD2 /* ProfileDetailTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B92F62A382BA20068CAD2 /* ProfileDetailTileView.swift */; };
+		937E51012A4408D400194140 /* AllPublishRideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51002A4408D400194140 /* AllPublishRideModel.swift */; };
+		937E51032A440E4200194140 /* PublishedRideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51022A440E4200194140 /* PublishedRideDetailView.swift */; };
+		937E51052A44148300194140 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51042A44148300194140 /* TransparentBlurView.swift */; };
+		937E51072A44217800194140 /* PublishedRideDetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51062A44217800194140 /* PublishedRideDetailCard.swift */; };
+		937E51092A446F1D00194140 /* HollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51082A446F1D00194140 /* HollowButton.swift */; };
 		938077CF2A0B79C8008A889A /* BlaBalAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938077CE2A0B79C8008A889A /* BlaBalAppApp.swift */; };
 		938077D12A0B79C8008A889A /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938077D02A0B79C8008A889A /* LandingPageView.swift */; };
 		938077D32A0B79CA008A889A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 938077D22A0B79CA008A889A /* Assets.xcassets */; };
@@ -97,6 +102,11 @@
 		937B44682A3B0C2E0032903F /* AddImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageView.swift; sourceTree = "<group>"; };
 		937B92F52A382B400068CAD2 /* Pods_BlaBalApp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_BlaBalApp.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/BlaBalApp-ekrqgiwmtkzirjfzocidxzltcnjz/Build/Products/Debug-iphoneos/Pods_BlaBalApp.framework"; sourceTree = "<group>"; };
 		937B92F62A382BA20068CAD2 /* ProfileDetailTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailTileView.swift; sourceTree = "<group>"; };
+		937E51002A4408D400194140 /* AllPublishRideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPublishRideModel.swift; sourceTree = "<group>"; };
+		937E51022A440E4200194140 /* PublishedRideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedRideDetailView.swift; sourceTree = "<group>"; };
+		937E51042A44148300194140 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		937E51062A44217800194140 /* PublishedRideDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedRideDetailCard.swift; sourceTree = "<group>"; };
+		937E51082A446F1D00194140 /* HollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HollowButton.swift; sourceTree = "<group>"; };
 		938077CB2A0B79C8008A889A /* BlaBalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlaBalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		938077CE2A0B79C8008A889A /* BlaBalAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlaBalAppApp.swift; sourceTree = "<group>"; };
 		938077D02A0B79C8008A889A /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
@@ -314,6 +324,7 @@
 				93D291AE2A0D07E000E0D13C /* CalendarView.swift */,
 				93A5E1DC2A2B5A49000EAC4D /* userLocationView.swift */,
 				93DC81372A4325DA001C3DDF /* ShowPolylineView.swift */,
+				937E51022A440E4200194140 /* PublishedRideDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -332,6 +343,9 @@
 				93D0E1752A3732510095E3EA /* RideDetailTileView.swift */,
 				937B92F62A382BA20068CAD2 /* ProfileDetailTileView.swift */,
 				93E9C0DB2A38A29B00A6A3CD /* UnderlineView.swift */,
+				937E51042A44148300194140 /* TransparentBlurView.swift */,
+				937E51062A44217800194140 /* PublishedRideDetailCard.swift */,
+				937E51082A446F1D00194140 /* HollowButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -367,6 +381,7 @@
 				934F676B2A39A29500209F81 /* SendDataModel.swift */,
 				93BD9F712A40690E002BF186 /* ErrorResponse.swift */,
 				93DC81392A432983001C3DDF /* DirectionAPiResponseModel.swift */,
+				937E51002A4408D400194140 /* AllPublishRideModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -578,12 +593,14 @@
 				93D291A52A0CA2BB00E0D13C /* TabBarView.swift in Sources */,
 				9391E1A32A0E10F300427F22 /* TitleView.swift in Sources */,
 				93DC81382A4325DB001C3DDF /* ShowPolylineView.swift in Sources */,
+				937E51032A440E4200194140 /* PublishedRideDetailView.swift in Sources */,
 				938077EC2A0BA0ED008A889A /* LoginSignupViewModel.swift in Sources */,
 				93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */,
 				934F67682A39908D00209F81 /* Enumerations.swift in Sources */,
 				938077E72A0B9918008A889A /* Textfield.swift in Sources */,
 				9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */,
 				93D291A92A0CAA8000E0D13C /* InboxView.swift in Sources */,
+				937E51092A446F1D00194140 /* HollowButton.swift in Sources */,
 				938077E52A0B8B0D008A889A /* BackgroundView.swift in Sources */,
 				938077F22A0BC4F4008A889A /* SearchView.swift in Sources */,
 				9391DC1F2A1E0F3E007B5ADE /* VehicleModel.swift in Sources */,
@@ -619,9 +636,11 @@
 				937B44692A3B0C2E0032903F /* AddImageView.swift in Sources */,
 				9391E1A72A0E327600427F22 /* Alert.swift in Sources */,
 				93DC813A2A432983001C3DDF /* DirectionAPiResponseModel.swift in Sources */,
+				937E51052A44148300194140 /* TransparentBlurView.swift in Sources */,
 				938077CF2A0B79C8008A889A /* BlaBalAppApp.swift in Sources */,
 				938077DE2A0B8054008A889A /* Constants.swift in Sources */,
 				93A5E1DF2A2B5CEA000EAC4D /* GoogleMapsProvider.swift in Sources */,
+				937E51012A4408D400194140 /* AllPublishRideModel.swift in Sources */,
 				938077E12A0B816E008A889A /* Buttons.swift in Sources */,
 				93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */,
 				93BD9F702A4066BE002BF186 /* ServiceHelper.swift in Sources */,
@@ -631,6 +650,7 @@
 				936540BC2A1C9260004240D1 /* UpdateUserModel.swift in Sources */,
 				9391E1AB2A0E5B3D00427F22 /* UserModel.swift in Sources */,
 				936540BA2A1C7DDB004240D1 /* EditPersonalDetailsView.swift in Sources */,
+				937E51072A44217800194140 /* PublishedRideDetailCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +787,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -800,6 +821,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

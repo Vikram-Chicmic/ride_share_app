@@ -120,59 +120,6 @@ class ApiManager {
                           .store(in: &publishers)
                   }
     
-    
-    
-    
-    
-    
-//    func apiVehicleMethod<T: Decodable>( method: APIcallsForVehicle, dataModel: [String:Any]?, url: URL?) -> AnyPublisher <T, Error> {
-//
-//        guard let dataModel = dataModel else {
-//            return Fail(error: AuthenticateError.badConversion)
-//            .eraseToAnyPublisher()
-//        }
-//
-//        guard let request = ServiceHelper.shared.setUpApiRequest(
-//            url: url,
-//            data: dataModel,
-//            method: method)
-//         else {
-//            // return error if request is nil
-//            return Fail(error: AuthenticateError.badURL)
-//                .eraseToAnyPublisher()
-//        }
-//
-//        return URLSession.shared.dataTaskPublisher(for: request)
-//            .mapError { _ -> AuthenticateError in
-//                return AuthenticateError.unknown
-//            }
-//            .tryMap { (data, response) -> (data: Data, response: URLResponse) in
-//
-//                guard let response = response as? HTTPURLResponse else {
-//                    throw AuthenticateError.badResponse
-//                }
-//
-//                if !((200..<299) ~= response.statusCode) {
-//                    throw try JSONDecoder().decode(ErrorResponse.self, from: data)
-//                }
-//                print(response)
-//                return (data, response)
-//
-//            }
-//            .map(\.data)
-//
-//            .tryMap { data in
-//                let decoder = JSONDecoder()
-//                do {
-//                    return try decoder.decode(T.self, from: data)
-//                } catch {
-//                    throw try decoder.decode(ErrorResponse.self, from: data)
-//                    //throw AuthenticateError.badConversion
-//                }
-//            }
-//            .eraseToAnyPublisher()
-//
-//    }
 
 
 }
