@@ -7,9 +7,10 @@
 
 import Foundation
 
-class BaseApiManager {
+class BaseApiManager: ObservableObject {
     static var shared = BaseApiManager()
-    
+    @Published var successAlert = false
+    @Published var errorAlert = false
     
     // MARK: Case Handling for User API calls
     ///success case
@@ -158,7 +159,7 @@ class BaseApiManager {
             MapAndSearchRideViewModel.shared.polylineString = result.routes?[0].overviewPolyline.points ?? ""
    
             
-        case .getAllRidePublisghRideOfCurrentUser:
+        case .getAllPublisghRideOfCurrentUser:
             guard let result = try? JSONDecoder().decode(AllPublishRide.self, from: data) else {
                 print("Cant decode response for all rides published")
                 return
@@ -169,6 +170,15 @@ class BaseApiManager {
             MapAndSearchRideViewModel.shared.alertSuccess.toggle()
         case .cancelRide:
             print("Ride cancelled successfull")
+        case .getAllBookedRideOfCurentUser:
+            guard let result = try? JSONDecoder().decode(AllBookedRide.self, from: data) else {
+                print("Cant decode response for all rides published")
+                return
+            }
+            MapAndSearchRideViewModel.shared.allBookedRides = result
+            print(result.rides)
+        case .cancelBookedRide:
+            print("Ride Cancelled Successfully")
         }
     }
     
@@ -185,12 +195,16 @@ class BaseApiManager {
             print("Failed to fetch places")
         case .fetchPolylineAndDistanceOfRide:
             print("unable to fetch data for directions")
-        case .getAllRidePublisghRideOfCurrentUser:
+        case .getAllPublisghRideOfCurrentUser:
             print("Unable to fetch your publish rides")
         case .updateRide:
             print("Cant update ride")
         case .cancelRide:
             print("Cant cancel ride")
+        case .getAllBookedRideOfCurentUser:
+            print("Cant get rides")
+        case .cancelBookedRide:
+            print("can't cancel ride")
         }
     }
     

@@ -48,7 +48,12 @@ struct LocationView: View {
                                             isPublishView = false
                                         }
                                     } label: {
-                                        Text(Constants.Buttons.searchRide)
+                                        HStack {
+                                         Spacer()
+                                            Text(Constants.Buttons.searchRide)
+                                            Spacer()
+                                        }
+                                        
                                         
                                       
                                     }
@@ -64,7 +69,12 @@ struct LocationView: View {
                                             vehicleVm.apiCall(method: .getVehicle)
                                         }
                                     } label: {
-                                        Text(Constants.Buttons.publishRide)
+                                        HStack {
+                                            Spacer()
+                                            Text(Constants.Buttons.publishRide)
+                                            Spacer()
+                                        }
+                                        
                                     }
                                     .frame(minWidth: 0, maxWidth: .infinity)
                                     if isPublishView { UnderlineView().padding(.horizontal) }
@@ -210,7 +220,7 @@ struct LocationView: View {
                                 HStack{
                                     Text("Open map").padding()
                                     Image(systemName: Constants.Icons.rightChevron)
-                                }.padding(.horizontal)
+                                }.padding(.horizontal).disabled(vm.destinationData?.name == "" || vm.originData?.name == "")
                             }
                             Spacer()
                         }.navigationDestination(isPresented: $showMap) {
@@ -277,7 +287,7 @@ struct LocationView: View {
                   
                 }
                 .disabled((vm.destinationData==nil && vm.originData == nil)).navigationDestination(isPresented: $showCarPoolView, destination: {
-//                    CarPoolView().transition(.opacity)
+                    CarPoolView().transition(.opacity)
                 })
        
                 

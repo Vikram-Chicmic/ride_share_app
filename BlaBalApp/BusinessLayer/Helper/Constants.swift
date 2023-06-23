@@ -227,7 +227,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://8cfa-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://2cec-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -240,7 +240,9 @@ struct Constants {
         static let publishRide              = baseUrl+"publishes"
         static let bookRide                 = baseUrl+"book_publish"
         static let cancelRide               = baseUrl+"cancel_publish"
+        static let getBookedRides           = baseUrl+"booked_publishes"
         static let deleteVehicle            = baseUrl+"/"
+        static let cancelBookedRide         = baseUrl+"cancel_booking"
         static let addImage                 = baseUrl+"user_images"
         static let mapUrl                   = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
         static let srcLong                  = "?source_longitude="

@@ -30,81 +30,126 @@ struct CarPoolDetailView: View {
                     Divider()
                   
                   
-                    ScrollView {
-                        VStack(alignment: .leading) {
-                            VStack(alignment: .leading, spacing: 30) {
-                                 HStack {
-                                     Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                     VStack(alignment: .leading) {
-                                         Text(Helper().formatDate(details.publish.time) ?? "").font(.subheadline)
-                                         Text("\(details.publish.source)").bold()
+                    ZStack {
+                        ScrollView {
+                            VStack(alignment: .leading) {
+                                VStack(alignment: .leading, spacing: 30) {
+                                     HStack {
+                                         Image(systemName: Constants.Icons.circle).foregroundColor(.blue).padding()
+                                         VStack(alignment: .leading) {
+                                             Text(Helper().formatDate(details.publish.date) ?? "").font(.subheadline)
+                                             Text("\(details.publish.source)").bold()
+                                         }
+                                         Spacer()
+                                     }
+                                    HStack {
+                                        Image(systemName: Constants.Icons.circle).foregroundColor(.blue).padding()
+                                        VStack(alignment: .leading) {
+                                            Text(Helper().formatDate(details.reachTime) ?? "").font(.subheadline)
+                                            Text("\(details.publish.destination)").bold()
+                                        }
+                                        Spacer()
+                                    }
+                                 
+                                  
+                                 }.padding().background {
+                                     Image("Background").resizable().cornerRadius(10).overlay {
+                                         TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                                      }
                                  }
-                                HStack {
-                                    Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                    VStack(alignment: .leading) {
-                                        Text(Helper().formatDate(details.reachTime) ?? "").font(.subheadline)
-                                        Text("\(details.publish.destination)").bold()
+
+                                Divider()
+                                
+                                Text("Details").font(.title3).fontWeight(.semibold).padding(.top)
+                                VStack(spacing: 10) {
+                                    RideDetailTileView(title: Constants.Texts.deptTime, value: Helper().formatDate(details.publish.time) ?? "")
+                                    RideDetailTileView(title: Constants.Texts.estTime, value: details.publish.estimateTime)
+                                    RideDetailTileView(title: Constants.Texts.passengers, value: String(details.publish.passengersCount))
+                                    RideDetailTileView(title: Constants.Texts.reachTime, value: Helper().formatDate(details.reachTime) ?? "")
+                                    RideDetailTileView(title: Constants.Texts.ridestatus, value: details.publish.status)
+                                }.padding().background {
+                                    Image("Background").resizable().cornerRadius(10).overlay {
+                                        TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                                     }
                                 }
-                             
-                              
-                             }.padding(.vertical)
-
-                            Divider()
-                            
-                            Text("Details").font(.title3).fontWeight(.semibold).padding(.vertical)
-                            VStack(spacing: 10) {
-                                RideDetailTileView(title: Constants.Texts.deptTime, value: Helper().formatDate(details.publish.time) ?? "")
-                                RideDetailTileView(title: Constants.Texts.estTime, value: "2 Hours")
-                                RideDetailTileView(title: Constants.Texts.passengers, value: String(details.publish.passengersCount))
-                                RideDetailTileView(title: Constants.Texts.reachTime, value: Helper().formatDate(details.reachTime) ?? "")
-                                RideDetailTileView(title: Constants.Texts.ridestatus, value: details.publish.status)
-                            }
-                            
-                            Divider()
-                            
-                            VStack {
                                 HStack {
                                     Text(Constants.Texts.totalPrice)
                                     Spacer()
                                     Text("Rs. \(details.publish.setPrice)").font(.title2).bold()
-                                }.padding().background(
-                                    Color.gray.opacity(0.1).cornerRadius(20)).padding(.vertical)
-                                
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text(details.name).font(.title3)
-                                        HStack {
-                                            Image(systemName: Constants.Icons.star)
-                                            Image(systemName: Constants.Icons.star)
-                                            Image(systemName: Constants.Icons.star)
-                                            Image(systemName: Constants.Icons.star)
-                                            Image(systemName: Constants.Icons.starHollow)
-                                            
-                                        }.foregroundColor(.yellow)
+                                }.padding(.horizontal).padding().background {
+                                    Image("download").resizable().cornerRadius(10).overlay {
+                                        TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                                     }
-                                    Spacer()
-                                    Image("boy").resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
-                                }.frame(height: 100).padding().background(
-                                    Color.gray.opacity(0.1).cornerRadius(20)).padding(.vertical)
+                                }.padding(.top, -19)
+                    
                                 
-                                Button {
-                                    navigateToBookRide.toggle()
-                                } label: {
+                                VStack {
+                                  
+                                    
                                     HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(details.name).font(.title3)
+                                            HStack {
+                                                Image(systemName: Constants.Icons.star)
+                                                Image(systemName: Constants.Icons.star)
+                                                Image(systemName: Constants.Icons.star)
+                                                Image(systemName: Constants.Icons.star)
+                                                Image(systemName: Constants.Icons.starHollow)
+                                                
+                                            }.foregroundColor(.yellow)
+                                        }
                                         Spacer()
-                                        Text(Constants.Buttons.bookRide).font(.title3).bold()
-                                        Spacer()
+                                        if let imageURL = URL(string: details.imageURL ?? "") {
+                                         AsyncImage(url: imageURL) { phase in
+                                             switch phase {
+                                             case .empty:
+                                                 ProgressView()
+                                                     .progressViewStyle(CircularProgressViewStyle())
+                                             case .success(let image):
+                                                 image.resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
+                                             case .failure(_):
+                                                 // Show placeholder for failed image load
+                                                 Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
+                                             }
+                                         }
+                                     } else {
+                                         Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
+                                     }
+                                        
+    //                                    Image(URL(ur: details.imageURL)).resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
+                                    }.frame(height: 100).padding().background {
+                                        Image("Background").resizable().cornerRadius(10).overlay {
+                                            TransparentBlurView(removeAllFilters: false).cornerRadius(10)
+                                        }
+                                    }.padding(.vertical)
+                                    
+                                    Button {
+                                        navigateToBookRide.toggle()
+                                    } label: {
+                                        HStack {
+                                            Spacer()
+                                            Text(Constants.Buttons.bookRide).font(.title3).bold()
+                                            Spacer()
+                                        }.foregroundColor(.white)
+                                    }.padding(.vertical).background {
+                                        Image("download").resizable().cornerRadius(10).overlay {
+                                            TransparentBlurView(removeAllFilters: false).cornerRadius(10)
+                                        }
                                     }
-                                }.padding(.vertical).background(
-                                    Color.gray.opacity(0.1).cornerRadius(20))
-                                .navigationDestination(isPresented: $navigateToBookRide) {
-                                    BookRide(details: details)
+//                                    .navigationDestination(isPresented: $navigateToBookRide) {
+//                                        BookRide(details: details)
+//                                    }
                                 }
                             }
+                        }.scrollIndicators(.hidden).opacity(navigateToBookRide ? 0.5 : 1.0)
+                        
+                        
+                        if navigateToBookRide {
+                            BookRide(details: details, dismissView: $navigateToBookRide)
                         }
-                    }.scrollIndicators(.hidden)
+                        
+                        
+                    }
                     Spacer()
                 }.navigationBarBackButtonHidden(true).padding()
             

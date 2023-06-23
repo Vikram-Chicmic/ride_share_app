@@ -10,9 +10,10 @@ import SwiftUI
 struct BackgroundView: View {
     var body: some View {
         VStack {
-            Image(Constants.Icons.bgImage).resizable().ignoresSafeArea().frame(width: 450, height: 350)
             Spacer()
-        }.background(.white)
+            Image("carPool2").resizable().scaledToFit()
+            Spacer()
+        }
     }
 }
 

@@ -56,9 +56,11 @@ enum APIcallsForRides {
     case searchRide
     case fetchPlaces
     case fetchPolylineAndDistanceOfRide
-    case getAllRidePublisghRideOfCurrentUser
+    case getAllPublisghRideOfCurrentUser
+    case getAllBookedRideOfCurentUser
     case updateRide
     case cancelRide
+    case cancelBookedRide
 }
 
 
@@ -75,6 +77,27 @@ enum AuthenticateError: LocalizedError{
     case parsing(DecodingError?)
     case userExists
     case noUserExists
+    
+    enum SuccessAlerts: String{
+        case login                  = "Logged in successfully"
+        case signup                 = "Signed up successfully"
+        case logout                 = "Logged out successfully"
+        case profileUpdate          = "Profile Updated successfully"
+        case phoneVerified          = "OTP has been sent"
+        case otpVarification        = "OTP has been varified"
+        case addVehicle             = "Vehicle added Successfully"
+        case updateVehicle          = "Vehicle Updated Successfully"
+        case deleteVehicle          = "Vehcile Deleted Successfully"
+        case bookRide               = "Ride Booked Successfully"
+        case cancelRide             = "Ride Cancelled Successfully"
+        case updateRide             = "Ride Updated Successfully"
+        case changePassword         = "Password Changed Successfully"
+    }
+    
+    
+    
+    
+    
     
     // MARK: custom error description for errors
     var errorDescription: String?{

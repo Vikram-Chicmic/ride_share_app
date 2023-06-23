@@ -110,7 +110,7 @@ struct PhoneView: View {
 struct PhoneView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            PhoneView()
+            PhoneView().environmentObject(LoginSignUpViewModel())
         }
     }
 }

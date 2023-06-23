@@ -79,6 +79,7 @@
 		93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536B2A29BFD7002607BB /* AnimatedImage.swift */; };
 		93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */; };
 		93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */; };
+		93E571572A45A63900AF5C4D /* BookedRideModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E571562A45A63900AF5C4D /* BookedRideModal.swift */; };
 		93E9C0DC2A38A29B00A6A3CD /* UnderlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9C0DB2A38A29B00A6A3CD /* UnderlineView.swift */; };
 		93EAAD3F2A288FCE003607DE /* AllVehicleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */; };
 /* End PBXBuildFile section */
@@ -160,6 +161,7 @@
 		93DF536B2A29BFD7002607BB /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLatLongModel.swift; sourceTree = "<group>"; };
 		93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndSearchRideViewModel.swift; sourceTree = "<group>"; };
+		93E571562A45A63900AF5C4D /* BookedRideModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedRideModal.swift; sourceTree = "<group>"; };
 		93E9C0DB2A38A29B00A6A3CD /* UnderlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineView.swift; sourceTree = "<group>"; };
 		93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllVehicleView.swift; sourceTree = "<group>"; };
 		B1B8A1167B6BFB09E7967951 /* Pods-BlaBalApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlaBalApp.release.xcconfig"; path = "Target Support Files/Pods-BlaBalApp/Pods-BlaBalApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				93BD9F712A40690E002BF186 /* ErrorResponse.swift */,
 				93DC81392A432983001C3DDF /* DirectionAPiResponseModel.swift */,
 				937E51002A4408D400194140 /* AllPublishRideModel.swift */,
+				93E571562A45A63900AF5C4D /* BookedRideModal.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				936175682A41BA430072344E /* JsonGenerator.swift in Sources */,
 				93A5E1DD2A2B5A49000EAC4D /* userLocationView.swift in Sources */,
 				93EAAD3F2A288FCE003607DE /* AllVehicleView.swift in Sources */,
+				93E571572A45A63900AF5C4D /* BookedRideModal.swift in Sources */,
 				937B44692A3B0C2E0032903F /* AddImageView.swift in Sources */,
 				9391E1A72A0E327600427F22 /* Alert.swift in Sources */,
 				93DC813A2A432983001C3DDF /* DirectionAPiResponseModel.swift in Sources */,

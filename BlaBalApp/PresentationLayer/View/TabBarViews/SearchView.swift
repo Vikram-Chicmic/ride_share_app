@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State var isPublishView = true
+    @State var isPublishView = false
     var body: some View {
                 VStack {
                     LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false))
                     Spacer()
                 }
             .background {
-                VStack {
-                    Spacer()
-                    Image(Constants.Images.image).resizable().scaledToFit().padding(.bottom).opacity(0.5)
-                }
+            
             }.onTapGesture {
                 self.hideKeyboard()
             }

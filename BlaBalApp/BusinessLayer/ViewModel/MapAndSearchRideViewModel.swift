@@ -31,6 +31,8 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var polylineString: String = ""
     private let apiKey = Constants.API.apiKey
     @Published var allPublishRides: [AllPublishRideData]?
+    @Published var allBookedRides: AllBookedRide?
+    @Published var passengerId: Int = 0
     
     static var shared = MapAndSearchRideViewModel()
     
@@ -42,7 +44,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     func createUrl(method: APIcallsForRides) -> URL {
         switch method {
-        case .publishRide, .getAllRidePublisghRideOfCurrentUser:
+        case .publishRide, .getAllPublisghRideOfCurrentUser:
             return URL(string: Constants.Url.publishRide)!
         case .bookRide:
             return URL(string: Constants.Url.bookRide)!
@@ -56,6 +58,10 @@ class MapAndSearchRideViewModel: ObservableObject {
             return URL(string: Constants.Url.publishRide+"/\(RegisterVehicleViewModel.shared.updatingRidePublishId)")!
         case .cancelRide:
             return URL(string: Constants.Url.cancelRide)!
+        case .getAllBookedRideOfCurentUser:
+            return URL(string: Constants.Url.getBookedRides)!
+        case .cancelBookedRide:
+            return URL(string: Constants.Url.cancelBookedRide)!
         }
     }
     
@@ -93,15 +99,18 @@ class MapAndSearchRideViewModel: ObservableObject {
                 Constants.Url.publishId: publishId,
                 Constants.Url.seats: noOfSeatsToBook
             ]]
-        case .searchRide, .fetchPlaces:
+        case .searchRide, .fetchPlaces, .getAllBookedRideOfCurentUser:
             return [:]
        
         case .fetchPolylineAndDistanceOfRide:
             return [:]
-        case .getAllRidePublisghRideOfCurrentUser:
+        case .getAllPublisghRideOfCurrentUser:
             return [:]
         case .cancelRide:
             return ["id": publishId]
+        case .cancelBookedRide:
+            print(["id":passengerId])
+            return ["id": passengerId]
         }
     }
     
@@ -126,6 +135,16 @@ class MapAndSearchRideViewModel: ObservableObject {
             
         case .bookRide:
             let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .bookRide), options: [])
+            
+            do{
+                if let json = try JSONSerialization.jsonObject(with: jsonData ?? Data(), options: []) as? [String: Any] {
+                                        print(json)
+                                    }
+            } catch {
+                print("Eroro")
+            }
+           
+            
             request = URLRequest(url: createUrl(method: .bookRide))
             request.httpMethod = Constants.Methods.post
             request.httpBody = jsonData
@@ -144,8 +163,8 @@ class MapAndSearchRideViewModel: ObservableObject {
             var request = URLRequest(url: createUrl(method: .fetchPolylineAndDistanceOfRide))
             request.httpMethod = Constants.Methods.get
             return request
-        case .getAllRidePublisghRideOfCurrentUser:
-            var request = URLRequest(url: createUrl(method: .getAllRidePublisghRideOfCurrentUser))
+        case .getAllPublisghRideOfCurrentUser:
+            var request = URLRequest(url: createUrl(method: .getAllPublisghRideOfCurrentUser))
             request.httpMethod = Constants.Methods.get
             return request
         case .updateRide:
@@ -159,6 +178,18 @@ class MapAndSearchRideViewModel: ObservableObject {
             let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .cancelRide), options: [])
             var request = URLRequest(url: createUrl(method: .cancelRide))
             request.httpMethod = Constants.Methods.post
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
+        case .getAllBookedRideOfCurentUser:
+            var request = URLRequest(url: createUrl(method: .getAllBookedRideOfCurentUser))
+            request.httpMethod = Constants.Methods.get
+            return request
+            
+        case .cancelBookedRide:
+            var request = URLRequest(url: createUrl(method: .cancelBookedRide))
+            request.httpMethod = Constants.Methods.post
+            let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .cancelBookedRide), options: [])
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
             return request
@@ -177,12 +208,16 @@ class MapAndSearchRideViewModel: ObservableObject {
             ApiManager.shared.apiCallForRides(method: .fetchPlaces, request: createRequest(method: .fetchPlaces))
         case .fetchPolylineAndDistanceOfRide:
             ApiManager.shared.apiCallForRides(method: .fetchPolylineAndDistanceOfRide, request: createRequest(method: .fetchPolylineAndDistanceOfRide))
-        case .getAllRidePublisghRideOfCurrentUser:
-            ApiManager.shared.apiCallForRides(method: .getAllRidePublisghRideOfCurrentUser, request: createRequest(method: .getAllRidePublisghRideOfCurrentUser))
+        case .getAllPublisghRideOfCurrentUser:
+            ApiManager.shared.apiCallForRides(method: .getAllPublisghRideOfCurrentUser, request: createRequest(method: .getAllPublisghRideOfCurrentUser))
         case .updateRide:
             ApiManager.shared.apiCallForRides(method: .updateRide, request: createRequest(method: .updateRide))
         case .cancelRide:
             ApiManager.shared.apiCallForRides(method: .cancelRide, request: createRequest(method: .cancelRide))
+        case .getAllBookedRideOfCurentUser:
+            ApiManager.shared.apiCallForRides(method: .getAllBookedRideOfCurentUser, request: createRequest(method: .getAllBookedRideOfCurentUser))
+        case .cancelBookedRide:
+            ApiManager.shared.apiCallForRides(method: .cancelBookedRide, request: createRequest(method: .cancelBookedRide))
         }
     }
     

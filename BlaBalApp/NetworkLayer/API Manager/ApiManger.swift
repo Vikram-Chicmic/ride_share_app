@@ -99,16 +99,17 @@ class ApiManager {
                        throw AuthenticateError.badResponse
                    }
                    print(response)
-                   if (200...299).contains(response.statusCode) {
-                       BaseApiManager.shared.successCaseHandleforRides(method: method, data: data, response: response)
-                   } else {
-                       BaseApiManager.shared.failureCaseHandleForRide(method: method, data: data, response: response)
+                   DispatchQueue.main.async {
+                       if (200...299).contains(response.statusCode) {
+                           BaseApiManager.shared.successCaseHandleforRides(method: method, data: data, response: response)
+                       } else {
+                           BaseApiManager.shared.failureCaseHandleForRide(method: method, data: data, response: response)
+                       }
                    }
                    return data
                }
                .decode(type: Welcome.self, decoder: JSONDecoder())
-                          .receive(on: DispatchQueue.main)
-                          .sink(receiveCompletion: { completion in
+               .sink(receiveCompletion: { completion in
                               LoginSignUpViewModel.shared.isLoading = false
                               switch completion {
                               case .finished:

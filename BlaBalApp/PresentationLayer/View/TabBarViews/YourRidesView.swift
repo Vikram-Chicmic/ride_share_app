@@ -12,6 +12,7 @@ struct YourRidesView: View {
     @State var isPublishRidesView = true
     @State var selectedCardData: AllPublishRideData?
     @State var navigateToDetail = false
+    @State var indexValue : Int = 0
     var body: some View {
         VStack {
             VStack(spacing: 5) {
@@ -21,7 +22,7 @@ struct YourRidesView: View {
                         Button {
                             withAnimation(.easeInOut(duration: 0.5)) {
                                 isPublishRidesView = true
-                                vm.apiCall(for: .getAllRidePublisghRideOfCurrentUser)
+                                vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
                             }
                         } label: {
                             Text(Constants.Buttons.publisdedRides)
@@ -36,6 +37,7 @@ struct YourRidesView: View {
                         Button {
                             withAnimation(.easeInOut(duration: 0.5)) {
                                 isPublishRidesView = false
+                                vm.apiCall(for: .getAllBookedRideOfCurentUser)
                             }
                         } label: {
                             Text(Constants.Buttons.bookedRides)
@@ -55,7 +57,7 @@ struct YourRidesView: View {
                     if let data = vm.allPublishRides {
                         if data.count > 0 {
                             ForEach(data.indices, id: \.self) { index in
-                                PublishedRideDetailCard(publishRideData: data[index])
+                                PublishedRideDetailCard(publishRideData: data[index], isPublishRideData: $isPublishRidesView)
                                     .onTapGesture {
                                         self.selectedCardData = data[index]
                                         navigateToDetail.toggle()
@@ -73,42 +75,52 @@ struct YourRidesView: View {
                             }
                         }
                     }
+                }.refreshable {
+                    vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
                 }.scrollIndicators(.hidden)
                     .navigationDestination(isPresented: $navigateToDetail) {
                         if let data = selectedCardData {
-                           PublishedRideDetailView(selectedCardData: data)
+                            PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView)
                         }
                        
                     }
             }
             else {
-                
+                ScrollView {
+                    if let data =  vm.allBookedRides?.rides {
+                        if data.count > 0 {
+                            ForEach(data.indices, id: \.self) { index in
+                                PublishedRideDetailCard(bookedRideData: data[index], indexValue: indexValue, isPublishRideData: $isPublishRidesView)
+                                    .onTapGesture {
+                                        self.selectedCardData = data[index].ride
+                                        vm.passengerId = data[index].bookingID
+                                        indexValue = index
+                                        navigateToDetail.toggle()
+                                    }
+                            }.padding().padding(.bottom, 20)
+                            
+                        } else {
+                            VStack {
+                                                        Image("carsaf").resizable().scaledToFit().frame(width: 300)
+                                                        Text("No rides found").foregroundColor(.blue).font(.title).bold()
+                            }.background {
+                                Image("download").overlay {
+                                    TransparentBlurView(removeAllFilters: false)
+                                }
+                            }
+                        }
+                    }
+                }.scrollIndicators(.hidden).refreshable {
+                    vm.apiCall(for: .getAllBookedRideOfCurentUser)
+                }
+                    .navigationDestination(isPresented: $navigateToDetail) {
+                        if let data = selectedCardData{
+                            PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView, indexValue: indexValue)
+                        }
+                        
+                    }
             }
-            
-//            ScrollView {
-//                if let data = vm.allPublishRides {
-//                    if data.count > 0 {
-//                        ForEach(data.indices, id: \.self) { index in
-//                            CarPoolCard(data: data[index])
-//                                .onTapGesture {
-//                                    self.selectedCardData = data[index]
-//                                    navigateToDetail.toggle()
-//                                }
-//                        }.navigationDestination(isPresented: $navigate, destination: {
-//                            if let data = selectedCardData {
-//                                CarPoolDetailView(details: data)
-//                            }
-//                        }).scrollIndicators(.hidden).padding()
-//                    } else {
-//                        VStack {
-//                            Image("carsaf").resizable().scaledToFit().frame(width: 300)
-//                            Text("No rides found").foregroundColor(.blue).font(.title).bold()
-//                        }
-//                    }
-//                }
-//            }
-            
-            
+
             
             
             
@@ -137,7 +149,7 @@ struct YourRidesView: View {
                 }.padding(.horizontal)
             }
         }.onAppear {
-            vm.apiCall(for: .getAllRidePublisghRideOfCurrentUser)
+            vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
             RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
         }
     }
