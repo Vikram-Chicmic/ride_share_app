@@ -16,6 +16,7 @@ struct BlaBalAppApp: App {
     @StateObject var vehicleVm = RegisterVehicleViewModel.shared
     @StateObject var mapVm = MapAndSearchRideViewModel.shared
     @StateObject var sessionManager = SessionManager()
+    @StateObject var baseAPiManager = BaseApiManager.shared
     var body: some Scene {
         WindowGroup {
             Group {
@@ -25,14 +26,14 @@ struct BlaBalAppApp: App {
                     }
                 } else {
                     NavigationStack {
-                        
-                            LandingView()
+                        LandingView()
                     }
                 }
             }.environmentObject(vm)
                 .environmentObject(vehicleVm)
                 .environmentObject(mapVm)
                 .environmentObject(sessionManager)
+                .environmentObject(baseAPiManager)
             }
              
             

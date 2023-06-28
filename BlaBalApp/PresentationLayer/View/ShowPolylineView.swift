@@ -30,12 +30,15 @@ struct GoogleMapView: UIViewRepresentable {
 }
 
 struct ShowPolylineView: View {
-    
     let polylineOverview = MapAndSearchRideViewModel.shared.polylineString
-    
     var body: some View {
         GoogleMapView(polylineOverview: polylineOverview)
-            .edgesIgnoringSafeArea(.all)
+            .edgesIgnoringSafeArea(.top).edgesIgnoringSafeArea(.horizontal).frame(height: 300)
     }
 }
 
+struct GoogleMapView_Previews: PreviewProvider {
+    static var previews: some View {
+        GoogleMapView(polylineOverview: "")
+    }
+}

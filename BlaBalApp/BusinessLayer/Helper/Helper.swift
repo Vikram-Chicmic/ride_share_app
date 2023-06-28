@@ -8,14 +8,14 @@
 import Foundation
 
 class Helper {
-    func dateFormatter(date: String) -> String {
+    func estimatedTimeFormatter(date: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         
         if let date = dateFormatter.date(from: date) {
             let outputDateFormatter = DateFormatter()
             outputDateFormatter.dateFormat = "HH:mm"
-            return outputDateFormatter.string(from: date)
+            return  (outputDateFormatter.string(from: date)+" hours")
         } else {
             return "Invalid date format"
         }
@@ -58,4 +58,26 @@ class Helper {
             return "Invalid Date"
         }
     }
+    
+    
+    func emptyMapAndSearchView() {
+        var data = MapAndSearchRideViewModel.shared
+        
+        data.time = ""
+        data.passengers = 1
+        data.aboutRide = ""
+        data.amount = "0"
+        data.originData?.name = ""
+        data.destinationData?.name = ""
+        data.noOfSeatsToBook = 0
+        data.polylineString = ""
+        data.passengerId = 0
+    
+        
+    }
+    
+    
+    
+    
+    
 }

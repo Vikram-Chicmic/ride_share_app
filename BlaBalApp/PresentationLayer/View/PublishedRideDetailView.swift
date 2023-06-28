@@ -12,6 +12,9 @@ struct PublishedRideDetailView: View {
     @Binding var isPublishedRide: Bool
     @State var navigateToVehicleDetail = false
     @State var showEditView = false
+    @EnvironmentObject var baseApi: BaseApiManager
+    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @Environment(\.dismiss) var dismiss
     var indexValue: Int?
     var body: some View {
         ScrollView {
@@ -105,23 +108,31 @@ struct PublishedRideDetailView: View {
                                     }
                                 }.navigationDestination(isPresented: $showEditView) {
                                     LocationView(isPublishView: .constant(true), isComingFromPublishedView: .constant(true))
-                            }
-                            }
-                          
-                            if (MapAndSearchRideViewModel.shared.allBookedRides?.rides[indexValue!].status)! == "cancel booking" {
-                            } else {
-                                Button {
-                                    MapAndSearchRideViewModel.shared.publishId = data.id
-
-                                    MapAndSearchRideViewModel.shared.apiCall(for: isPublishedRide ? .cancelRide : .cancelBookedRide)
-                                } label: {
-                                    HStack {
-                                        Buttons(image: "", text: "Cancel Ride", color: .red)
-                                    }
                                 }
-
                             }
-                           
+                            
+                            
+                            Button {
+                                MapAndSearchRideViewModel.shared.publishId = data.id
+                                
+                                MapAndSearchRideViewModel.shared.apiCall(for: isPublishedRide ? .cancelRide : .cancelBookedRide)
+                            } label: {
+                                HStack {
+                                    Buttons(image: "", text: "Cancel Ride", color: .red)
+                                }
+                            }.alert(isPresented: $vm.alertSuccess) {
+                                
+                                vm.alertSuccess ?
+                                Alert(title: Text(Constants.Alert.success), message: Text(SuccessAlerts.cancelRide.rawValue), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                                    dismiss()
+                                })) :
+                                Alert(title: Text(Constants.Alert.error), message: Text(Constants.Alert.failToCancel), dismissButton: .default(Text(Constants.Buttons.ok), action: {
+                                    dismiss()
+                                }))
+                                
+                                
+                                
+                            }
                         } else {
                             /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomAlert: View {
-//    @Environment(\.dismiss) var dismiss
+
     
     var text: String
     @Binding var dismiss: Bool

@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct DistanceCircleShowView: View {
-    @State var distance: Double = 50
-    var height: CGFloat
+    var maxWidhth: CGFloat
+    var maxHeight: CGFloat
     var body: some View {
         VStack {
-//            Image(systemName: "circlebadge").bold()
-            ProgressView( value: 100, total: 100).rotationEffect(Angle(degrees: 90)).frame(maxHeight: .infinity)
+            Image(systemName: Constants.Icons.circle).foregroundColor(.cyan).font(.subheadline).bold()
+            Capsule().fill(Color.white).frame(maxWidth: maxWidhth, maxHeight: maxHeight)
+            Image(systemName: Constants.Icons.circle).foregroundColor(.cyan).font(.subheadline).bold()
         }
     }
 }
 
 struct DistanceCircleShowView_Previews: PreviewProvider {
     static var previews: some View {
-        DistanceCircleShowView(height: 355.21)
+        DistanceCircleShowView(maxWidhth: 2, maxHeight: 35)
     }
 }

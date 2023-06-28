@@ -15,6 +15,7 @@ class AddImageViewModel: ObservableObject {
     @Published var success = false
     @Published var error = false
     @Published var alert = false
+    @Published var isLoading = false
 
 
 
@@ -26,6 +27,7 @@ class AddImageViewModel: ObservableObject {
             return
         }
 
+        self.isLoading = true
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
 
@@ -66,6 +68,7 @@ class AddImageViewModel: ObservableObject {
                 return data
             }
             .sink(receiveCompletion: { completion in
+                self.isLoading = false
                 self.alert.toggle()
                 switch completion {
                 case .finished:

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MapView: View {
     @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @StateObject var locationViewModel = LocationViewModel()
     @Binding var isOrigin: Bool
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -36,6 +37,28 @@ struct MapView: View {
             }.background {
                 Color.gray.opacity(0.2).cornerRadius(25)
             }.padding(.horizontal)
+            if vm.searchText == "" {
+                Button {
+                    switch locationViewModel.authorizationStatus {
+                                            case .authorizedAlways, .authorizedWhenInUse:
+                                                locationViewModel.startLocationUpdation()
+                                            default:
+                                                locationViewModel.requestPermission()
+                                            }
+                } label: {
+                    HStack {
+                        Spacer()
+                        HStack {
+                            Image(systemName: "location.north").foregroundColor(.green).font(.subheadline)
+                            Text("Use current location")
+                        }.padding(10).background(content: {
+                            Color.gray.opacity(0.3).cornerRadius(10)
+                        }).padding(.horizontal)
+                    }
+                  
+                   
+                }.padding(.top)
+            }
             List {
                 if let dataArr = vm.searchResultArr?.results {
                     ForEach((dataArr.indices), id: \.self) { index in
@@ -57,10 +80,12 @@ struct MapView: View {
                             dismiss()
                         }
                     }
-                } else {}
+                }
                     
                 
             }.listStyle(.plain)
+            
+       
             
             Spacer()
         }.onAppear {

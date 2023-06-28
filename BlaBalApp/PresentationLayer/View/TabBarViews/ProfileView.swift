@@ -12,10 +12,12 @@ struct ProfileView: View {
     @State var navigateToPhoneVerification: Bool = false
     @State var navigateToRegisterVehicle = false
     @State var detail: Welcome?
+    @State var showAlert: Bool = false
     @ObservedObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
     @EnvironmentObject var sessionManager: SessionManager
+    @EnvironmentObject var baseApi: BaseApiManager
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         ZStack {
@@ -134,7 +136,8 @@ struct ProfileView: View {
                         
                         // MARK: - Logout Button
                         Button {
-                            vm.apiCall(forMethod: .logout)
+                            showAlert.toggle()
+//                            vm.apiCall(forMethod: .logout)
                             sessionManager.isLoggedIn.toggle()
                                
                         }label: {
@@ -144,7 +147,18 @@ struct ProfileView: View {
                                 Spacer()
                             }.foregroundColor(.white).background(.red).cornerRadius(10).padding(.bottom)
                         }.padding(.top, 20)
+                            .actionSheet(isPresented: $showAlert) {
+                                ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
+                                    vm.apiCall(forMethod: .logout)
+                                }), .cancel()])
+                            }
+                            .alert(isPresented: $baseApi.errorAlert) {
+                                Alert(title: Text("Error"), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
+                            }
+                         
                     }
+                }.refreshable {
+                    vm.apiCall(forMethod: .getUser)
                 }.scrollIndicators(.hidden)
              
                 
@@ -162,8 +176,12 @@ struct ProfileView: View {
             }
             
         }.onAppear {
+            baseApi.errorAlert = false
+            baseApi.successAlert = false
             vm.apiCall(forMethod: .getUser)
-    }
+        }.alert(isPresented: $baseApi.errorAlert) {
+            Alert(title: Text("Error"), message: Text(ErrorAlert.getUser.rawValue), dismissButton: .cancel())
+        }
     }
 }
 

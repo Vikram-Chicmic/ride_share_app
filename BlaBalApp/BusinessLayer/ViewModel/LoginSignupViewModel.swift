@@ -40,7 +40,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var verified = false
     @Published var showAlertSignUpProblem = false
     @Published var failtToSendOtpAlert = false
-    
+    @Published var userId : Int = 0
     // Variable to store data response
     @Published var recievedData: Welcome?
     
@@ -168,6 +168,8 @@ class LoginSignUpViewModel: ObservableObject {
             return URL(string: Constants.Url.sendOTP)!
         case .changePassword:
             return URL(string: Constants.Url.updatePassword)!
+        case .getUserById:
+            return URL(string: Constants.Url.signUpUrl+"/\(userId)")!
         }
     }
     
@@ -220,6 +222,10 @@ class LoginSignUpViewModel: ObservableObject {
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
             return request
+        case .getUserById:
+            request = URLRequest(url: createUrl(forMethod: .getUserById))
+            request.httpMethod = Constants.Methods.get
+            return request
         }
     }
     
@@ -243,6 +249,8 @@ class LoginSignUpViewModel: ObservableObject {
             ApiManager.shared.apiAuthMethod(method: .otpVerify, request: createRequest(forMethod: .otpVerify))
         case .changePassword:
             ApiManager.shared.apiAuthMethod(method: .changePassword, request: createRequest(forMethod: .changePassword))
+        case .getUserById:
+            ApiManager.shared.apiAuthMethod(method: .getUserById, request: createRequest(forMethod: .getUserById))
         }
     }
   

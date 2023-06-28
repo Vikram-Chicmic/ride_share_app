@@ -39,6 +39,7 @@ enum APIcallsForUser {
     case profileUpdate
     case phoneVerify
     case otpVerify
+    case getUserById
     case changePassword
 }
 
@@ -77,8 +78,8 @@ enum AuthenticateError: LocalizedError{
     case parsing(DecodingError?)
     case userExists
     case noUserExists
-    
-    enum SuccessAlerts: String{
+}
+    enum SuccessAlerts: String {
         case login                  = "Logged in successfully"
         case signup                 = "Signed up successfully"
         case logout                 = "Logged out successfully"
@@ -92,34 +93,32 @@ enum AuthenticateError: LocalizedError{
         case cancelRide             = "Ride Cancelled Successfully"
         case updateRide             = "Ride Updated Successfully"
         case changePassword         = "Password Changed Successfully"
+        case publishRide            = "Ride Published successfully"
     }
     
-    
-    
-    
-    
-    
-    // MARK: custom error description for errors
-    var errorDescription: String?{
-        switch self{
-        case .badConversion:
-            return "Cannot convert to json data"
-        case .badURL:
-            return "URL not found"
-        case .badResponse:
-            return "Something went wrong, Please check"
-        case .url(let error):
-            return "\(error?.localizedDescription ?? "")"
-        case .unknown:
-            return "Sorry, something went wrong."
-        case .noData:
-            return "No data found"
-        case .parsing(let error):
-            return "Parsing Error \n\(error?.localizedDescription ?? "")"
-        case .userExists:
-            return "User Already Exists,\n Log In to continue"
-        case .noUserExists:
-            return "No Such User Exists,\n Sign Up to continue"
-        }
-    }
+enum ErrorAlert: String {
+    case login                  = "Failed to Logged in"
+    case signup                 = "Failed to Signed up"
+    case logout                 = "Failed to Logged out"
+    case profileUpdate          = "Failed to Update Profile"
+    case phoneVerified          = "Failed to sent OTP"
+    case getUser                = "Fail to get user data"
+    case otpVarification        = "Failed to varify OTP"
+    case addVehicle             = "Failed to add Vehicle"
+    case updateVehicle          = "Failed to Updated Vehicle"
+    case deleteVehicle          = "Failed to Deleted Vehicle"
+    case bookRide               = "Failed to Book Ride"
+    case cancelRide             = "Failed to Cancel Ride"
+    case changePassword         = "Failed to Change Password"
+    case updateRide             = "Fail to Update Ride"
+    case publishRide            = "Failed to Publish ride"
 }
+    
+enum PickerType {
+    case date
+    case time
+}
+    
+    
+    
+ 

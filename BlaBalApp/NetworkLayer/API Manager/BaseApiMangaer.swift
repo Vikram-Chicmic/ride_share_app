@@ -11,6 +11,10 @@ class BaseApiManager: ObservableObject {
     static var shared = BaseApiManager()
     @Published var successAlert = false
     @Published var errorAlert = false
+    @Published var navigate = false
+    @Published var alert = false
+    
+ 
     
     // MARK: Case Handling for User API calls
     ///success case
@@ -51,6 +55,8 @@ class BaseApiManager: ObservableObject {
           
         case .changePassword:
             LoginSignUpViewModel.shared.passwordChangeAlert.toggle()
+        case .getUserById:
+            print("User get success")
         }
         
         // MARK: Assigning and Clearing data of userdefaults
@@ -77,8 +83,10 @@ class BaseApiManager: ObservableObject {
             print("Failed while signUp.")
             LoginSignUpViewModel.shared.showAlertSignUpProblem = true
         case .logout:
+            self.errorAlert.toggle()
             print("Failed to logout")
         case .getUser:
+            self.errorAlert.toggle()
             print("Failed to get user data.")
         case .checkEmail:
             print("Failed while checking email.")
@@ -90,6 +98,8 @@ class BaseApiManager: ObservableObject {
             LoginSignUpViewModel.shared.failtToSendOtpAlert.toggle()
         case .changePassword:
             print("Fail to change password")
+        case .getUserById:
+            print("Fail to get user")
         }
     }
     
@@ -123,6 +133,7 @@ class BaseApiManager: ObservableObject {
         case .vehicleUpdate:
             print("Error while updating")
         case .getVehicle:
+            self.errorAlert.toggle()
             print("Fail to fetch data")
         case .deleteVehicle:
             print("Error while deleting")
@@ -132,44 +143,62 @@ class BaseApiManager: ObservableObject {
     }
     
     func successCaseHandleforRides(method: APIcallsForRides, data: Data, response: HTTPURLResponse) {
+        LoginSignUpViewModel.shared.isLoading = false
         switch method {
         case .publishRide:
-            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            self.successAlert.toggle()
+//            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            
         case .bookRide:
+//            self.successAlert.toggle()
             MapAndSearchRideViewModel.shared.alertSuccess.toggle() //ride has been booked successfully
+            
         case .searchRide:
             guard let result = try? JSONDecoder().decode(SearchRideResponse.self, from: data) else {
                 print(Constants.Errors.decodeerror)
                 return
             }
+            self.successAlert.toggle()
             MapAndSearchRideViewModel.shared.searchRideResult = result.data
+            
         case .fetchPlaces:
             guard let result = try? JSONDecoder().decode(PlacesResponse.self, from: data) else {
                 print(Constants.Errors.decodeerror)
                 return
             }
+            self.successAlert.toggle()
             MapAndSearchRideViewModel.shared.searchResultArr = result
+            
         case .fetchPolylineAndDistanceOfRide:
             guard let result = try? JSONDecoder().decode(DirectionsResponse.self, from: data) else {
                 print("Cant decode the direction response")
                
                 return
             }
-            MapAndSearchRideViewModel.shared.estimatedTime = result.routes?[0].legs[0].duration.text ?? "can't estimate"
-            MapAndSearchRideViewModel.shared.polylineString = result.routes?[0].overviewPolyline.points ?? ""
-   
-            
+            self.successAlert.toggle()
+            if let result = result.routes {
+                MapAndSearchRideViewModel.shared.estimatedTime = result.first?.legs.first?.duration.text ?? "estimation is none"
+                MapAndSearchRideViewModel.shared.polylineString = result.first?.overviewPolyline.points ?? ""
+            }
+
+    
         case .getAllPublisghRideOfCurrentUser:
             guard let result = try? JSONDecoder().decode(AllPublishRide.self, from: data) else {
                 print("Cant decode response for all rides published")
                 return
             }
+            self.successAlert.toggle()
             MapAndSearchRideViewModel.shared.allPublishRides = result.data
             print(result.data)
+            
         case .updateRide:
+            self.successAlert.toggle()
             MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            
         case .cancelRide:
+            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
             print("Ride cancelled successfull")
+            
         case .getAllBookedRideOfCurentUser:
             guard let result = try? JSONDecoder().decode(AllBookedRide.self, from: data) else {
                 print("Cant decode response for all rides published")
@@ -177,33 +206,56 @@ class BaseApiManager: ObservableObject {
             }
             MapAndSearchRideViewModel.shared.allBookedRides = result
             print(result.rides)
+            
         case .cancelBookedRide:
+            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
             print("Ride Cancelled Successfully")
         }
     }
     
     
     func failureCaseHandleForRide(method: APIcallsForRides, data:Data, response: HTTPURLResponse) {
+      
         switch method {
         case .publishRide:
+  
+            self.errorAlert.toggle()
             print("Fail to publish ride")
+            
         case .bookRide:
+            self.errorAlert.toggle()
             print("Fail to book ride")
+            
         case .searchRide:
+            self.errorAlert.toggle()
             print("No data found")
+            
         case .fetchPlaces:
+            self.errorAlert.toggle()
             print("Failed to fetch places")
+            
         case .fetchPolylineAndDistanceOfRide:
+            self.errorAlert.toggle()
             print("unable to fetch data for directions")
+            
         case .getAllPublisghRideOfCurrentUser:
+            self.errorAlert.toggle()
             print("Unable to fetch your publish rides")
+            
         case .updateRide:
+            self.errorAlert.toggle()
             print("Cant update ride")
+            
         case .cancelRide:
+            self.errorAlert.toggle()
             print("Cant cancel ride")
+            
         case .getAllBookedRideOfCurentUser:
+            self.errorAlert.toggle()
             print("Cant get rides")
+            
         case .cancelBookedRide:
+            self.errorAlert.toggle()
             print("can't cancel ride")
         }
     }

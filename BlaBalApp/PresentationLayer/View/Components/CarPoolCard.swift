@@ -17,33 +17,35 @@ struct CarPoolCard: View {
                     VStack {
                         HStack {
                             VStack {
-                                Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                HStack {
-                                    Divider().frame(height: 50)
-                                    Text(Helper().dateFormatter(date: data.publish.estimateTime))
-                                    Divider().frame(height: 15)
-                                }
-                                Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
+                                
+                               
+                                    DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
+                                  
+//                                    Text(Helper().dateFormatter(date: data.publish.estimateTime))
+                                  
+                                
+                               
                             }
                            
                             
                             VStack(alignment: .leading, spacing: 30) {
-                                     VStack(alignment: .leading) {
-                                         Text(Helper().formatDate(data.publish.time) ?? "").font(.subheadline)
-                                         Text("\(data.publish.source)").bold()
-                                     }
-                                 
-                            
-                                    VStack(alignment: .leading) {
-                                        Text(Helper().formatDate(data.reachTime) ?? "").font(.subheadline)
-                                        Text("\(data.publish.destination)").bold()
-                                    
+                                HStack{
+                                    Text("\(data.publish.source)").bold()
+                                    Spacer()
                                 }
+                                         
+                                HStack {
+                                    Text("\(data.publish.destination)").bold()
+                                    Spacer()
+                                }
+                                       
+                                    
+                                
                              }.padding(.vertical)
                             Spacer()
                         }
-                    }.frame(minWidth: 383, maxWidth: 383).padding().background {
-                        Image("Background").resizable().cornerRadius(10).overlay {
+                    }.padding().background {
+                        Image("Bank").resizable().cornerRadius(10).overlay {
                             TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                         }
                     }
@@ -53,29 +55,43 @@ struct CarPoolCard: View {
                 // MARK: Lower Part
                     VStack {
                         HStack {
-                            if let image = data.imageURL {
-                                Image("\(image)").resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
-                                    .padding(.trailing, 15)
-                            } else {
-                                Image("boy").resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
-                                    .padding(.trailing, 15)
-                            }
+                            
+                            if let imageURL = URL(string: data.imageURL ?? "") {
+                             AsyncImage(url: imageURL) { phase in
+                                 switch phase {
+                                 case .empty:
+                                     ProgressView()
+                                         .progressViewStyle(CircularProgressViewStyle()).frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                         .padding(.trailing, 15)
+
+                                 case .success(let image):
+                                     image.resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                         .padding(.trailing, 15)
+                                 case .failure(_):
+                                     // Show placeholder for failed image load
+                                     Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                         .padding(.trailing, 15)
+                                 }
+                             }
+                         } else {
+                             Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                 .padding(.trailing, 15)
+                         }
+
+                            
+                            
+                      
                             VStack(alignment: .leading) {
                                 Text("\(data.name)").font(.system(size: 20))
-                                HStack {
-                                    Image(systemName: "star").foregroundColor(.green).font(.system(size: 12))
-                                    
-                                }
-                                
                             }
                             
                             Spacer()
                             Text("Rs. \(data.publish.setPrice)").bold()
-                        }.padding()
+                        }.padding(8)
                             .padding(.horizontal)
                         
                     }.background {
-                        Image("download")
+                        Image("bluebg")
                                    .resizable()
                                    .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
                             TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))

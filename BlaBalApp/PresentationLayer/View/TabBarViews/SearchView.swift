@@ -15,7 +15,11 @@ struct SearchView: View {
                     Spacer()
                 }
             .background {
-            
+                VStack{
+                    Spacer()
+                    Image("carPOOl").resizable().ignoresSafeArea().scaledToFit().opacity(0.8)
+                }
+               
             }.onTapGesture {
                 self.hideKeyboard()
             }

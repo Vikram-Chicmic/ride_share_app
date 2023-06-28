@@ -31,13 +31,7 @@ struct PublishedRideDetailCard: View {
                             
                             
                             HStack(spacing: 20) {
-                                VStack {
-                                    Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                    HStack {
-                                        Divider().frame(height: 20)
-                                    }
-                                    Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                }.padding(.leading)
+                                DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
                                 
                                 VStack(alignment: .leading, spacing: 30) {
                                          VStack(alignment: .leading) {

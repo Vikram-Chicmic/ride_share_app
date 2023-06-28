@@ -76,20 +76,20 @@ class MapAndSearchRideViewModel: ObservableObject {
     }
     
     
-    func generateJSONfor(mehod: APIcallsForRides) -> [String: Any]{
+    func generateJSONfor(mehod: APIcallsForRides) -> [String: Any] {
         switch mehod {
         case .publishRide, .updateRide:
             return [Constants.JsonKey.publish: [
-                Constants.Url.source: originData?.name,
-                Constants.Url.destination: destinationData?.name,
-                Constants.Url.sourceLong: originData?.geometry.location.lng,
-                Constants.Url.sourceLat: originData?.geometry.location.lat,
-                Constants.Url.destLong: destinationData?.geometry.location.lng,
-                Constants.Url.destLat: destinationData?.geometry.location.lat,
+                Constants.Url.source: originData?.name as Any,
+                Constants.Url.destination: destinationData?.name as Any,
+                Constants.Url.sourceLong: originData?.geometry.location.lng  as Any,
+                Constants.Url.sourceLat: originData?.geometry.location.lat  as Any,
+                Constants.Url.destLong: destinationData?.geometry.location.lng  as Any,
+                Constants.Url.destLat: destinationData?.geometry.location.lat  as Any,
                 Constants.Url.passengerCount: Int(passengers),
                 Constants.Url.date: date,
                 Constants.Url.time: time,
-                Constants.Url.setPrice: Double(amount),
+                Constants.Url.setPrice: Double(amount)  as Any,
                 Constants.Url.vehicleId: vehicleId,
                 Constants.Url.aboutRide: aboutRide,
                 Constants.Url.estimateTime: estimatedTime
@@ -109,7 +109,7 @@ class MapAndSearchRideViewModel: ObservableObject {
         case .cancelRide:
             return ["id": publishId]
         case .cancelBookedRide:
-            print(["id":passengerId])
+            print(["id": passengerId])
             return ["id": passengerId]
         }
     }
@@ -135,16 +135,6 @@ class MapAndSearchRideViewModel: ObservableObject {
             
         case .bookRide:
             let jsonData = try? JSONSerialization.data(withJSONObject: generateJSONfor(mehod: .bookRide), options: [])
-            
-            do{
-                if let json = try JSONSerialization.jsonObject(with: jsonData ?? Data(), options: []) as? [String: Any] {
-                                        print(json)
-                                    }
-            } catch {
-                print("Eroro")
-            }
-           
-            
             request = URLRequest(url: createUrl(method: .bookRide))
             request.httpMethod = Constants.Methods.post
             request.httpBody = jsonData
@@ -152,11 +142,11 @@ class MapAndSearchRideViewModel: ObservableObject {
             return request
             
         case .searchRide:
-            var request = URLRequest(url: createUrl(method: .searchRide))
+            let request = URLRequest(url: createUrl(method: .searchRide))
             return request
       
         case .fetchPlaces:
-            var request = URLRequest(url: createUrl(method: .fetchPlaces))
+            let request = URLRequest(url: createUrl(method: .fetchPlaces))
             return request
             
         case .fetchPolylineAndDistanceOfRide:
@@ -236,64 +226,5 @@ class MapAndSearchRideViewModel: ObservableObject {
             
             return url
         }
-    
-
-//    func bookRide(publishId: Int, seats: Int) {
-//        guard let url = URL(string: Constants.Url.bookRide) else { return }
-//
-//        let publish = [
-//            Constants.Url.publishId: publishId,
-//            Constants.Url.seats: NoOfSeatsToBook
-//        ]
-//        let jsonData = try? JSONSerialization.data(withJSONObject: [Constants.JsonKey.passenger: publish], options: [])
-//        var request = URLRequest(url: url)
-//        request.httpMethod = Constants.Methods.post
-//        request.httpBody = jsonData
-//        request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-//
-//        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
-//            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
-//        } else {
-//            // Key not found or value not a String
-//        }
-//
-//        URLSession.shared.dataTaskPublisher(for: request)
-//            .tryMap { data, response -> Data in
-//                guard let httpResponse = response as? HTTPURLResponse else {
-//                    throw URLError(.badServerResponse)
-//                }
-//
-//                if (200...299).contains(httpResponse.statusCode) {
-//                    print(httpResponse.statusCode)
-//                    self.alertSuccessRide.toggle()
-//                } else {
-//                    print(httpResponse.statusCode)
-//                }
-//
-//                return data
-//            }
-////            .decode(type: Welcome.self, decoder: JSONDecoder())
-//            .receive(on: DispatchQueue.main)
-//            .sink(receiveCompletion: { completion in
-//                switch completion {
-//                case .finished:
-//                    break
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }, receiveValue: { decodedData in
-//                print(decodedData)
-//
-//            })
-//            .store(in: &publishers)
-//
-//
-//
-//
-//    }
-//
-
-
-
 
 }

@@ -14,6 +14,5 @@ class SessionManager: ObservableObject {
         }
     }
     
-    @Published
-    var rootId: UUID = UUID()
+    @Published var rootId: UUID = UUID()
 }

@@ -9,16 +9,15 @@ import SwiftUI
 
 struct AllVehicleView: View {
     @EnvironmentObject var vm: RegisterVehicleViewModel
+    @EnvironmentObject var baseAPI: BaseApiManager
     @State var alertToDelete = false
     @State var deleteIndex: IndexSet?
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
-            
-            List {
-                if let data = vm.decodedVehicleData?.data {
-                    
-                    if data.count > 0 {
+            if let data = vm.decodedVehicleData?.data {
+                if data.count > 0 {
+                    List {
                         ForEach(data.indices, id: \.self) { index in
                             NavigationLink {
                                 VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
@@ -35,20 +34,21 @@ struct AllVehicleView: View {
                             deleteIndex = index
                             alertToDelete.toggle()
                         }
-                        
-                    } else {
-                        VStack {
-                            Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                            Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
-                        }
+                    }.refreshable {
+                        vm.apiCall(method: .getVehicle)
+                    }.toolbar {
+                        EditButton()
+                      }.listStyle(.plain)
+                } else {
+                    VStack {
+                        Image("carsaf").resizable().scaledToFit().frame(width: 300)
+                        Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
                     }
-                   
-                    
-                } else { }
-            }.toolbar {
-              EditButton()
-            }.listStyle(.plain)
+                }
+            }
             
+            
+          
          
             
         }.alert(isPresented: $alertToDelete) {
@@ -72,7 +72,12 @@ struct AllVehicleView: View {
             vm.isDeletingVehicle = false
             vm.isUpdatingVehicle = false
             vm.apiCall(method: .getVehicle)
-        }.onDisappear {
+        }.alert(isPresented: $baseAPI.errorAlert) {
+            Alert(title: Text("error"), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel(Text("Done"), action: {
+                baseAPI.errorAlert = false
+            }))
+        }
+        .onDisappear {
             vm.isDeletingVehicle = false
         }
     }

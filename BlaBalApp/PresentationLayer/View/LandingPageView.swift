@@ -43,6 +43,7 @@ struct LandingView: View {
                 isLoginView = false
                 
             }
+     
                 .padding()
                 .navigationDestination(isPresented: $navigate) {
                     LoginSignupWithEmailView(isLoginView: $isLoginView)

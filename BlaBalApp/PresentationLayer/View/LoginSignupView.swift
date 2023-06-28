@@ -29,13 +29,26 @@ struct LoginSignupWithEmailView: View {
                         } else {
                             Text("")
                         }
-                    }
+                    }.frame(height: 20)
                 }
                 
                 
                 VStack {
                     HStack {
                         Text(Constants.Labels.password)
+                        if !vm.isUserPasswordValid {
+                            Button(action: {
+                                isPopoverShowing.toggle()
+                            }, label: {
+                                Image(systemName: Constants.Icons.questionMark)
+                                    .foregroundColor(.blue)
+                            }).alert(isPresented: $isPopoverShowing) {
+                                Alert(title: Text(Constants.Labels.help),
+                                      message: Text(Constants.Alert.passwordDiscription),
+                                      dismissButton: .cancel(Text(Constants.Labels.ok))
+                                )
+                            }
+                        }
                         Spacer()
                     }
                     HStack {
@@ -67,20 +80,8 @@ struct LoginSignupWithEmailView: View {
                             Text("")
                         }
                         
-                        if !vm.isUserPasswordValid {
-                            Button(action: {
-                                isPopoverShowing.toggle()
-                            }, label: {
-                                Image(systemName: Constants.Icons.questionMark)
-                                    .foregroundColor(.blue)
-                            }).alert(isPresented: $isPopoverShowing) {
-                                Alert(title: Text(Constants.Labels.help),
-                                      message: Text(Constants.Alert.passwordDiscription),
-                                      dismissButton: .cancel(Text(Constants.Labels.ok))
-                                )
-                            }
-                        }
-                    }
+                       
+                    }.frame(height: 25)
                 }.padding(.bottom)
                 
                 // MARK: - Button

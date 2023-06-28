@@ -66,13 +66,11 @@ struct YourRidesView: View {
                             
                         } else {
                             VStack {
-                                                        Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                                                        Text("No rides found").foregroundColor(.blue).font(.title).bold()
-                            }.background {
-                                Image("download").overlay {
-                                    TransparentBlurView(removeAllFilters: false)
-                                }
-                            }
+                                Image(Constants.Images.travel).resizable().scaledToFit()
+                                Text(Constants.Header.travel).font(.title).fontWeight(.semibold).padding(.trailing).padding(.vertical)
+                                Text(Constants.Texts.travel).foregroundColor(.gray).padding(.trailing)
+                                Spacer()
+                            }.padding(.horizontal)
                         }
                     }
                 }.refreshable {
@@ -101,13 +99,11 @@ struct YourRidesView: View {
                             
                         } else {
                             VStack {
-                                                        Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                                                        Text("No rides found").foregroundColor(.blue).font(.title).bold()
-                            }.background {
-                                Image("download").overlay {
-                                    TransparentBlurView(removeAllFilters: false)
-                                }
-                            }
+                                Image(Constants.Images.travel).resizable().scaledToFit()
+                                Text(Constants.Header.travel).font(.title).fontWeight(.semibold).padding(.trailing).padding(.vertical)
+                                Text(Constants.Texts.travel).foregroundColor(.gray).padding(.trailing)
+                                Spacer()
+                            }.padding(.horizontal)
                         }
                     }
                 }.scrollIndicators(.hidden).refreshable {
@@ -124,30 +120,10 @@ struct YourRidesView: View {
             
             
             
-          Spacer()
+      
+           
+             
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            if vm.allPublishRides?.count == 0 {
-                VStack {
-                    Image(Constants.Images.travel).resizable().scaledToFit()
-                    Text(Constants.Header.travel).font(.title).fontWeight(.semibold).padding(.trailing).padding(.vertical)
-                    Text(Constants.Texts.travel).foregroundColor(.gray).padding(.trailing)
-                    Spacer()
-                }.padding(.horizontal)
-            }
         }.onAppear {
             vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
             RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)

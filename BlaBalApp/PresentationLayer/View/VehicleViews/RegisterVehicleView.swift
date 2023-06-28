@@ -62,7 +62,14 @@ struct RegisterVehicleView: View {
                     
                     
                     Button {
-                        vm.apiCall(method: .vehicleRegister )
+                        if isUpdateVehicle {
+                            vm.isUpdatingVehicle.toggle()
+                            vm.apiCall(method: .vehicleUpdate)
+                        } else {
+                            vm.apiCall(method: .vehicleRegister)
+                        }
+                       
+     
                         //update variable toggle
                     } label: {
                         Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
@@ -99,7 +106,7 @@ struct RegisterVehicleView: View {
                 vm.selectedVehicleColor = Constants.DefaultValues.vehicleColor
                 vm.selectedCountry = Constants.DefaultValues.country
             }
-        }.navigationTitle(Constants.Header.registerVehicle)
+        }.navigationTitle(isUpdateVehicle ? "Update Vehicle" : Constants.Header.registerVehicle)
     }
     
  
@@ -108,6 +115,6 @@ struct RegisterVehicleView: View {
 
 struct RegisterVehicleView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterVehicleView(isUpdateVehicle: .constant(true))
+        RegisterVehicleView(isUpdateVehicle: .constant(true)).environmentObject(RegisterVehicleViewModel())
     }
 }

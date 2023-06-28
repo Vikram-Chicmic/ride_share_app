@@ -28,7 +28,9 @@ struct TabBarView: View {
                 }
                 
                 
-            }.navigationBarBackButtonHidden(true)
+            }.background(content: {
+                Color.black
+            }).navigationBarBackButtonHidden(true)
     }
 }
 

@@ -30,11 +30,14 @@ class ApiManager {
                     throw AuthenticateError.badResponse
                 }
                 print(response)
-                if (200...299).contains(response.statusCode) {
-                    BaseApiManager.shared.successCaseHandler(method: method, data: data, response: response)
-                } else {
-                    BaseApiManager.shared.failureCaseHandler(method: method, data: data, response: response)
+                DispatchQueue.main.async {
+                    if (200...299).contains(response.statusCode) {
+                        BaseApiManager.shared.successCaseHandler(method: method, data: data, response: response)
+                    } else {
+                        BaseApiManager.shared.failureCaseHandler(method: method, data: data, response: response)
+                    }
                 }
+        
                 return data
             }
             .decode(type: Welcome.self, decoder: JSONDecoder())
@@ -65,11 +68,14 @@ class ApiManager {
                        throw AuthenticateError.badResponse
                    }
                    print(response)
-                   if (200...299).contains(response.statusCode) {
-                       BaseApiManager.shared.successCaseHandleforVehicle(method: method, data: data, response: response)
-                   } else {
-                       BaseApiManager.shared.failureCaseHandleforVehicle(method: method, data: data, response: response)
+                   DispatchQueue.main.async {
+                       if (200...299).contains(response.statusCode) {
+                           BaseApiManager.shared.successCaseHandleforVehicle(method: method, data: data, response: response)
+                       } else {
+                           BaseApiManager.shared.failureCaseHandleforVehicle(method: method, data: data, response: response)
+                       }
                    }
+           
                    return data
                }
                .decode(type: Welcome.self, decoder: JSONDecoder())
@@ -86,7 +92,8 @@ class ApiManager {
                           .store(in: &publishers)
                   }
 
-    func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
+    
+func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
        var finalRequest = request
        
        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
@@ -110,7 +117,6 @@ class ApiManager {
                }
                .decode(type: Welcome.self, decoder: JSONDecoder())
                .sink(receiveCompletion: { completion in
-                              LoginSignUpViewModel.shared.isLoading = false
                               switch completion {
                               case .finished:
                                   break
@@ -120,8 +126,5 @@ class ApiManager {
                           }, receiveValue: {_ in })
                           .store(in: &publishers)
                   }
-    
-
-
 }
 

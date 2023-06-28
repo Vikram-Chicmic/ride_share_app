@@ -32,12 +32,6 @@ struct CarPoolView: View {
                             Text("\(vm.destinationData?.name ?? "")").font(.headline)
                             Spacer()
                         }
-                        
-                        HStack {
-                            Spacer()
-                            Text("\(vm.date)").font(.subheadline)
-                            Spacer()
-                        }
                     }
                   
                     Spacer()
@@ -60,7 +54,7 @@ struct CarPoolView: View {
                                     }
                             }.navigationDestination(isPresented: $navigate, destination: {
                                 if let data = selectedCardData {
-                                    CarPoolDetailView(details: data)
+                                    RideDetailView(details: data)
                                 }
                             }).scrollIndicators(.hidden).padding()
                         } else {
@@ -72,7 +66,7 @@ struct CarPoolView: View {
                             }
                         }
                     }
-                }.padding(.horizontal)
+                }
                 Spacer()
             }
         }.navigationBarBackButtonHidden(true)

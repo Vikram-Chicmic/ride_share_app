@@ -11,6 +11,7 @@ struct VehicleDetailView: View {
     @EnvironmentObject var vm: RegisterVehicleViewModel
     @State var navigateToUpdateView = false
     @Binding var isComingFromPublishView: Bool
+    @State var shouldUpdate: Bool = false
     var index: Int?
     var body: some View {
         ZStack {
@@ -47,7 +48,7 @@ struct VehicleDetailView: View {
                 ProgressView().progressViewStyle(.circular)
             }
 
-        }.navigationTitle("Vehicle Details").toolbar {
+        }.navigationTitle( "Vehicle Details").toolbar {
             Button {
                 if let data = vm.decodedVehicleData?.data, let index = index {
                     vm.vehicleBrand = data[index].vehicleBrand
@@ -60,11 +61,11 @@ struct VehicleDetailView: View {
                     vm.updatingVehicleId = data[index].id
                 }
                 navigateToUpdateView.toggle()
-                
+            shouldUpdate = true
             } label: {
                 Text(Constants.Texts.update)
             }.navigationDestination(isPresented: $navigateToUpdateView) {
-                RegisterVehicleView(isUpdateVehicle: .constant(true))
+                RegisterVehicleView(isUpdateVehicle: $shouldUpdate)
             }
         }.disabled(isComingFromPublishView)
         
