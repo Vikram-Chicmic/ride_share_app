@@ -12,6 +12,8 @@ struct AllVehicleView: View {
     @EnvironmentObject var baseAPI: BaseApiManager
     @State var alertToDelete = false
     @State var deleteIndex: IndexSet?
+    @State var editMode: EditMode = .inactive
+    @State var isEditing = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
@@ -22,23 +24,56 @@ struct AllVehicleView: View {
                             NavigationLink {
                                 VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
                             } label: {
-                                HStack {
-                                    Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing)
-                                    Spacer()
-                                    Text(data[index].vehicleBrand)
-                                    Spacer()
+                                VStack{
+                                    HStack {
+                                        Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing,50)
+                                       
+                                        Text(data[index].vehicleBrand)
+                                        Spacer()
+                                    }
+                                    Divider()
                                 }
                             }
-
+                            .listRowSeparator(.hidden)
                         }.onDelete { index in
                             deleteIndex = index
                             alertToDelete.toggle()
                         }
-                    }.refreshable {
+                    }.environment(\.editMode, $editMode).refreshable {
                         vm.apiCall(method: .getVehicle)
                     }.toolbar {
-                        EditButton()
+                        Button("Delete", action: {
+                            withAnimation {
+                                isEditing.toggle()
+                            }
+                    
+                        editMode = isEditing ? .active : .inactive
+                        })
+//                        EditButton()
                       }.listStyle(.plain)
+                        .actionSheet(isPresented: $alertToDelete) {
+                            ActionSheet(title: Text("Delete Vehicle"), message: Text("You sure you want to delete? "), buttons: [.destructive(Text("Delete"), action: {
+                                if let index = deleteIndex {
+                                    delete(at: index)
+                                }
+                            }), .cancel()])
+                        }
+                        
+//                        .alert(isPresented: $alertToDelete) {
+//                          Alert(
+//                              title: Text(Constants.Alert.warning),
+//                              message: Text(Constants.Alert.deleteItem),
+//                              primaryButton: .destructive(
+//                                  Text(Constants.Alert.delete),
+//                                  action: {
+//                                      if let index = deleteIndex {
+//                                          delete(at: index)
+//                                      }
+//                                  }
+//                              ),
+//                              secondaryButton: .cancel()
+//                          )
+//                      }
                 } else {
                     VStack {
                         Image("carsaf").resizable().scaledToFit().frame(width: 300)
@@ -51,21 +86,10 @@ struct AllVehicleView: View {
           
          
             
-        }.alert(isPresented: $alertToDelete) {
-            Alert(
-                title: Text(Constants.Alert.warning),
-                message: Text(Constants.Alert.deleteItem),
-                primaryButton: .destructive(
-                    Text(Constants.Alert.delete),
-                    action: {
-                        if let index = deleteIndex {
-                            delete(at: index)
-                        }
-                    }
-                ),
-                secondaryButton: .cancel()
-            )
         }
+        .onChange(of: alertToDelete, perform: { newValue in
+            print(alertToDelete)
+        })
         .navigationTitle("Your Vehicles")
         .onAppear {
             vm.isRegistering = false

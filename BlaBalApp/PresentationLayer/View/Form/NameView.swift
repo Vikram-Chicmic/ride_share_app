@@ -16,8 +16,8 @@ struct NameView: View {
             ZStack {
                     VStack(alignment: .leading) {
                             Text(Constants.Titles.name).font(.title).fontWeight(.semibold).padding(.vertical)
-                        CustomTextfield(label: Constants.Labels.fname, placeholder: Constants.Placeholders.fname, value: $vm.fname)
-                            CustomTextfield(label: Constants.Labels.lname, placeholder: Constants.Placeholders.lname, value: $vm.lname)
+                        CustomTextfield(label: Constants.Labels.fname, placeholder: Constants.Placeholders.fname, value: $vm.fname).textInputAutocapitalization(.words)
+                            CustomTextfield(label: Constants.Labels.lname, placeholder: Constants.Placeholders.lname, value: $vm.lname).autocapitalization(.words)
                             Spacer()
                 
                             if alert {
@@ -25,6 +25,8 @@ struct NameView: View {
                                }
                         }
 
+            }.onTapGesture {
+                self.hideKeyboard()
             }.onAppear {
                 vm.fname = ""
                 vm.lname = ""

@@ -15,6 +15,7 @@ struct RideDetailView: View {
     @State var progressHeight: CGFloat = 0
     @State var navigateToBookRide = false
     var details: SearchRideResponseData
+    @State var navigateToRiderDetail: Bool = false
     var body: some View {
                 VStack(alignment: .leading) {
                         ScrollView {
@@ -88,11 +89,19 @@ struct RideDetailView: View {
                                      }
                                         
                                         Image(systemName: Constants.Icons.rightChevron)
-    //                                    Image(URL(ur: details.imageURL)).resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
                                     }.onTapGesture {
                                         vm.userId = details.id
                                         vm.apiCall(forMethod: .getUserById)
+                                        navigateToRiderDetail.toggle()
                                     }
+                                    .navigationDestination(isPresented: $navigateToRiderDetail, destination: {
+                                        if let data = vm.decodedData {
+                                            DriverDetailView(data: data)
+                                        } else {
+                                            // show popup unable to fetch user details
+                                        }
+                                      
+                                    })
                                     .frame(height: 50).padding().background {
                                         Image("Bank").resizable().opacity(0.4).cornerRadius(10).overlay {
                                             TransparentBlurView(removeAllFilters: false).cornerRadius(10)

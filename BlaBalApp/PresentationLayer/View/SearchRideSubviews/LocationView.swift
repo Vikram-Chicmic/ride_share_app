@@ -30,7 +30,6 @@ struct LocationView: View {
     @State var showMap = false
     @Binding var isComingFromPublishedView: Bool
     @State var openTimePicker = false
-    
     @State var vehicleIndex: Int = 0
     @State var vehicleName: String?
     
@@ -132,20 +131,23 @@ struct LocationView: View {
                             MapView( isOrigin: $isOrigin)
                         })
                         .frame(height: 40)
+                        
                         Divider().frame(height: 1).padding(.horizontal)
                        
                         
                         // MARK: - Calendar
                         HStack {
                             HStack(spacing: 20) {
-                                Image(systemName: Constants.Icons.calander).font(.title3).padding(.leading)
+                                Image(systemName: Constants.Icons.calander).font(.title3).padding(.leading).foregroundColor(.blue)
                                 DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.date).padding(.leading, 8)
                                 Spacer()
                                 }
                                 .padding(.trailing, 10)
                                 .frame(height: 40)
                        
-                            
+                            HStack {
+                                Divider().frame(width: 1).padding(.horizontal)
+                            }
                             
                             // MARK: - Seats
                                 Button {
@@ -162,14 +164,15 @@ struct LocationView: View {
                         }.frame(height: 40)
                      
                         
-                        
                         if isPublishView {
+                            
+                               Divider().frame(height: 1).padding(.horizontal)
                             // MARK: - Time
                             HStack {
                                 Image(systemName: Constants.Icons.clock).font(.title2).foregroundColor(.blue).padding(.leading).bold()
                                 DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.time).padding(.leading)
                                 Spacer()
-                            }.frame(height: 50)
+                            }.frame(height: 40)
                             
                             Divider().frame(height: 1).padding(.horizontal)
                             
@@ -218,22 +221,6 @@ struct LocationView: View {
                                    .frame(height: 60)
                             }.padding(.horizontal)
                             Divider().frame(height: 1).padding(.horizontal)
-//
-//                                //MARK: - Map
-//                                    Button {
-//                                        vm.apiCall(for: .fetchPolylineAndDistanceOfRide)
-//                                        self.showMap.toggle()
-//                                    } label: {
-//                                        HStack{
-//                                            Text("Open map").padding()
-//                                            Image(systemName: Constants.Icons.rightChevron)
-//                                        }.padding(.horizontal).disabled(vm.destinationData?.name == "" || vm.originData?.name == "")
-//                                    }
-//                                   .navigationDestination(isPresented: $showMap) {
-//                                    ShowPolylineView()
-//                                }
-                                
-//                               Divider().frame(height: 1).background(Color.blue).padding(.horizontal)
                 
                                 //MARK: - Amount
                                     HStack {
@@ -260,13 +247,16 @@ struct LocationView: View {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = Constants.Date.timeFormat
                         vm.time = dateFormatter.string(from: currentDate)
-                        vm.apiCall(for: .fetchPolylineAndDistanceOfRide )
+                        isPublishView ? vm.apiCall(for: .fetchPolylineAndDistanceOfRide ) : nil
+                        
                         if isComingFromPublishedView {
+                            vm.publishId = 
                             vm.apiCall(for: .updateRide)
                         } else {
                             vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
                             isPublishView ?  vm.apiCall(for: .fetchPolylineAndDistanceOfRide) : vm.apiCall(for: .searchRide)
-                            isPublishView ? showCarPoolView = false :  showCarPoolView.toggle()
+                            // To show searched Ride
+                            isPublishView ? showMap.toggle() :  showCarPoolView.toggle()
                         }
                     } label: {
                         HStack {
@@ -276,7 +266,7 @@ struct LocationView: View {
                         }.frame(height: 50)
                             .background {
                                 Color.blue
-                            }.opacity(isDisable ? 0.5 : 1.0).foregroundColor(.white)
+                            }.foregroundColor(.white)
                     }
                     .alert(isPresented: $baseApi.alert) {
                         baseApi.successAlert ?
@@ -299,8 +289,12 @@ struct LocationView: View {
 
                 }.onTapGesture {
                     self.isFocused = false
+                    
+                  
             }.cornerRadius(20)
-        }
+        }.onAppear {
+            vehicleVm.apiCall(method: .getVehicle)
+        }.padding()
         
     }
     

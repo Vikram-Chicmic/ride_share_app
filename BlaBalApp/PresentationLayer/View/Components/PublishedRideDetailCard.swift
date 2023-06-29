@@ -23,7 +23,7 @@ struct PublishedRideDetailCard: View {
                                 Text(Helper().formatDateToMMM(data.date))
                                 Spacer()
                                 VStack {
-                                    Text(data.status).padding(12).font(.system(size: 12)).foregroundColor(.white)
+                                    Text(data.status.capitalized).padding().font(.system(size: 12)).foregroundColor(.white)
                                 }
                                 .background(data.status == "pending" ? Color.green : Color.red)
                                 .cornerRadius(10)
@@ -48,7 +48,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                            Image("Background").resizable().cornerRadius(10).overlay {
+                            Image("Bank").resizable().cornerRadius(10).overlay {
                                 TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                             }
                         }
@@ -89,7 +89,7 @@ struct PublishedRideDetailCard: View {
                                 Text(Helper().formatDateToMMM(data.ride.date))
                                 Spacer()
                                 VStack {
-                                    Text(data.status).padding(12).font(.system(size: 12)).foregroundColor(.white)
+                                    Text(data.status.capitalized).padding(12).font(.system(size: 12)).foregroundColor(.white)
                                 }.background(data.status == "confirm booking" ? Color.green : Color.red).cornerRadius(10)
                             }
                             
@@ -118,7 +118,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                            Image("Background").resizable().cornerRadius(10).overlay {
+                            Image("Bank").resizable().cornerRadius(10).overlay {
                                 TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                             }
                         }
@@ -160,7 +160,7 @@ struct PublishedRideDetailCard: View {
 
 struct PublishedRideDetailCard_Previews: PreviewProvider {
     static var previews: some View {
-        PublishedRideDetailCard(publishRideData: AllPublishRideData(id: 461, source: "Elante Mall", destination: "VRP Telematics Private Limited", passengersCount: 4, addCity: nil, date: "2023-06-29", time: "2000-01-01T04:38:00.000Z", setPrice: 2500, aboutRide: "Adas", userID: 221, createdAt: "2023-06-21T11:27:41.551Z", updatedAt: "2023-06-21T11:27:41.551Z", sourceLatitude: 30.70549299999999, sourceLongitude: 76.8012561, destinationLatitude: 28.5193495, destinationLongitude: 77.28101509999999, vehicleID: 243, bookInstantly: nil, midSeat: nil, selectRoute: nil, status: "pending", estimateTime: "2000-01-01T01:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil), isPublishRideData: .constant(false))
+        PublishedRideDetailCard(publishRideData: AllPublishRideData(id: 461, source: "Elante Mall", destination: "VRP Telematics Private Limited", passengersCount: 4, addCity: nil, date: "2023-06-29", time: "2000-01-01T04:38:00.000Z", setPrice: 2500, aboutRide: "Adas", userID: 221, createdAt: "2023-06-21T11:27:41.551Z", updatedAt: "2023-06-21T11:27:41.551Z", sourceLatitude: 30.70549299999999, sourceLongitude: 76.8012561, destinationLatitude: 28.5193495, destinationLongitude: 77.28101509999999, vehicleID: 243, bookInstantly: nil, midSeat: nil, selectRoute: nil, status: "pending", estimateTime: "2000-01-01T01:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil), isPublishRideData: .constant(true))
     }
 }
 

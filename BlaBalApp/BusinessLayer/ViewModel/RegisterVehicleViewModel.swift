@@ -9,10 +9,10 @@ import Foundation
 import Combine
 
 class RegisterVehicleViewModel: ObservableObject {
-    @Published var selectedCountry = Constants.DefaultValues.country
-    @Published var selectedVehicleColor = Constants.DefaultValues.vehicleColor
-    @Published var selectedVehicleType = Constants.DefaultValues.vehicleType
-    @Published var madeYear = ""
+    @Published var selectedCountry: String? = Constants.DefaultValues.country
+    @Published var selectedVehicleColor: String? = Constants.DefaultValues.vehicleColor
+    @Published var selectedVehicleType: String? = Constants.DefaultValues.vehicleType
+    @Published var madeYear: Int? = 1981
     @Published var plateNumber = ""
     @Published var vehicleBrand = ""
     @Published var vehicleModel = ""
@@ -29,6 +29,7 @@ class RegisterVehicleViewModel: ObservableObject {
     @Published var specificVehicleDetails: Datum?
     @Published var getVehicleId: Int = 0
     @Published var updatingRidePublishId: Int = 0
+    @Published var navigateToDetail = false
     private var publishers = Set<AnyCancellable>()
     
     
@@ -106,7 +107,8 @@ class RegisterVehicleViewModel: ObservableObject {
             return url
         
         case .getVehicleDetailsById:
-            let url = URL(string: Constants.Url.vehicleUrl+"/\(getVehicleId)")
+            let url = URL(string: Constants.Url.getSpecificVehicleUrl+"/\(getVehicleId)")
+            print(url)
             return url!
         }
     }

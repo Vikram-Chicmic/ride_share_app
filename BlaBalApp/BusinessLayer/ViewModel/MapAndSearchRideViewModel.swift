@@ -9,32 +9,52 @@ import Combine
 import Foundation
 
 class MapAndSearchRideViewModel: ObservableObject {
-    @Published var searchText = ""
-    private var publishers = Set<AnyCancellable>()
-    private var searchCancellable: AnyCancellable?
-    @Published var searchResultArr: PlacesResponse?
-    @Published var passengers = 1
-    @Published var date       = ""
-    @Published var time       = ""
-    @Published var aboutRide = ""
-    @Published var amount: String = "0"
-    @Published var originData: Result?
-    @Published var destinationData: Result?
-    @Published var searchRideResult: [SearchRideResponseData]?
-    @Published var vehicleId: Int = 0
-    @Published var estimatedTime: String = ""
-    @Published var estimatedDistance: String = ""
-    @Published var alertSuccess = false
-    @Published var alertSuccessRide = false
-    @Published var publishId = 0
-    @Published var noOfSeatsToBook = 0
-    @Published var polylineString: String = ""
-    private let apiKey = Constants.API.apiKey
+    
+    @Published var searchText                                               = ""
+    private var publishers                                                  = Set<AnyCancellable>()
+    @Published var passengers                                               = 1
+    @Published var date                                                     = ""
+    @Published var time                                                     = ""
+    @Published var aboutRide                                                = ""
+    @Published var amount: String                                           = ""
+    @Published var vehicleId: Int                                           = 0
+    @Published var estimatedTime: String                                    = ""
+    @Published var estimatedDistance: String                                = ""
+    @Published var alertSuccess                                             = false
+    @Published var alertFailure                                             = false
+    @Published var publishId                                                = 0
+    @Published var noOfSeatsToBook                                          = 0
+    @Published var polylineString: String                                   = ""
+    private let apiKey                                                      = Constants.API.apiKey
+    @Published var passengerId: Int                                         = 0
+    
+    
+    @Published var updatedOriginName: String?
+    @Published var updatedOriginLong: Double?
+    @Published var updatedOriginLat: Double?
+    @Published var updatedDestinationName: String?
+    @Published var updatedDestinationLong: Double?
+    @Published var updatedDesitnationLat: Double?
+    @Published var updatedSeats: Int?
+    @Published var updatedBio: String?
+    @Published var updatedPrice: Int?
+    @Published var updatedDate: Date?
+    @Published var updatedTime: Date?
+    @Published var updatedVehicleId: Int?
+    @Published var updatedEstimatedTime: String?
+    
+    
+    @Published var estimatedTimeInSeconds: Int?
+    static var shared = MapAndSearchRideViewModel()
     @Published var allPublishRides: [AllPublishRideData]?
     @Published var allBookedRides: AllBookedRide?
-    @Published var passengerId: Int = 0
+    @Published var originData: Result?
+    @Published var destinationData: Result?
+    private var searchCancellable: AnyCancellable?
+    @Published var searchResultArr: PlacesResponse?
+    @Published var searchRideResult: [SearchRideResponseData]?
     
-    static var shared = MapAndSearchRideViewModel()
+    
     
     private func createURL(for query: String) -> String {
         let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
@@ -78,7 +98,10 @@ class MapAndSearchRideViewModel: ObservableObject {
     
     func generateJSONfor(mehod: APIcallsForRides) -> [String: Any] {
         switch mehod {
-        case .publishRide, .updateRide:
+            
+       
+            
+        case .publishRide, .updateRide :
             return [Constants.JsonKey.publish: [
                 Constants.Url.source: originData?.name as Any,
                 Constants.Url.destination: destinationData?.name as Any,
@@ -89,7 +112,7 @@ class MapAndSearchRideViewModel: ObservableObject {
                 Constants.Url.passengerCount: Int(passengers),
                 Constants.Url.date: date,
                 Constants.Url.time: time,
-                Constants.Url.setPrice: Double(amount)  as Any,
+                Constants.Url.setPrice: Double(amount ?? "10")  as Any,
                 Constants.Url.vehicleId: vehicleId,
                 Constants.Url.aboutRide: aboutRide,
                 Constants.Url.estimateTime: estimatedTime
@@ -221,7 +244,7 @@ class MapAndSearchRideViewModel: ObservableObject {
                 url += Constants.Url.desLat+"\(dt.lat)"
                 url += Constants.Url.passCount+"\(passengers)"
                 url += Constants.Url.dateUrl+"\(date)"
-                print(url)
+//                print(url)
             }
             
             return url

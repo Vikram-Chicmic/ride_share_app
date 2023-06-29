@@ -100,9 +100,14 @@ struct LoginSignupWithEmailView: View {
                         Spacer()
                     }.foregroundColor(.white)
                         .background(
-                            vm.formIsValid ?
-                            LinearGradient(colors: [Constants.Colors.bluecolor, .blue], startPoint: .leading, endPoint: .trailing) :
-                                LinearGradient(colors: [.gray, Color(red: 0.375, green: 0.342, blue: 0.342)], startPoint: .leading, endPoint: .trailing)
+                             isLoginView ?
+                                LinearGradient(colors: [Constants.Colors.bluecolor, .blue], startPoint: .leading, endPoint: .trailing)
+                                :
+                                vm.formIsValid ?
+                                LinearGradient(colors: [Constants.Colors.bluecolor, .blue], startPoint: .leading, endPoint: .trailing) :
+                                    LinearGradient(colors: [.gray, Color(red: 0.375, green: 0.342, blue: 0.342)], startPoint: .leading, endPoint: .trailing)
+                            
+                           
                         ).cornerRadius(25)
                 }.navigationDestination(isPresented: $vm.navigate, destination: {
                     TabBarView()
@@ -113,6 +118,8 @@ struct LoginSignupWithEmailView: View {
                 .disabled(!vm.formIsValid && !isLoginView)
                 Spacer()
                 Spacer()
+            }.onTapGesture {
+                self.hideKeyboard()
             }.opacity(vm.isLoading ? 0.5 : 1.0)
             if vm.isLoading {
                          ProgressView()

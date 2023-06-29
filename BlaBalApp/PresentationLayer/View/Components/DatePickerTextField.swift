@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DatePickerTextField: UIViewRepresentable {
     
+
     private let textField = UITextField()
     private let datePicker = UIDatePicker()
     private let helper = Helper()
@@ -28,12 +29,16 @@ struct DatePickerTextField: UIViewRepresentable {
     public var placeholder: String
     @Binding public var date: Date?
     var pickerType: PickerType
-    
+    var isDOB: Bool = false
+    let maxDate = Calendar.current.date(from: DateComponents(year: 2008, month: 12, day: 31))!
+    let minDate = Calendar.current.date(from: DateComponents(year: 1948, month: 12, day: 31))!
+    let maxDate2 = Calendar.current.date(from: DateComponents(year: 2024, month: 12, day: 31))!
     func makeUIView(context: Context) -> UITextField {
         self.datePicker.datePickerMode = self.pickerType == .date ? .date : .time
         self.datePicker.preferredDatePickerStyle = .wheels
         self.datePicker.addTarget(self.helper, action: #selector(self.helper.dateValueChanged), for: .valueChanged)
-        self.datePicker.minimumDate = Date()
+        self.datePicker.minimumDate = isDOB ? minDate : Date()
+        self.datePicker.maximumDate = isDOB ? maxDate : maxDate2
         self.textField.placeholder = self.placeholder
         self.textField.inputView = self.datePicker
         textField.tintColor = UIColor.clear

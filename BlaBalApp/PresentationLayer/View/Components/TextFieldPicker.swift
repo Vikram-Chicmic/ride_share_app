@@ -32,7 +32,7 @@ struct TextFieldWithPickerAsInputView : UIViewRepresentable {
         textField.inputView = picker
         textField.delegate = context.coordinator
         textField.tintColor = UIColor.clear
-        
+        textField.textColor = .systemBlue
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         

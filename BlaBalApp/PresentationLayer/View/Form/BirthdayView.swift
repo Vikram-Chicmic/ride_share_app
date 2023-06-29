@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BirthdayView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
-    @Binding var selectedDate: Date
+    @Binding var selectedDate: Date?
     @Binding var alert: Bool
     @Environment(\.dismiss) var dismiss
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
@@ -20,7 +20,11 @@ struct BirthdayView: View {
             VStack(alignment: .leading) {
                     Text(Constants.Titles.dob).font(.title).fontWeight(.semibold).padding(.bottom, 40)
                     HStack {
-                        Text("\(selectedDate, formatter: DateFormatter.custom)")
+                        HStack {
+                            Image(systemName: Constants.Icons.clock).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+                            DatePickerTextField(placeholder: "", date: $selectedDate, pickerType: PickerType.date, isDOB: true).padding(.leading)
+                            Spacer()
+                        }.frame(height: 40)
                         Spacer()
                     }.padding()
                         .background(.gray.opacity(0.2))
@@ -31,11 +35,11 @@ struct BirthdayView: View {
                     }
                   
     //                DatePicker("", selection: $selectedDate, displayedComponents: .date)
-                    DatePicker("", selection: $selectedDate,in: minDate...maxDate, displayedComponents: .date)
-                        .datePickerStyle(.compact)
-                                  .padding()
-                                  .cornerRadius(25)
-             
+//                    DatePicker("", selection: $selectedDate,in: minDate...maxDate, displayedComponents: .date)
+//                        .datePickerStyle(.compact)
+//                                  .padding()
+//                                  .cornerRadius(25)
+//
                     Spacer()
                 
                 if alert{
@@ -43,7 +47,7 @@ struct BirthdayView: View {
                 }
                 }
         } .onDisappear {
-            let newDate = Helper().dateToString(selectedDate: selectedDate)
+            let newDate = Helper().dateToString(selectedDate: selectedDate ?? Date())
              //TODO: - check if date is valid and custom alert
              vm.bday = newDate
      }.padding()

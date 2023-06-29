@@ -38,26 +38,26 @@ struct MapView: View {
                 Color.gray.opacity(0.2).cornerRadius(25)
             }.padding(.horizontal)
             if vm.searchText == "" {
-                Button {
-                    switch locationViewModel.authorizationStatus {
-                                            case .authorizedAlways, .authorizedWhenInUse:
-                                                locationViewModel.startLocationUpdation()
-                                            default:
-                                                locationViewModel.requestPermission()
-                                            }
-                } label: {
-                    HStack {
-                        Spacer()
-                        HStack {
-                            Image(systemName: "location.north").foregroundColor(.green).font(.subheadline)
-                            Text("Use current location")
-                        }.padding(10).background(content: {
-                            Color.gray.opacity(0.3).cornerRadius(10)
-                        }).padding(.horizontal)
-                    }
-                  
-                   
-                }.padding(.top)
+//                Button {
+//                    switch locationViewModel.authorizationStatus {
+//                                            case .authorizedAlways, .authorizedWhenInUse:
+//                                                locationViewModel.startLocationUpdation()
+//                                            default:
+//                                                locationViewModel.requestPermission()
+//                                            }
+//                } label: {
+//                    HStack {
+//                        Spacer()
+//                        HStack {
+//                            Image(systemName: "location.north").foregroundColor(.green).font(.subheadline)
+//                            Text("Use current location")
+//                        }.padding(10).background(content: {
+//                            Color.gray.opacity(0.3).cornerRadius(10)
+//                        }).padding(.horizontal)
+//                    }
+//                  
+//                   
+//                }.padding(.top)
             }
             List {
                 if let dataArr = vm.searchResultArr?.results {

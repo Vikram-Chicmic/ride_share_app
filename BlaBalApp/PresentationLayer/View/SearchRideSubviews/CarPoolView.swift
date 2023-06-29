@@ -15,39 +15,39 @@ struct CarPoolView: View {
     var body: some View {
         ZStack {
             VStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: Constants.Icons.back).bold().font(.title)
-                    }.padding(.leading)
-                    Spacer()
-                    VStack {
+               
+                    RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 1).foregroundColor(Color.cyan).frame(height: 55).padding(.horizontal).overlay {
                         HStack {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Image(systemName: Constants.Icons.back).bold().font(.title2).foregroundColor(.cyan)
+                            }.padding(.leading,30)
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Text("\(vm.originData?.name ?? "")").font(.headline)
+                                    Spacer()
+                                    Image(systemName: Constants.Icons.arrowRight).foregroundColor(.green)
+                                    Spacer()
+                                    Text("\(vm.destinationData?.name ?? "")").font(.headline)
+                                    Spacer()
+                                }
+                            }
+                          
                             Spacer()
-                            Text("\(vm.originData?.name ?? "")").font(.headline)
-                            Spacer()
-                            Image(systemName: Constants.Icons.arrowRight).foregroundColor(.green)
-                            Spacer()
-                            Text("\(vm.destinationData?.name ?? "")").font(.headline)
-                            Spacer()
-                        }
+                        }.frame(height: 100)
                     }
-                  
-                    Spacer()
-                }.foregroundColor(.white).frame(height: 100).frame(maxWidth: .infinity).background {
-                    Image("download")
-                               .resizable()
-                               .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                        TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 0))
-                    }
-            }
                 
-                ScrollView {
+              
+          
+                
+               
                     if let data = vm.searchRideResult {
                         if data.count > 0 {
+                            ScrollView {
                             ForEach(data.indices, id: \.self) { index in
-                                CarPoolCard(data: data[index])
+                                CarPoolCard(data: data[index]).padding(.vertical)
                                     .onTapGesture {
                                         self.selectedCardData = data[index]
                                         navigate.toggle()
@@ -57,13 +57,13 @@ struct CarPoolView: View {
                                     RideDetailView(details: data)
                                 }
                             }).scrollIndicators(.hidden).padding()
-                        } else {
-                            VStack {
-                                Spacer()
-                                Image("carPool1").resizable().scaledToFit().opacity(0.9)
-                                Text("No rides found").foregroundColor(.white).font(.title).bold()
-                                Spacer()
-                            }
+                        }
+                    } else {
+                        VStack {
+                            Spacer()
+                            Image("carsaf").resizable().scaledToFit().frame(width: 200).opacity(0.9)
+                            Text("No rides found").foregroundColor(.white).font(.title).bold()
+                            Spacer()
                         }
                     }
                 }

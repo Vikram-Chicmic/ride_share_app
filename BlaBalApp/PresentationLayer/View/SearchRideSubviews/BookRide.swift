@@ -16,19 +16,6 @@ struct BookRide: View {
     @State var seats: Int = 1
     var body: some View {
         VStack(alignment: .leading) {
-            Button {
-                withAnimation {
-                    dismissView.toggle()
-                }
-            } label: {
-                HStack {
-                    Spacer()
-                    Image(systemName: Constants.Icons.cross).font(.title2).padding().fontWeight(.semibold).foregroundColor(.white)
-                }
-            }
-
-            
-            
             Image("car23").resizable().scaledToFit()
             
             
@@ -72,17 +59,14 @@ struct BookRide: View {
                     Image("download").resizable().cornerRadius(10).overlay {
                         TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                     }
-                }
+                }.padding()
             }
             
            
             
          
-        }.background {
-            Image("Background").resizable().cornerRadius(10).overlay {
-                TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-            }
-        }.onAppear {
+        }
+        .onAppear {
             print(details)
         }
         .alert(isPresented: $vm.alertSuccess) {

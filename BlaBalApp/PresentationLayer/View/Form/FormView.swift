@@ -10,7 +10,8 @@ struct FormView: View {
     @State private var step = 0
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var alert: Bool =  false
-    @State var selectedDate = Date()
+    @State var selectedDate: Date? = Calendar.current.date(from: DateComponents(year: 2008, month: 12, day: 31))!
+  
     var body: some View {
         VStack {
             CustomProgressBar(step: $step).padding(.top)
@@ -39,12 +40,12 @@ struct FormView: View {
                     if step == 1 {
                             let currentDate = Date()
                             let calendar = Calendar.current
-                            let selectedYear = calendar.component(.year, from: selectedDate)
+                        let selectedYear = calendar.component(.year, from: selectedDate ?? Date())
                             let currentYear = calendar.component(.year, from: currentDate)
                             let age = currentYear - selectedYear
                             
                             if age >= 15 {
-                                let newDate = Helper().dateToString(selectedDate: selectedDate)
+                                let newDate = Helper().dateToString(selectedDate: selectedDate ?? Date())
                                 vm.bday = newDate
                             } else {
                                 alert.toggle()

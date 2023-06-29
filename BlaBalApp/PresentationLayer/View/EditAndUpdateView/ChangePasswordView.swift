@@ -10,6 +10,7 @@ import SwiftUI
 struct ChangePasswordView: View {
     @Environment(\.dismiss) var dismiss
     @State var showAlert = false
+    @State var showPassword = false
     @EnvironmentObject var vm: LoginSignUpViewModel
     var body: some View {
         VStack {
@@ -24,10 +25,34 @@ struct ChangePasswordView: View {
                 Spacer()
                 Spacer()
             }.padding(.bottom)
-            VStack {
+            VStack(alignment: .leading) {
+             
                 CustomTextfield(label: Constants.Labels.oldPassword, placeholder: Constants.Placeholders.oldPassword, value: $vm.oldPassword)
                 CustomTextfield(label: Constants.Labels.NewPassword, placeholder: Constants.Placeholders.NewPassword, value: $vm.newPassword)
-                CustomTextfield(label: Constants.Labels.ConfirmNewPassword, placeholder: Constants.Placeholders.ConfirmNewPassword, value: $vm.confirmNewPassword)
+                VStack(alignment: .leading) {
+                    Text("Confirm new password")
+                    HStack {
+                        if showPassword {
+                            TextField(Constants.Placeholders.passwordplc, text: $vm.oldPassword)  .textInputAutocapitalization(.never).padding()
+                        } else {
+                            SecureField(Constants.Placeholders.passwordplc, text: $vm.oldPassword)  .textInputAutocapitalization(.never).padding()
+                        }
+                        Button {
+                            showPassword.toggle()
+                        } label: {
+                            Image(systemName: showPassword ? Constants.Icons.eye : Constants.Icons.eyeSlash)
+                                .foregroundColor(.gray)
+                                .padding(.trailing, 20)
+                                .frame(width: 30)
+                        }
+                    }
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(24)
+                    .onAppear {
+                        showPassword = false
+                    }
+
+                }
                Spacer()
                 Button {
                     vm.apiCall(forMethod: .changePassword )

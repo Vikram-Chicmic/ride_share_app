@@ -11,7 +11,8 @@ struct YourRidesView: View {
     @EnvironmentObject var vm: MapAndSearchRideViewModel
     @State var isPublishRidesView = true
     @State var selectedCardData: AllPublishRideData?
-    @State var navigateToDetail = false
+    
+    @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @State var indexValue : Int = 0
     var body: some View {
         VStack {
@@ -33,6 +34,8 @@ struct YourRidesView: View {
                         if isPublishRidesView { UnderlineView().padding(.horizontal) }
                     }
                    
+                    
+                    //
                     VStack {
                         Button {
                             withAnimation(.easeInOut(duration: 0.5)) {
@@ -59,8 +62,12 @@ struct YourRidesView: View {
                             ForEach(data.indices, id: \.self) { index in
                                 PublishedRideDetailCard(publishRideData: data[index], isPublishRideData: $isPublishRidesView)
                                     .onTapGesture {
-                                        self.selectedCardData = data[index]
-                                        navigateToDetail.toggle()
+                                        if data[index].status != "cancelled" {
+                                            self.selectedCardData = data[index]
+                                            vehicleVm.getVehicleId = data[index].vehicleID
+                                            vehicleVm.apiCall(method: .getVehicleDetailsById)
+                                        }
+                                      
                                     }
                             }.padding().padding(.bottom, 20)
                             
@@ -73,10 +80,10 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.refreshable {
+                }.padding(.bottom,10).refreshable {
                     vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
                 }.scrollIndicators(.hidden)
-                    .navigationDestination(isPresented: $navigateToDetail) {
+                    .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
                         if let data = selectedCardData {
                             PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView)
                         }
@@ -90,10 +97,14 @@ struct YourRidesView: View {
                             ForEach(data.indices, id: \.self) { index in
                                 PublishedRideDetailCard(bookedRideData: data[index], indexValue: indexValue, isPublishRideData: $isPublishRidesView)
                                     .onTapGesture {
-                                        self.selectedCardData = data[index].ride
-                                        vm.passengerId = data[index].bookingID
-                                        indexValue = index
-                                        navigateToDetail.toggle()
+                                        if data[index].status != "cancel booking" {
+                                            self.selectedCardData = data[index].ride
+                                            vm.passengerId = data[index].bookingID
+                                            indexValue = index
+                                            vehicleVm.getVehicleId = data[index].ride.vehicleID
+                                            vehicleVm.apiCall(method: .getVehicleDetailsById)
+                                        }
+                                      
                                     }
                             }.padding().padding(.bottom, 20)
                             
@@ -106,10 +117,10 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.scrollIndicators(.hidden).refreshable {
+                }.padding(.bottom, 10).scrollIndicators(.hidden).refreshable {
                     vm.apiCall(for: .getAllBookedRideOfCurentUser)
                 }
-                    .navigationDestination(isPresented: $navigateToDetail) {
+                .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
                         if let data = selectedCardData{
                             PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView, indexValue: indexValue)
                         }
@@ -126,7 +137,7 @@ struct YourRidesView: View {
             
         }.onAppear {
             vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
-            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
+//            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
         }
     }
 }

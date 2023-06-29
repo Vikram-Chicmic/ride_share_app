@@ -43,7 +43,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var userId : Int = 0
     // Variable to store data response
     @Published var recievedData: Welcome?
-    
+    @Published var decodedData: DecodeUser?
 
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)

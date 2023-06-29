@@ -11,9 +11,7 @@ struct EditPersonalDetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var openCalendar: Bool = false
-    @State var selectedDate = Date()
-    let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
-    let maxDate = Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!
+    @State var selectedDate : Date? = Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!
     var body: some View {
             VStack(alignment: .leading) {
                 ScrollView {
@@ -48,21 +46,21 @@ struct EditPersonalDetailsView: View {
                                 Text(Constants.Labels.bday)
                                 Spacer()
                             }.padding(.bottom, 5)
-                            Button {
-                                openCalendar = true
-                            } label: {
+            
                                 HStack(spacing: 20) {
-                                    Image(systemName: Constants.Icons.calander).font(.title2).padding(.leading)
+                                    Image(systemName: Constants.Icons.calander).font(.title2).padding(.leading).foregroundColor(.blue)
+                                   
+                                    DatePickerTextField(placeholder: "", date: $selectedDate, pickerType: .date, isDOB: true)
                                     
-                                    HStack {
-                                        Text(Helper().dateToString(selectedDate: selectedDate)).foregroundColor(.black)
-                                        DatePicker("", selection: $selectedDate, in: minDate...maxDate, displayedComponents: .date)
-                                    }
+//                                    HStack {
+//                                        Text(Helper().dateToString(selectedDate: selectedDate)).foregroundColor(.black)
+//                                        DatePicker("", selection: $selectedDate, in: minDate...maxDate, displayedComponents: .date)
+//                                    }
                                    
                                     Spacer()
                                 }.padding(.trailing, 10).frame(height: 50).background(.gray.opacity(0.2))
                                     .cornerRadius(24)
-                            }
+                            
                         }
                         
 
@@ -74,7 +72,7 @@ struct EditPersonalDetailsView: View {
                         CustomTextfield(label: Constants.Labels.address, placeholder: Constants.Placeholders.post, value: $vm.postalAddress)
                         
                         Button {
-                            vm.bday = Helper().dateToString(selectedDate: selectedDate)
+                            vm.bday = Helper().dateToString(selectedDate: selectedDate ?? Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!)
                             print(vm.bday)
 //                                    vm.signUp()
                             vm.apiCall(forMethod: .signUp)
@@ -110,6 +108,7 @@ struct EditPersonalDetailsView: View {
                        vm.fname = data.firstName
                        vm.lname = data.lastName
                        vm.bday = data.dob
+//                       selectedDate = Helper().stringTodate(date: data.dob)
                        vm.phoneNumber = data.phoneNumber ?? ""
                        vm.postalAddress = data.postalAddress ?? ""
                        vm.travelPreference = data.travelPreferences ?? ""

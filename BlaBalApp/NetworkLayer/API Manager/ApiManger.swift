@@ -78,7 +78,6 @@ class ApiManager {
            
                    return data
                }
-               .decode(type: Welcome.self, decoder: JSONDecoder())
                           .receive(on: DispatchQueue.main)
                           .sink(receiveCompletion: { completion in
                               LoginSignUpViewModel.shared.isLoading = false
@@ -99,7 +98,8 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
            finalRequest.setValue(token, forHTTPHeaderField: Constants.Url.auth)
        }
-
+//    An SSL error has occurred and a secure connection to the server cannot be made.
+    // token timeout.
        return URLSession.shared.dataTaskPublisher(for: finalRequest)
                .tryMap { (data, response) -> Data in
                    guard let response = response as? HTTPURLResponse else {

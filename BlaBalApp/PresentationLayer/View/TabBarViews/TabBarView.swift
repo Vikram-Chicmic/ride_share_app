@@ -23,7 +23,7 @@ struct TabBarView: View {
                 InboxView().tabItem {
                     Label(Constants.Labels.inbox, systemImage: Constants.Icons.bubble)
                 }
-                ProfileView(vm: vm).tabItem {
+                ProfileView().tabItem {
                   Label(Constants.Labels.person, systemImage: Constants.Icons.perosn)
                 }
                 

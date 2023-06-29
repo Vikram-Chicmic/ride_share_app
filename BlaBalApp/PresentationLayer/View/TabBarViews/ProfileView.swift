@@ -13,7 +13,7 @@ struct ProfileView: View {
     @State var navigateToRegisterVehicle = false
     @State var detail: Welcome?
     @State var showAlert: Bool = false
-    @ObservedObject var vm: LoginSignUpViewModel
+    @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
     @EnvironmentObject var sessionManager: SessionManager
@@ -22,12 +22,11 @@ struct ProfileView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text(Constants.Labels.person).font(.largeTitle).fontWeight(.semibold)
-                Divider()
+                Text(Constants.Labels.person).font(.title).fontWeight(.semibold)
+                Divider().padding(.top, -10)
                 ScrollView {
                     VStack {
                         ImageView()
-                        
                         VStack(spacing: 5) {
                             if let data = vm.recievedData?.status.data {
                                 Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
@@ -51,7 +50,7 @@ struct ProfileView: View {
                                 ProfileDetailTileView(image: Constants.Icons.mail, value: vm.recievedData?.status.data?.email ?? "")
                                 ProfileDetailTileView(image: Constants.Icons.calander, value: vm.recievedData?.status.data?.dob ?? Constants.DefaultValues.bday)
                                 ProfileDetailTileView(image: Constants.Icons.personText, value: vm.recievedData?.status.data?.bio ?? Constants.DefaultValues.bio)
-                            }.padding(.leading)
+                            }
                         }
                         
                         VStack {
@@ -109,12 +108,12 @@ struct ProfileView: View {
                                 HStack {
                                     ProfileButtons(text: Constants.Buttons.addVehicle)
                                     Spacer()
-                                    Image(systemName: Constants.Icons.rightChevron)
+                                
                                 }
 
 
                             }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
-                                RegisterVehicleView(isUpdateVehicle: .constant(false))
+                                RegisterVehicleView(isUpdateVehicle: .constant(false), hasUpdated: .constant(false))
                             }
                             
                         }
@@ -129,6 +128,7 @@ struct ProfileView: View {
                             }
                         }
                         .frame(minHeight: 40)
+                        Divider()
                         .navigationDestination(isPresented: $navigateToAllVehiclePage) {
                             AllVehicleView()
                         }
@@ -137,16 +137,17 @@ struct ProfileView: View {
                         // MARK: - Logout Button
                         Button {
                             showAlert.toggle()
-//                            vm.apiCall(forMethod: .logout)
                             sessionManager.isLoggedIn.toggle()
                                
                         }label: {
-                            HStack {
-                                Spacer()
-                                Text(Constants.Buttons.logout).font(.title2).frame(height: 45)
-                                Spacer()
-                            }.foregroundColor(.white).background(.red).cornerRadius(10).padding(.bottom)
-                        }.padding(.top, 20)
+                          
+                                HStack {
+                                    Text(Constants.Buttons.logout).foregroundColor(.red)
+                                    Spacer()
+                                    
+                                }
+                            
+                        }.padding(.bottom)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
                                     vm.apiCall(forMethod: .logout)
@@ -175,20 +176,21 @@ struct ProfileView: View {
                     .progressViewStyle(CircularProgressViewStyle())
             }
             
+        }.alert(isPresented: $baseApi.errorAlert) {
+            Alert(title: Text("Error"), message: Text(ErrorAlert.getUser.rawValue), dismissButton: .cancel())
         }.onAppear {
             baseApi.errorAlert = false
             baseApi.successAlert = false
             vm.apiCall(forMethod: .getUser)
-        }.alert(isPresented: $baseApi.errorAlert) {
-            Alert(title: Text("Error"), message: Text(ErrorAlert.getUser.rawValue), dismissButton: .cancel())
         }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(vm: LoginSignUpViewModel())
+        ProfileView()
                 .environmentObject(SessionManager()) // Inject the SessionManager environment object
-        
+                .environmentObject(BaseApiManager())
+                .environmentObject(LoginSignUpViewModel())
     }
 }

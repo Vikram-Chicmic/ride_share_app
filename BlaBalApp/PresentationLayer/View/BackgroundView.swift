@@ -11,7 +11,7 @@ struct BackgroundView: View {
     var body: some View {
         VStack {
             Spacer()
-            Image("carPool2").resizable().scaledToFit()
+            Image("carPool2").resizable().scaledToFit().opacity(0.9)
             Spacer()
         }
     }
