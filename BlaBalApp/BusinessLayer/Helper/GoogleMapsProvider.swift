@@ -10,6 +10,6 @@ import GoogleMaps
 
 class GoogleMapsProvider {
     static func configure() {
-        GMSServices.provideAPIKey("AIzaSyDUzn63K64-sXadyIwRJExCfMaicagwGq4")
+        GMSServices.provideAPIKey(Constants.API.apiKey)
     }
 }

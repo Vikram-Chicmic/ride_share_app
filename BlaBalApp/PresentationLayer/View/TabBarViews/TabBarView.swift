@@ -12,6 +12,7 @@ struct TabBarView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
   
     var body: some View {
+
             TabView {
                 SearchView()
                     .tabItem {
@@ -26,11 +27,7 @@ struct TabBarView: View {
                 ProfileView().tabItem {
                   Label(Constants.Labels.person, systemImage: Constants.Icons.perosn)
                 }
-                
-                
-            }.background(content: {
-                Color.black
-            }).navigationBarBackButtonHidden(true)
+            }
     }
 }
 

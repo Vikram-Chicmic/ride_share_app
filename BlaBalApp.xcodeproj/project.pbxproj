@@ -10,6 +10,9 @@
 		931171092A1B85E400D33B4E /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931171082A1B85E400D33B4E /* CustomProgressBar.swift */; };
 		9313A7732A2716E00034CC31 /* ConfirmOTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7722A2716E00034CC31 /* ConfirmOTP.swift */; };
 		9313A7792A277BD40034CC31 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7782A277BD40034CC31 /* ChangePasswordView.swift */; };
+		932F00032A5ED2F5005D9756 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F00022A5ED2F5005D9756 /* ChatView.swift */; };
+		932F00052A5ED809005D9756 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F00042A5ED809005D9756 /* ChatViewModel.swift */; };
+		933CD7FA2A57CF4600BA7A38 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933CD7F92A57CF4600BA7A38 /* CustomShape.swift */; };
 		934F67682A39908D00209F81 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F67672A39908D00209F81 /* Enumerations.swift */; };
 		934F676A2A3992C000209F81 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F67692A3992C000209F81 /* FormView.swift */; };
 		934F676C2A39A29500209F81 /* SendDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F676B2A39A29500209F81 /* SendDataModel.swift */; };
@@ -73,12 +76,16 @@
 		93D291AD2A0CEBB500E0D13C /* AddSeatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */; };
 		93D291AF2A0D07E000E0D13C /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291AE2A0D07E000E0D13C /* CalendarView.swift */; };
 		93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291B12A0D0F8C00E0D13C /* DateExtension.swift */; };
+		93D78A8B2A582BA600823443 /* LocationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8A2A582BA600823443 /* LocationUpdate.swift */; };
+		93D78A8D2A5836F100823443 /* UpdatePriceAndSeats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */; };
+		93D78A902A583BAD00823443 /* DateAndVehicleUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8F2A583BAD00823443 /* DateAndVehicleUpdate.swift */; };
 		93DC81362A42D4C9001C3DDF /* BaseApiMangaer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC81352A42D4C9001C3DDF /* BaseApiMangaer.swift */; };
 		93DC81382A4325DB001C3DDF /* ShowPolylineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC81372A4325DA001C3DDF /* ShowPolylineView.swift */; };
 		93DC813A2A432983001C3DDF /* DirectionAPiResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DC81392A432983001C3DDF /* DirectionAPiResponseModel.swift */; };
 		93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536B2A29BFD7002607BB /* AnimatedImage.swift */; };
 		93DF536E2A2A06A9002607BB /* GoogleLatLongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */; };
 		93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */; };
+		93E3D4682A4EE8A30063A9D4 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E3D4672A4EE8A30063A9D4 /* StringExtension.swift */; };
 		93E571572A45A63900AF5C4D /* BookedRideModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E571562A45A63900AF5C4D /* BookedRideModal.swift */; };
 		93E9C0DC2A38A29B00A6A3CD /* UnderlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9C0DB2A38A29B00A6A3CD /* UnderlineView.swift */; };
 		93EAAD3F2A288FCE003607DE /* AllVehicleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */; };
@@ -92,6 +99,9 @@
 		931171082A1B85E400D33B4E /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		9313A7722A2716E00034CC31 /* ConfirmOTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOTP.swift; sourceTree = "<group>"; };
 		9313A7782A277BD40034CC31 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		932F00022A5ED2F5005D9756 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		932F00042A5ED809005D9756 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		933CD7F92A57CF4600BA7A38 /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		934F67672A39908D00209F81 /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		934F67692A3992C000209F81 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		934F676B2A39A29500209F81 /* SendDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataModel.swift; sourceTree = "<group>"; };
@@ -159,12 +169,16 @@
 		93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeatView.swift; sourceTree = "<group>"; };
 		93D291AE2A0D07E000E0D13C /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		93D291B12A0D0F8C00E0D13C /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		93D78A8A2A582BA600823443 /* LocationUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdate.swift; sourceTree = "<group>"; };
+		93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePriceAndSeats.swift; sourceTree = "<group>"; };
+		93D78A8F2A583BAD00823443 /* DateAndVehicleUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndVehicleUpdate.swift; sourceTree = "<group>"; };
 		93DC81352A42D4C9001C3DDF /* BaseApiMangaer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseApiMangaer.swift; sourceTree = "<group>"; };
 		93DC81372A4325DA001C3DDF /* ShowPolylineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPolylineView.swift; sourceTree = "<group>"; };
 		93DC81392A432983001C3DDF /* DirectionAPiResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionAPiResponseModel.swift; sourceTree = "<group>"; };
 		93DF536B2A29BFD7002607BB /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		93DF536D2A2A06A8002607BB /* GoogleLatLongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLatLongModel.swift; sourceTree = "<group>"; };
 		93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndSearchRideViewModel.swift; sourceTree = "<group>"; };
+		93E3D4672A4EE8A30063A9D4 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		93E571562A45A63900AF5C4D /* BookedRideModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedRideModal.swift; sourceTree = "<group>"; };
 		93E9C0DB2A38A29B00A6A3CD /* UnderlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineView.swift; sourceTree = "<group>"; };
 		93EAAD3E2A288FCE003607DE /* AllVehicleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllVehicleView.swift; sourceTree = "<group>"; };
@@ -320,6 +334,7 @@
 		938077DC2A0B79EF008A889A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				93D78A8E2A583B6B00823443 /* UpdateRide */,
 				938077DF2A0B815E008A889A /* Components */,
 				937B446F2A3B4D340032903F /* EditAndUpdateView */,
 				937B446E2A3B4CFD0032903F /* TabBarViews */,
@@ -336,7 +351,7 @@
 				93DC81372A4325DA001C3DDF /* ShowPolylineView.swift */,
 				937E51022A440E4200194140 /* PublishedRideDetailView.swift */,
 				93B6F7982A4D7E7E00609A04 /* DriverDetailView.swift */,
-				93B6F79A2A4DA9B600609A04 /* EditRide.swift */,
+				932F00022A5ED2F5005D9756 /* ChatView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -360,6 +375,7 @@
 				937E51082A446F1D00194140 /* HollowButton.swift */,
 				93ECF8802A4AA97A00331457 /* DatePickerTextField.swift */,
 				93ECF8822A4AA9A700331457 /* TextFieldPicker.swift */,
+				933CD7F92A57CF4600BA7A38 /* CustomShape.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -371,6 +387,7 @@
 				9391DC1C2A1E0DFE007B5ADE /* RegisterVehicleViewModel.swift */,
 				93DF536F2A2A0880002607BB /* MapAndSearchRideViewModel.swift */,
 				937B44662A3B08260032903F /* AddImageViewModel.swift */,
+				932F00042A5ED809005D9756 /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -431,8 +448,20 @@
 			children = (
 				93D291B12A0D0F8C00E0D13C /* DateExtension.swift */,
 				93BD9F6B2A40523B002BF186 /* ViewExtension.swift */,
+				93E3D4672A4EE8A30063A9D4 /* StringExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		93D78A8E2A583B6B00823443 /* UpdateRide */ = {
+			isa = PBXGroup;
+			children = (
+				93B6F79A2A4DA9B600609A04 /* EditRide.swift */,
+				93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */,
+				93D78A8A2A582BA600823443 /* LocationUpdate.swift */,
+				93D78A8F2A583BAD00823443 /* DateAndVehicleUpdate.swift */,
+			);
+			path = UpdateRide;
 			sourceTree = "<group>";
 		};
 		93E790182A3C5AA600BD7E28 /* PresentationLayer */ = {
@@ -603,24 +632,29 @@
 				934F676E2A39CE0600209F81 /* VehicleDetailView.swift in Sources */,
 				937B44652A3AC9BD0032903F /* Logout.swift in Sources */,
 				93DC81362A42D4C9001C3DDF /* BaseApiMangaer.swift in Sources */,
+				93D78A8B2A582BA600823443 /* LocationUpdate.swift in Sources */,
 				93D291A52A0CA2BB00E0D13C /* TabBarView.swift in Sources */,
+				93D78A8D2A5836F100823443 /* UpdatePriceAndSeats.swift in Sources */,
 				9391E1A32A0E10F300427F22 /* TitleView.swift in Sources */,
 				93ECF8812A4AA97A00331457 /* DatePickerTextField.swift in Sources */,
 				93DC81382A4325DB001C3DDF /* ShowPolylineView.swift in Sources */,
 				937E51032A440E4200194140 /* PublishedRideDetailView.swift in Sources */,
 				938077EC2A0BA0ED008A889A /* LoginSignupViewModel.swift in Sources */,
 				93DF536C2A29BFD7002607BB /* AnimatedImage.swift in Sources */,
+				93E3D4682A4EE8A30063A9D4 /* StringExtension.swift in Sources */,
 				934F67682A39908D00209F81 /* Enumerations.swift in Sources */,
 				93ECF8832A4AA9A700331457 /* TextFieldPicker.swift in Sources */,
 				938077E72A0B9918008A889A /* Textfield.swift in Sources */,
 				9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */,
 				93D291A92A0CAA8000E0D13C /* InboxView.swift in Sources */,
 				93B6F7992A4D7E7E00609A04 /* DriverDetailView.swift in Sources */,
+				93D78A902A583BAD00823443 /* DateAndVehicleUpdate.swift in Sources */,
 				937E51092A446F1D00194140 /* HollowButton.swift in Sources */,
 				938077E52A0B8B0D008A889A /* BackgroundView.swift in Sources */,
 				938077F22A0BC4F4008A889A /* SearchView.swift in Sources */,
 				9391DC1F2A1E0F3E007B5ADE /* VehicleModel.swift in Sources */,
 				93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */,
+				932F00032A5ED2F5005D9756 /* ChatView.swift in Sources */,
 				93C2C9312A1F61EB00CA4C92 /* MapView.swift in Sources */,
 				9391DC1B2A1DD323007B5ADE /* RegisterVehicleView.swift in Sources */,
 				9367EF112A49BDD900841B4D /* GoogleMapsProvider.swift in Sources */,
@@ -647,6 +681,7 @@
 				938886082A20807D00A838BC /* DistanceCircleShowView.swift in Sources */,
 				938077D12A0B79C8008A889A /* LandingPageView.swift in Sources */,
 				9391DC1D2A1E0DFE007B5ADE /* RegisterVehicleViewModel.swift in Sources */,
+				933CD7FA2A57CF4600BA7A38 /* CustomShape.swift in Sources */,
 				931171092A1B85E400D33B4E /* CustomProgressBar.swift in Sources */,
 				93D0E1782A37377F0095E3EA /* BookRide.swift in Sources */,
 				93A5E1DD2A2B5A49000EAC4D /* userLocationView.swift in Sources */,
@@ -668,6 +703,7 @@
 				9391E1AB2A0E5B3D00427F22 /* UserModel.swift in Sources */,
 				936540BA2A1C7DDB004240D1 /* EditPersonalDetailsView.swift in Sources */,
 				93B6F79B2A4DA9B600609A04 /* EditRide.swift in Sources */,
+				932F00052A5ED809005D9756 /* ChatViewModel.swift in Sources */,
 				937E51072A44217800194140 /* PublishedRideDetailCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

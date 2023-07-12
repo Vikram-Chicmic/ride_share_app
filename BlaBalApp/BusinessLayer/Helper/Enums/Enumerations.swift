@@ -65,6 +65,13 @@ enum APIcallsForRides {
 }
 
 
+enum APIcallsForChat {
+    case createChatRoom
+    case getAllChatRoom
+    case sendMessage
+    case recieveMessage
+}
+
 
 
 
@@ -97,6 +104,7 @@ enum AuthenticateError: LocalizedError{
     }
     
 enum ErrorAlert: String {
+    case decode                 = "Can't decode the data."
     case login                  = "Failed to Logged in"
     case signup                 = "Failed to Signed up"
     case logout                 = "Failed to Logged out"
@@ -106,12 +114,19 @@ enum ErrorAlert: String {
     case otpVarification        = "Failed to varify OTP"
     case addVehicle             = "Failed to add Vehicle"
     case updateVehicle          = "Failed to Updated Vehicle"
+    case registerVehicle        = "Failed to register vehicle"
     case deleteVehicle          = "Failed to Deleted Vehicle"
     case bookRide               = "Failed to Book Ride"
     case cancelRide             = "Failed to Cancel Ride"
     case changePassword         = "Failed to Change Password"
     case updateRide             = "Fail to Update Ride"
+    case searchRide             = "Failed to search Ride"
+    case getVehicle             = "Fail to get vehicles"
     case publishRide            = "Failed to Publish ride"
+    case fetchPublishedRide     = "Failed to fetch published rides"
+    case fetchBookedRide        = "Failed to fetch booked rides"
+    case fetchPlaces            = "Failed to fetch places"
+    case fetchPolylineAndDistance = "Failed to fetch Polyline and Distance"
 }
     
 enum PickerType {

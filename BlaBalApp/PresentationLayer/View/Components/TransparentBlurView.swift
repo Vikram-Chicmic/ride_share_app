@@ -21,7 +21,7 @@ struct TransparentBlurView: UIViewRepresentable {
                     backdropLayer.filters = []
                 } else {
                     backdropLayer.filters?.removeAll(where: { filter in
-                        String(describing: filter) != "gaussianBlur"
+                        String(describing: filter) != Constants.DefaultValues.gaussianBlur
                     })
                 }
                     

@@ -158,6 +158,7 @@ struct Constants {
         static let ConfirmNewPassword       = "Confirm new password"
         
     }
+    
     // MARK: - Images
     struct Images {
         static let travel                   = "travel"
@@ -167,7 +168,12 @@ struct Constants {
         static let image                    = "Image"
         static let carbg                    = "carbg"
         static let car2                     = "car2"
+        static let blue                     = "download"
+        static let white                    = "Bank"
     }
+    
+
+    
     // MARK: - Icons
     struct Icons {
         static let bgImage                  = "cars"
@@ -205,6 +211,7 @@ struct Constants {
         static let checkmark                = "checkmark.seal.fill"
         static let carfill                  = "car.fill"
         static let rupeeSign                = "rupeesign"
+        static let seat                     = "figure.seated.seatbelt"
 
     }
     // MARK: - Validations
@@ -220,6 +227,7 @@ struct Constants {
         static let invalidemail             = "Invalid email"
         static let invalidname              = "Invalid name"
         static let emptyfield               = "Field can't be empty"
+        static let invalidName              = "Name is invalid"
         static let invalidPhone             = "Invalid phone number"
         static let error                    = "Error"
         static let usrExist                 = "User already exist"
@@ -239,7 +247,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://f1ce-112-196-113-2.ngrok-free.app/"
+        static let baseUrl                  = "https://ea32-112-196-113-2.ngrok-free.app/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"
@@ -257,7 +265,9 @@ struct Constants {
         static let deleteVehicle            = baseUrl+"/"
         static let cancelBookedRide         = baseUrl+"cancel_booking"
         static let addImage                 = baseUrl+"user_images"
+        static let createChat               = baseUrl+"chats"
         static let mapUrl                   = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+        static let fetchPublishRideUrl      = "https://maps.googleapis.com/maps/api/directions/json?origin="
         static let srcLong                  = "?source_longitude="
         static let srcLat                   = "&source_latitude="
         static let desLong                  = "&destination_longitude="
@@ -338,6 +348,8 @@ struct Constants {
         static let unknown                  = "Unknown"
         static let selectVehicle            = "Select your vehicle"
         static let publish                  = "Publish"
+        static let gaussianBlur             = "gaussianBlur"
+        static let confirmBooking           = "confirm booking"
     }
     
     struct Errors {
@@ -363,6 +375,8 @@ struct Constants {
         static let passenger                = "passenger"
     }
     
+    
+    
     // MARK: - Request Methods
     struct Methods {
         static let post                     = "POST"
@@ -374,6 +388,7 @@ struct Constants {
     // MARK: - Errors
     struct Error {
         static let invalidUrl               = "Invalid Url"
+        static let invalidDateFormat        = "Invalid date format"
        
     }
     // MARK: - DateFormat
@@ -381,6 +396,12 @@ struct Constants {
         static let dateFormat               = "dd/MM/yyyy"
         static let dateTimeFormat           =  "dd/MM/yyyy HH:mm a"
         static let timeFormat               = "hh:mm a"
+        static let estimatedTime            = "HH:mm"
+        static let estimatedTimeformat      = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        static let dateFormat2              = "EEE, d MMMM, h:mm a"
+        static let dateIdentifier           = "en_US"
+        static let stringToDateForamat      = "yyyy-MM-dd"
+        static let outputDateFormat         = "MMMM d, yyyy"
     }
     // MARK: - Titles
     struct Titles {
@@ -395,6 +416,12 @@ struct Constants {
         static let underline = LinearGradient(gradient: Gradient(colors: [.blue.opacity(0), .blue, .blue.opacity(0)]), startPoint: .leading, endPoint: .trailing)
     }
     
+    struct MultipartFormData {
+        static let mimeType                 = "image/jpeg"
+        static let fileName                 = "image.jpg"
+        static let fieldName                = "image"
+        static let multipartformdata        = "multipart/form-data; boundary="
+    }
 
    
 //        struct TransparentBackground {

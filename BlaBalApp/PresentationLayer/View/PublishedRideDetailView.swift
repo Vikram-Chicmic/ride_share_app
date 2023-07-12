@@ -14,6 +14,7 @@ struct PublishedRideDetailView: View {
     @EnvironmentObject var baseApi: BaseApiManager
     @EnvironmentObject var vm: MapAndSearchRideViewModel
     @Environment(\.dismiss) var dismiss
+    @State var showAlert = false
     @State var vehicleName: String = ""
     var indexValue: Int?
     var body: some View {
@@ -67,13 +68,6 @@ struct PublishedRideDetailView: View {
                         RideDetailTileView(title: "Vehicle", value: vehicleName)
                     
                     }.padding(.vertical)
-                    
-                    
-      
-                 
-                    
-                
-                    
                 } else {
                     /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                 }
@@ -85,18 +79,17 @@ struct PublishedRideDetailView: View {
                 if let data = selectedCardData {
                     VStack {
                         // editable if status of published ride is pending
-                      
                             if isPublishedRide {
                                 if data.status == "pending"{
                                 // edit button
                                 Button {
                                     MapAndSearchRideViewModel.shared.publishId = data.id
-                                    MapAndSearchRideViewModel.shared.originData?.name = data.source
-                                    MapAndSearchRideViewModel.shared.destinationData?.name = data.destination
-                                    MapAndSearchRideViewModel.shared.originData?.geometry.location.lng = data.sourceLongitude
-                                    MapAndSearchRideViewModel.shared.originData?.geometry.location.lat = data.destinationLatitude
-                                    MapAndSearchRideViewModel.shared.destinationData?.geometry.location.lng = data.destinationLongitude
-                                    MapAndSearchRideViewModel.shared.destinationData?.geometry.location.lat = data.destinationLatitude
+                                    MapAndSearchRideViewModel.shared.updatedOriginName = data.source
+                                    MapAndSearchRideViewModel.shared.updatedDestinationName = data.destination
+                                    MapAndSearchRideViewModel.shared.updatedOriginLong = data.sourceLongitude
+                                    MapAndSearchRideViewModel.shared.updatedOriginLat = data.sourceLongitude
+                                    MapAndSearchRideViewModel.shared.updatedDestinationLat = data.destinationLatitude
+                                    MapAndSearchRideViewModel.shared.updatedDestinationLong = data.destinationLongitude
                                     MapAndSearchRideViewModel.shared.passengers = data.passengersCount
                                     MapAndSearchRideViewModel.shared.date = data.date
                                     MapAndSearchRideViewModel.shared.time = data.time
@@ -104,37 +97,6 @@ struct PublishedRideDetailView: View {
                                     MapAndSearchRideViewModel.shared.vehicleId = data.vehicleID
                                     MapAndSearchRideViewModel.shared.aboutRide = data.aboutRide
                                     MapAndSearchRideViewModel.shared.estimatedTime = data.estimateTime
-                                   
-                                     print( MapAndSearchRideViewModel.shared.publishId,
-                                            MapAndSearchRideViewModel.shared.originData?.name,
-                                            MapAndSearchRideViewModel.shared.destinationData?.name,
-                                            MapAndSearchRideViewModel.shared.originData?.geometry.location.lng,
-                                            MapAndSearchRideViewModel.shared.originData?.geometry.location.lat,
-                                            MapAndSearchRideViewModel.shared.destinationData?.geometry.location.lng,
-                                            MapAndSearchRideViewModel.shared.destinationData?.geometry.location.lat,
-                                            MapAndSearchRideViewModel.shared.passengers = data.passengersCount,
-                                            MapAndSearchRideViewModel.shared.date,
-                                            MapAndSearchRideViewModel.shared.time,
-                                            MapAndSearchRideViewModel.shared.amount,
-                                            MapAndSearchRideViewModel.shared.vehicleId,
-                                            MapAndSearchRideViewModel.shared.aboutRide,
-                                            MapAndSearchRideViewModel.shared.estimatedTime)
-                                    
-                                    print(   data.id,
-                                              data.source,
-                                             data.destination,
-                                           data.sourceLongitude,
-                                              data.destinationLatitude,
-                                            data.destinationLongitude,
-                                             data.destinationLatitude,
-                                          data.passengersCount,
-                                            data.date,
-                                            data.time,
-                                          String(data.setPrice),
-                                              data.vehicleID,
-                                           data.aboutRide,
-                                            data.estimateTime)
-                                    
                                     self.showEditView.toggle()
                                     
                                 } label: {
@@ -142,12 +104,12 @@ struct PublishedRideDetailView: View {
                                         HollowButton(image: "", text: "Edit Ride", color: Constants.Colors.bluecolor )
                                     }
                                 }.navigationDestination(isPresented: $showEditView) {
-                                    LocationView(isPublishView: .constant(true), isComingFromPublishedView: .constant(true))
+                                   EditRide()
                                 }
                                     
                                     Button {
-                                        MapAndSearchRideViewModel.shared.publishId = data.id
-                                        MapAndSearchRideViewModel.shared.apiCall(for: .cancelRide)
+                                        showAlert.toggle()
+                                       
                                     } label: {
                                         HStack {
                                             Buttons(image: "", text: "Cancel Ride", color: .red)
@@ -157,23 +119,31 @@ struct PublishedRideDetailView: View {
                             }
                             }
                         
-                        // for bookedRide
-//                        else {
-//                            if vm.allBookedRides?.rides[indexValue] == "cancel booking"
-//                                Button {
-//                                    MapAndSearchRideViewModel.shared.publishId = data.id
-//                                    MapAndSearchRideViewModel.shared.apiCall(for: .cancelBookedRide)
-//                                } label: {
-//                                    HStack {
-//                                        Buttons(image: "", text: "Cancel Ride", color: .red)
-//                                    }
-//                                }
-//                            }
-                        
-                      
+//                         for bookedRide
+                        else {
+                            if (data.status != "completed") && (data.status != "cancelled") {
+                                if vm.allBookedRides?.rides[indexValue!].status != "cancel booking" {
+                                    Button {
+                                        showAlert.toggle()
+//                                        MapAndSearchRideViewModel.shared.publishId = data.id
+//                                        MapAndSearchRideViewModel.shared.apiCall(for: .cancelBookedRide)
+                                    } label: {
+                                        HStack {
+                                            Buttons(image: "", text: "Cancel Ride", color: .red)
+                                        }
+                                    }
+                                }
+                             
+                            }
+                        }
+
                          
+                    }.actionSheet(isPresented: $showAlert) {
+                        ActionSheet(title: Text("Warning"), message: Text("You sure you want to cancel ride? "), buttons: [.destructive(Text("Yes"), action: {
+                            MapAndSearchRideViewModel.shared.publishId = data.id
+                            MapAndSearchRideViewModel.shared.apiCall(for: .cancelRide)
+                        }), .cancel(Text("No"))])
                     }.alert(isPresented: $vm.alertSuccess) {
-                        
                         vm.alertSuccess ?
                         Alert(title: Text(Constants.Alert.success), message: Text(SuccessAlerts.cancelRide.rawValue), dismissButton: .default(Text(Constants.Buttons.ok), action: {
                             dismiss()

@@ -21,14 +21,14 @@ struct BirthdayView: View {
                     Text(Constants.Titles.dob).font(.title).fontWeight(.semibold).padding(.bottom, 40)
                     HStack {
                         HStack {
-                            Image(systemName: Constants.Icons.clock).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+                            Image(systemName: Constants.Icons.calander).font(.title2).foregroundColor(.blue).padding(.leading).bold()
                             DatePickerTextField(placeholder: "", date: $selectedDate, pickerType: PickerType.date, isDOB: true).padding(.leading)
                             Spacer()
-                        }.frame(height: 40)
+                        }.frame(height: 50)
                         Spacer()
-                    }.padding()
+                    }
                         .background(.gray.opacity(0.2))
-                        .cornerRadius(24)
+                        .cornerRadius(30)
                     HStack {
                         Spacer()
                         Text(Constants.Texts.age).foregroundColor(.gray).font(.subheadline).padding(.trailing)
@@ -42,7 +42,7 @@ struct BirthdayView: View {
 //
                     Spacer()
                 
-                if alert{
+                if alert {
                     CustomAlert(text: "Invalid Date", dismiss: $alert)
                 }
                 }

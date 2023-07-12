@@ -62,11 +62,11 @@ struct YourRidesView: View {
                             ForEach(data.indices, id: \.self) { index in
                                 PublishedRideDetailCard(publishRideData: data[index], isPublishRideData: $isPublishRidesView)
                                     .onTapGesture {
-                                        if data[index].status != "cancelled" {
+//                                        if data[index].status != "cancelled" {
                                             self.selectedCardData = data[index]
                                             vehicleVm.getVehicleId = data[index].vehicleID
                                             vehicleVm.apiCall(method: .getVehicleDetailsById)
-                                        }
+//                                        }
                                       
                                     }
                             }.padding().padding(.bottom, 20)
@@ -80,10 +80,24 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.padding(.bottom,10).refreshable {
+                }.onAppear {
+                    vm.isLoading = true
+                }.overlay(content: {
+                    if vm.isLoading == true {
+                        ProgressView().progressViewStyle(.circular)
+                    }
+                })
+                .padding(.bottom,10)
+                .refreshable {
                     vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
-                }.scrollIndicators(.hidden)
-                    .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
+                }
+                .scrollIndicators(.hidden)
+                .alert(isPresented: $vm.alertFetchPublishedRideFailure) {
+                    Alert(title: Text(Constants.Alert.error),
+                          message: Text(ErrorAlert.fetchPublishedRide.rawValue),
+                          dismissButton: .cancel(Text(Constants.Buttons.ok)))
+                }
+                .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
                         if let data = selectedCardData {
                             PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView)
                         }
@@ -97,13 +111,13 @@ struct YourRidesView: View {
                             ForEach(data.indices, id: \.self) { index in
                                 PublishedRideDetailCard(bookedRideData: data[index], indexValue: indexValue, isPublishRideData: $isPublishRidesView)
                                     .onTapGesture {
-                                        if data[index].status != "cancel booking" {
+//                                        if data[index].status != "cancel booking" {
                                             self.selectedCardData = data[index].ride
                                             vm.passengerId = data[index].bookingID
                                             indexValue = index
                                             vehicleVm.getVehicleId = data[index].ride.vehicleID
                                             vehicleVm.apiCall(method: .getVehicleDetailsById)
-                                        }
+//                                        }
                                       
                                     }
                             }.padding().padding(.bottom, 20)
@@ -117,9 +131,19 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.padding(.bottom, 10).scrollIndicators(.hidden).refreshable {
+                }.onAppear {
+                    vm.isLoading = true
+                }.overlay(content: {
+                    if vm.isLoading == true {
+                        ProgressView().progressViewStyle(.circular)
+                    }
+                }).padding(.bottom, 10).scrollIndicators(.hidden).refreshable {
                     vm.apiCall(for: .getAllBookedRideOfCurentUser)
-                }
+                }.alert(isPresented: $vm.alertFetchBookedRideFailure) {
+                    Alert(title: Text(Constants.Alert.error),
+                          message: Text(ErrorAlert.fetchBookedRide.rawValue),
+                          dismissButton: .cancel(Text(Constants.Buttons.ok)))
+            }
                 .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
                         if let data = selectedCardData{
                             PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView, indexValue: indexValue)
@@ -127,16 +151,10 @@ struct YourRidesView: View {
                         
                     }
             }
-
-            
-            
-            
-      
-           
-             
-            
-        }.onAppear {
+        }
+         .onAppear {
             vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
+             vm.apiCall(for: .getAllBookedRideOfCurentUser)
 //            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
         }
     }

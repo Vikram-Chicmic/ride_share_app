@@ -48,7 +48,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                            Image("Bank").resizable().cornerRadius(10).overlay {
+                                Image(Constants.Images.white).resizable().cornerRadius(10).overlay {
                                 TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                             }
                         }
@@ -66,7 +66,7 @@ struct PublishedRideDetailCard: View {
                                 Text("Rs. \(data.setPrice)").bold().foregroundColor(.white)
                             }.padding(15)
                         }.background {
-                                Image("download")
+                            Image(Constants.Images.blue)
                                            .resizable()
                                            .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
                                     TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
@@ -90,7 +90,7 @@ struct PublishedRideDetailCard: View {
                                 Spacer()
                                 VStack {
                                     Text(data.status.capitalized).padding(12).font(.system(size: 12)).foregroundColor(.white)
-                                }.background(data.status == "confirm booking" ? Color.green : Color.red).cornerRadius(10)
+                                }.background(data.status == Constants.DefaultValues.confirmBooking ? Color.green : Color.red).cornerRadius(10)
                             }
                             
                             
@@ -118,7 +118,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                            Image("Bank").resizable().cornerRadius(10).overlay {
+                                Image(Constants.Images.white).resizable().cornerRadius(10).overlay {
                                 TransparentBlurView(removeAllFilters: false).cornerRadius(10)
                             }
                         }
@@ -133,14 +133,14 @@ struct PublishedRideDetailCard: View {
                                         Text(String(data.ride.passengersCount)).foregroundColor(.white)
                                     }
                                     HStack {
-                                        Image(systemName: "figure.seated.seatbelt").foregroundColor(.blue)
+                                        Image(systemName: Constants.Icons.seat).foregroundColor(.blue)
                                         Text(String(data.seat)).foregroundColor(.white)
                                     }
                                 Spacer()
                                 Text("Rs. \(data.ride.setPrice)").bold().foregroundColor(.white)
                             }.padding(15)
                         }.background {
-                                Image("download")
+                            Image(Constants.Images.blue)
                                            .resizable()
                                            .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
                                     TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
@@ -165,25 +165,4 @@ struct PublishedRideDetailCard_Previews: PreviewProvider {
 }
 
 
-struct BottomCornerRadiusShape: Shape {
-    let cornerRadius: CGFloat
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - cornerRadius))
-        path.addArc(center: CGPoint(x: rect.maxX - cornerRadius, y: rect.maxY - cornerRadius),
-                    radius: cornerRadius,
-                    startAngle: Angle(degrees: 0),
-                    endAngle: Angle(degrees: 90),
-                    clockwise: false)
-        path.addLine(to: CGPoint(x: rect.minX + cornerRadius, y: rect.maxY))
-        path.addArc(center: CGPoint(x: rect.minX + cornerRadius, y: rect.maxY - cornerRadius),
-                    radius: cornerRadius,
-                    startAngle: Angle(degrees: 90),
-                    endAngle: Angle(degrees: 180),
-                    clockwise: false)
-        return path
-    }
-}
+

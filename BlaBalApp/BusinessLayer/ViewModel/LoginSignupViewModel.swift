@@ -25,7 +25,9 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var travelPreference = ""
     @Published var postalAddress = ""
     @Published var passcode = ""
-    
+    @Published var failAlert = false
+    @Published var failToLogout = false
+    @Published var failToFetchUser = false
     // Variable for show form view and custom progressBar
     @Published var step: Int = 0
     
@@ -57,6 +59,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var isUserEmailValid = false
     @Published var isUserPasswordValid = false
     @Published var updateAlertProblem = false
+    @Published var isFirstNameAndLastNameValid = false
     
     static var authorizationToken = ""
     
@@ -64,7 +67,8 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var oldPassword = ""
     @Published var newPassword = ""
     @Published var confirmNewPassword = ""
-    @Published var passwordChangeAlert: Bool = false
+    @Published var passwordChangeSuccessAlert: Bool = false
+    @Published var passwordChangeFailAlert: Bool = false
     
     private var publishers = Set<AnyCancellable>()
     
@@ -83,6 +87,7 @@ class LoginSignUpViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: \.isUserEmailValid, on: self)
             .store(in: &publishers)
+        
     }
     
     // MARK: - Validations (Computed Properties)
@@ -102,7 +107,10 @@ class LoginSignUpViewModel: ObservableObject {
             }
             .eraseToAnyPublisher()
     }
+    
 
+    
+    
     func loginCheck() -> Bool {
         if isUserEmailValid && isUserPasswordValid {
             return true
@@ -135,13 +143,13 @@ class LoginSignUpViewModel: ObservableObject {
     func encodeData(recievedData: Welcome) {
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(recievedData) {
-            UserDefaults.standard.set(encodedData, forKey: "UserDataKey")
+            UserDefaults.standard.set(encodedData, forKey: Constants.UserDefaultsKeys.userDataKey)
         }
     }
     
     // MARK: decode recived data
     func decodeData() {
-        if let storedData = UserDefaults.standard.data(forKey: "UserDataKey"),
+        if let storedData = UserDefaults.standard.data(forKey: Constants.UserDefaultsKeys.userDataKey),
            let decodedData = try? JSONDecoder().decode(Welcome.self, from: storedData) {
             // Use the decodedData as needed
             self.recievedData = decodedData

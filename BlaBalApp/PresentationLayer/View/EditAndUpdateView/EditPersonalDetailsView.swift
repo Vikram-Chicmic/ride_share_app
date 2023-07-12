@@ -11,7 +11,7 @@ struct EditPersonalDetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var openCalendar: Bool = false
-    @State var selectedDate : Date? = Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!
+    @State var selectedDate : Date?
     var body: some View {
             VStack(alignment: .leading) {
                 ScrollView {
@@ -76,14 +76,11 @@ struct EditPersonalDetailsView: View {
                             print(vm.bday)
 //                                    vm.signUp()
                             vm.apiCall(forMethod: .signUp)
+                            vm.isLoading = true
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
                         }
-                        .alert( isPresented: $vm.updateAlertProblem) {
-                            Alert(title: Text(Constants.Alert.error), message: Text(Constants.Alert.updateUserFail), dismissButton: .default(Text(Constants.Buttons.ok), action: {
-                                dismiss()
-                            }))
-                        }
+                      
                         .alert( isPresented: $vm.successUpdate) {
                             Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.updateUserSucess), dismissButton: .default(Text(Constants.Buttons.ok), action: {
                                 dismiss()
@@ -93,12 +90,24 @@ struct EditPersonalDetailsView: View {
                         }
                     // MARK: - Alert user updated successfully
                     }.padding()
-                }
+                }.overlay {
+                    if vm.isLoading {
+                        ProgressView().progressViewStyle(.circular)
+                    }
+                }.alert(isPresented: $vm.updateAlertProblem){
+                    Alert(title: Text(Constants.Alert.error),
+                          message: Text(ErrorAlert.profileUpdate.rawValue),
+                          dismissButton: .cancel(Text(Constants.Buttons.ok)))
+
+            }
                 
               
                 
                 Spacer()
             }.navigationTitle(Constants.Header.details)
+            .onTapGesture {
+                hideKeyboard()
+            }
             .onDisappear {
                 vm.isUpdating = false
             }
@@ -108,18 +117,19 @@ struct EditPersonalDetailsView: View {
                        vm.fname = data.firstName
                        vm.lname = data.lastName
                        vm.bday = data.dob
-//                       selectedDate = Helper().stringTodate(date: data.dob)
+                       selectedDate = Helper().stringTodate(date: data.dob)
+                       print(Helper().stringTodate(date: data.dob))
+                       print(selectedDate, data.dob)
                        vm.phoneNumber = data.phoneNumber ?? ""
                        vm.postalAddress = data.postalAddress ?? ""
                        vm.travelPreference = data.travelPreferences ?? ""
                        vm.bio = data.bio ?? ""
                        vm.selectedTitle = data.title
+//                       selectedDate = Helper().stringTodate(date: )
                    }
       
-               selectedDate = Helper().stringTodate(date: vm.bday)
                
-            }.overlay {
-                
+               
             }
         
     }

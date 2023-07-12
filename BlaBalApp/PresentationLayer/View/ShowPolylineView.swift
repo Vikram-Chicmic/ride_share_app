@@ -63,29 +63,35 @@ struct ShowPolylineView: View {
                 let time = toConvertDate(seconds: vm.estimatedTimeInSeconds ?? 10)
                 print("Time format: \(time)")
                 vm.estimatedTime = time
+                vm.isUpdatedSource = true
+                vm.isUpdatedDestination = true
                 vm.apiCall(for: .publishRide)
             } label: {
                 Buttons(image: "", text: "Publish Ride", color: Constants.Colors.bluecolor)
             }.padding()
                 
-                .actionSheet(isPresented: $vm.alertSuccess) {
-                    
-                    ActionSheet(title: Text(""), message: Text(SuccessAlerts.publishRide.rawValue), buttons: [.cancel(
-                        Text(Constants.Buttons.ok), action: {
-                            dismiss()
-                        }
-                    )])
+//                .actionSheet(isPresented: $vm.alertSuccess) {
+//
+//                    ActionSheet(title: Text(""), message: Text(SuccessAlerts.publishRide.rawValue), buttons: [.cancel(
+//                        Text(Constants.Buttons.ok), action: {
+//                            dismiss()
+//                        }
+//                    )])
 
-                    
-//                   Alert(title: Text(Constants.Alert.success), message: Text(SuccessAlerts.publishRide.rawValue), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-//                       dismiss()
-//                   }))
-               }
-               .alert(isPresented: $vm.alertFailure) {
-                   Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.publishRide.rawValue), dismissButton: .cancel(Text(Constants.Buttons.ok)))
-               }
+                
+          
                
-        }.navigationTitle("Publish Ride")
+        }
+        .alert(isPresented: $vm.alertSuccess) {
+            Alert(title: Text(Constants.Alert.success), message: Text(SuccessAlerts.publishRide.rawValue), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                dismiss()
+            }))
+        }
+        
+    .alert(isPresented: $vm.alertFailure) {
+        Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.publishRide.rawValue), dismissButton: .cancel(Text(Constants.Buttons.ok)))
+    }
+        .navigationTitle("Publish Ride")
             .onAppear {
                 print(
                 vm.estimatedTimeInSeconds

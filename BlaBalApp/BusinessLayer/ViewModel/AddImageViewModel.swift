@@ -20,24 +20,25 @@ class AddImageViewModel: ObservableObject {
 
 
 
-
+    
+    ///  method to upload image using multipart form data
     func uploadImage() {
         guard let url = URL(string: Constants.Url.addImage) else {
-            print("Invalid URL")
+            print(Constants.Error.invalidUrl)
             return
         }
 
         self.isLoading = true
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
+        request.httpMethod = Constants.Methods.put
 
         let boundary = UUID().uuidString
 
-        let mimeType = "image/jpeg"
-        let fileName = "image.jpg"
-        let fieldName = "image"
+        let mimeType = Constants.MultipartFormData.mimeType
+        let fileName = Constants.MultipartFormData.fileName
+        let fieldName = Constants.MultipartFormData.fieldName
 
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("\(Constants.MultipartFormData.multipartformdata)\(boundary)", forHTTPHeaderField: Constants.Url.conttype)
 
         let formData = NSMutableData()
 
@@ -73,14 +74,13 @@ class AddImageViewModel: ObservableObject {
                 switch completion {
                 case .finished:
                     self.success.toggle()
-                    print("Image upload completed")
                 case .failure(let error):
                     self.error.toggle()
-                    print("Image upload failed with error: \(error.localizedDescription)")
+                    print("\(error.localizedDescription)")
                 }
             }, receiveValue: { responseData in
                 // Handle the received data
-                print("Response Data: \(responseData)")
+                print("\(responseData)")
             })
             .store(in: &publishers)
     }

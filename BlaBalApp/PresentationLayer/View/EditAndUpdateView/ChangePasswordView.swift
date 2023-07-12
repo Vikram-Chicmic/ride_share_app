@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     @Environment(\.dismiss) var dismiss
-    @State var showAlert = false
     @State var showPassword = false
     @EnvironmentObject var vm: LoginSignUpViewModel
     var body: some View {
@@ -33,9 +32,9 @@ struct ChangePasswordView: View {
                     Text("Confirm new password")
                     HStack {
                         if showPassword {
-                            TextField(Constants.Placeholders.passwordplc, text: $vm.oldPassword)  .textInputAutocapitalization(.never).padding()
+                            TextField(Constants.Placeholders.passwordplc, text: $vm.confirmNewPassword)  .textInputAutocapitalization(.never).padding()
                         } else {
-                            SecureField(Constants.Placeholders.passwordplc, text: $vm.oldPassword)  .textInputAutocapitalization(.never).padding()
+                            SecureField(Constants.Placeholders.passwordplc, text: $vm.confirmNewPassword)  .textInputAutocapitalization(.never).padding()
                         }
                         Button {
                             showPassword.toggle()
@@ -56,27 +55,37 @@ struct ChangePasswordView: View {
                Spacer()
                 Button {
                     vm.apiCall(forMethod: .changePassword )
-                    if vm.passwordChangeAlert {
-                        dismiss()
-                    } else {
-                        showAlert.toggle()
-                    }
+                    vm.isLoading = true
                     // change password api
                 } label: {
                     Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
                     
-                }.alert(isPresented: $vm.passwordChangeAlert) {
+                }.alert(isPresented: $vm.passwordChangeSuccessAlert) {
                     Alert(
                         title: Text(Constants.Alert.success),
-                        message: Text("Updated successfully"),
+                        message: Text(SuccessAlerts.changePassword.rawValue),
                         dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                             dismiss()
                         })
                     )
                 }
             }.padding(.horizontal)
+                .alert(isPresented: $vm.passwordChangeFailAlert) {
+                    Alert(
+                        title: Text(Constants.Alert.error),
+                        message: Text(ErrorAlert.changePassword.rawValue),
+                        dismissButton: .cancel(Text(Constants.Buttons.ok))
+                    )
+                }
+
+        }.overlay(content: {
+            if vm.isLoading {
+                ProgressView().progressViewStyle(.circular)
+            }
+        }).onTapGesture {
+            hideKeyboard()
         }.onAppear {
-            vm.passwordChangeAlert = false
+            vm.passwordChangeSuccessAlert = false
         }
     }
 }

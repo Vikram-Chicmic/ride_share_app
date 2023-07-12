@@ -32,15 +32,9 @@ struct ProfileView: View {
                                 Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                             }
                         }
-                        
                         Spacer()
-                       
                     }
-                    
-                    
-          
                     VStack(alignment: .leading, spacing: 15) {
-                        
                         Section {
                             Divider()
                             
@@ -59,7 +53,7 @@ struct ProfileView: View {
                             Button {
                                 navigate.toggle()
                             }label: {
-                                HStack{
+                                HStack {
                                     Text(Constants.Buttons.editprofile)
                                     Spacer()
                             Image(systemName: Constants.Icons.rightChevron)
@@ -70,7 +64,7 @@ struct ProfileView: View {
                                 }
                                 Divider()
                             
-                            //MARK: - Change Password
+                            // MARK: - Change Password
                                 Button {
                                     navigateToChangePassword.toggle()
                                 } label: {
@@ -83,7 +77,7 @@ struct ProfileView: View {
                                 }
                                 Divider()
                                 
-                            //MARK: - Phone verification
+                            // MARK: - Phone verification
                                 Button {
                                     navigateToPhoneVerification.toggle()
                                 } label: {
@@ -95,11 +89,8 @@ struct ProfileView: View {
                                 }.frame(minHeight: 40).navigationDestination(isPresented: $navigateToPhoneVerification) {
                                     PhoneView()
                                 }
-                                
                         }
-                        
                         Divider()
-                        
                         Section() {
                             Text(Constants.Header.vehicle).font(.title2).fontWeight(.semibold).padding(.top)
                             Button {
@@ -108,14 +99,10 @@ struct ProfileView: View {
                                 HStack {
                                     ProfileButtons(text: Constants.Buttons.addVehicle)
                                     Spacer()
-                                
                                 }
-
-
                             }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
                                 RegisterVehicleView(isUpdateVehicle: .constant(false), hasUpdated: .constant(false))
                             }
-                            
                         }
                         Divider()
                         Button {
@@ -133,54 +120,41 @@ struct ProfileView: View {
                             AllVehicleView()
                         }
                         
-                        
                         // MARK: - Logout Button
                         Button {
                             showAlert.toggle()
-                            sessionManager.isLoggedIn.toggle()
-                               
-                        }label: {
                           
+                        }label: {
                                 HStack {
                                     Text(Constants.Buttons.logout).foregroundColor(.red)
                                     Spacer()
-                                    
                                 }
-                            
                         }.padding(.bottom)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
                                     vm.apiCall(forMethod: .logout)
+                                    sessionManager.isLoggedIn.toggle()
                                 }), .cancel()])
                             }
-                            .alert(isPresented: $baseApi.errorAlert) {
-                                Alert(title: Text("Error"), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
+                            .alert(isPresented: $vm.failToLogout) {
+                                Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
                             }
-                         
+                           
                     }
                 }.refreshable {
                     vm.apiCall(forMethod: .getUser)
                 }.scrollIndicators(.hidden)
-             
-                
-                
-                
-                
                 Spacer()
-                
-              
-            }.padding(.horizontal)
-            
+            }.alert(isPresented: $vm.failToFetchUser) {
+                Alert(title: Text(Constants.Alert.error),
+                      message: Text(ErrorAlert.getUser.rawValue),
+                      dismissButton: .cancel(Text(Constants.Buttons.ok)))
+        }.padding(.horizontal)
             if vm.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
             }
-            
-        }.alert(isPresented: $baseApi.errorAlert) {
-            Alert(title: Text("Error"), message: Text(ErrorAlert.getUser.rawValue), dismissButton: .cancel())
         }.onAppear {
-            baseApi.errorAlert = false
-            baseApi.successAlert = false
             vm.apiCall(forMethod: .getUser)
         }
     }

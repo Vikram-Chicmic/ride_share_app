@@ -37,6 +37,8 @@ class RegisterVehicleViewModel: ObservableObject {
     
 
     // MARK: Function for making API calls
+    ///  method to perform api call
+    /// - Parameter method: accept a method for api call from enum
     func apiCall(method: APIcallsForVehicle) {
         switch method {
         case .vehicleRegister:
@@ -53,6 +55,9 @@ class RegisterVehicleViewModel: ObservableObject {
     }
     
     // MARK: Function to generate JSON for API request
+    ///  method to create json for api put and post calls
+    /// - Parameter method: mehod to generate speciffic json for specific call
+    /// - Returns: return a dictionary
     func getData(method: APIcallsForVehicle) -> [String: Any] {
         switch method {
         case .vehicleRegister, .vehicleUpdate:
@@ -71,13 +76,16 @@ class RegisterVehicleViewModel: ObservableObject {
     }
     
     // MARK: Function to generate Request
+    ///  method to create a urlrequest for api call
+    /// - Parameter method: accept a method to generate url reqeust for a specific type  of api call
+    /// - Returns: return a url request based on api call
     func createRequest(method: APIcallsForVehicle) -> URLRequest {
         var request: URLRequest
         switch method {
         case .vehicleRegister, .vehicleUpdate:
             request = URLRequest(url: createUrl(method: .vehicleRegister))
             request.httpMethod =  isRegistering ? Constants.Methods.post : Constants.Methods.put
-            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .vehicleRegister), options: [])
+            let jsonData   = try? JSONSerialization.data(withJSONObject: getData(method: .vehicleRegister), options: [])
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
             return request
@@ -99,6 +107,9 @@ class RegisterVehicleViewModel: ObservableObject {
     }
     
     // MARK: function for Generate url
+    ///  mehtod to generate url
+    /// - Parameter method: accept  a method to generate url for  api call
+    /// - Returns: return url
     func createUrl(method: APIcallsForVehicle) -> URL {
         switch method {
         case .vehicleRegister, .vehicleUpdate, .getVehicle, .deleteVehicle:

@@ -21,7 +21,7 @@ struct LoginSignupWithEmailView: View {
                 Text(isLoginView ? Constants.Header.login : Constants.Header.signup).foregroundColor(Constants.Colors.bluecolor).font(.largeTitle).fontWeight(.semibold).padding(.bottom, 50)
                 
                 VStack {
-                    CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never).keyboardType(.emailAddress)
+                    CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never).keyboardType(.emailAddress).autocorrectionDisabled(true)
                     HStack {
                         Spacer()
                         if !vm.email.isEmpty && !isLoginView {
@@ -53,7 +53,7 @@ struct LoginSignupWithEmailView: View {
                     }
                     HStack {
                         if showPassword {
-                            TextField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding()
+                            TextField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding().autocorrectionDisabled(true)
                         } else {
                             SecureField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding()
                         }

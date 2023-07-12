@@ -18,7 +18,6 @@ struct CustomTextfield: View {
                 TextField(placeholder, text: $value)
 
             }
-            .textInputAutocapitalization(.never)
                 .padding()
                 .background(.gray.opacity(0.2))
                 .cornerRadius(24)

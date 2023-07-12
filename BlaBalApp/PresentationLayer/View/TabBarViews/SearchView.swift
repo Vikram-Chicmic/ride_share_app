@@ -9,10 +9,16 @@ import SwiftUI
 
 struct SearchView: View {
     @State var isPublishView = false
+    @State var showAlert = false
     var body: some View {
                 VStack {
-                    LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false))
+                    LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false), showAlert: $showAlert)
                     Spacer()
+                    if showAlert {
+                        CustomAlert(text: Constants.Alert.emptyfield, dismiss:$showAlert)
+                    }
+                }.onAppear {
+//                    Helper().emptyMapAndSearchView()
                 }
             .background {
                

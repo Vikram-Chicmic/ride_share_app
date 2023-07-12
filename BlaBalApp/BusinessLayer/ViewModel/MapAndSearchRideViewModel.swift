@@ -21,20 +21,23 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var estimatedTime: String                                    = ""
     @Published var estimatedDistance: String                                = ""
     @Published var alertSuccess                                             = false
+    @Published var updateRideSuccess                                        = false
     @Published var alertFailure                                             = false
+    @Published var alertFetchPublishedRideFailure                           = false
+    @Published var alertFetchBookedRideFailure                              = false
     @Published var publishId                                                = 0
     @Published var noOfSeatsToBook                                          = 0
     @Published var polylineString: String                                   = ""
     private let apiKey                                                      = Constants.API.apiKey
     @Published var passengerId: Int                                         = 0
-    
+    @Published var isLoading                                                = false
     
     @Published var updatedOriginName: String?
     @Published var updatedOriginLong: Double?
     @Published var updatedOriginLat: Double?
     @Published var updatedDestinationName: String?
     @Published var updatedDestinationLong: Double?
-    @Published var updatedDesitnationLat: Double?
+    @Published var updatedDestinationLat: Double?
     @Published var updatedSeats: Int?
     @Published var updatedBio: String?
     @Published var updatedPrice: Int?
@@ -42,7 +45,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var updatedTime: Date?
     @Published var updatedVehicleId: Int?
     @Published var updatedEstimatedTime: String?
-    
+    @Published var isUpdatedSuccess = false
     
     @Published var estimatedTimeInSeconds: Int?
     static var shared = MapAndSearchRideViewModel()
@@ -50,6 +53,10 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var allBookedRides: AllBookedRide?
     @Published var originData: Result?
     @Published var destinationData: Result?
+    
+    @Published var isUpdatedSource = false
+    @Published var isUpdatedDestination = false
+    
     private var searchCancellable: AnyCancellable?
     @Published var searchResultArr: PlacesResponse?
     @Published var searchRideResult: [SearchRideResponseData]?
@@ -62,6 +69,11 @@ class MapAndSearchRideViewModel: ObservableObject {
         return urlString
     }
     
+    
+    // MARK: function for Generate url
+    ///  mehtod to generate url
+    /// - Parameter method: accept  a method to generate url for  api call
+    /// - Returns: return url
     func createUrl(method: APIcallsForRides) -> URL {
         switch method {
         case .publishRide, .getAllPublisghRideOfCurrentUser:
@@ -75,7 +87,7 @@ class MapAndSearchRideViewModel: ObservableObject {
         case .fetchPolylineAndDistanceOfRide:
             return URL(string: generateUrlForFetchPublishRideDetails())!
         case .updateRide:
-            return URL(string: Constants.Url.publishRide+"/\(RegisterVehicleViewModel.shared.updatingRidePublishId)")!
+            return URL(string: Constants.Url.publishRide+"/\(publishId)")!
         case .cancelRide:
             return URL(string: Constants.Url.cancelRide)!
         case .getAllBookedRideOfCurentUser:
@@ -86,37 +98,42 @@ class MapAndSearchRideViewModel: ObservableObject {
     }
     
     
+    ///  mehtod to genrate url for a google api request to get info about the distance and estimated time between two location
+    /// - Returns: return a string url
     func generateUrlForFetchPublishRideDetails() -> String {
         let url: String
         if let originData1 = originData?.geometry.location, let destinationData1 = destinationData?.geometry.location {
-             url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(originData1.lat),\(originData1.lng)&destination=\(destinationData1.lat),\(destinationData1.lng)&key=\(Constants.API.apiKey)"
+            url = "\(Constants.Url.fetchPublishRideUrl)\(originData1.lat),\(originData1.lng)&destination=\(destinationData1.lat),\(destinationData1.lng)&key=\(Constants.API.apiKey)"
             return url
         }
         return ""
     }
     
     
+    
+    // MARK: Function to generate JSON for API request
+    ///  method to create json for api put and post calls
+    /// - Parameter method: mehod to generate speciffic json for specific call
+    /// - Returns: return a dictionary
     func generateJSONfor(mehod: APIcallsForRides) -> [String: Any] {
         switch mehod {
-            
-       
-            
-        case .publishRide, .updateRide :
+        case .publishRide, .updateRide:
             return [Constants.JsonKey.publish: [
-                Constants.Url.source: originData?.name as Any,
-                Constants.Url.destination: destinationData?.name as Any,
-                Constants.Url.sourceLong: originData?.geometry.location.lng  as Any,
-                Constants.Url.sourceLat: originData?.geometry.location.lat  as Any,
-                Constants.Url.destLong: destinationData?.geometry.location.lng  as Any,
-                Constants.Url.destLat: destinationData?.geometry.location.lat  as Any,
+                Constants.Url.source: isUpdatedSource ? originData?.name as Any : updatedOriginName as Any,
+                Constants.Url.sourceLong: isUpdatedSource ? originData?.geometry.location.lng  as Any : updatedOriginLong  as Any,
+                Constants.Url.sourceLat: isUpdatedSource ? originData?.geometry.location.lat  as Any : updatedOriginLat  as Any,
+                Constants.Url.destination: isUpdatedDestination ? destinationData?.name as Any : updatedDestinationName as Any,
+                Constants.Url.destLong: isUpdatedDestination ? destinationData?.geometry.location.lng  as Any : updatedDestinationLong as Any,
+                Constants.Url.destLat: isUpdatedDestination ? destinationData?.geometry.location.lat  as Any : updatedDestinationLat as Any,
                 Constants.Url.passengerCount: Int(passengers),
                 Constants.Url.date: date,
                 Constants.Url.time: time,
-                Constants.Url.setPrice: Double(amount ?? "10")  as Any,
+                Constants.Url.setPrice: Double(amount)  as Any,
                 Constants.Url.vehicleId: vehicleId,
                 Constants.Url.aboutRide: aboutRide,
                 Constants.Url.estimateTime: estimatedTime
             ] ]
+
         case .bookRide:
             return  [Constants.JsonKey.passenger: [
                 Constants.Url.publishId: publishId,
@@ -138,13 +155,10 @@ class MapAndSearchRideViewModel: ObservableObject {
     }
     
     
-    
-    
-    
-    
-
-    
-    
+    // MARK: Function to generate Request
+    ///  method to create a urlrequest for api call
+    /// - Parameter method: accept a method to generate url reqeust for a specific type  of api call
+    /// - Returns: return a url request based on api call
     func createRequest(method: APIcallsForRides) -> URLRequest {
         var request: URLRequest
         switch method {
@@ -209,6 +223,10 @@ class MapAndSearchRideViewModel: ObservableObject {
         }
     }
     
+    
+    // MARK: Function for making API calls
+    ///  method to perform api call
+    /// - Parameter method: accept a method for api call from enum
     func apiCall(for method: APIcallsForRides) {
         switch method {
         case .publishRide:
@@ -234,6 +252,9 @@ class MapAndSearchRideViewModel: ObservableObject {
         }
     }
     
+    
+    
+    /// function to generate a url for  a get request of ride
     func generateURL() -> String {
             var url = Constants.Url.searchRide
             if let og = originData?.geometry.location, let dt = destinationData?.geometry.location {

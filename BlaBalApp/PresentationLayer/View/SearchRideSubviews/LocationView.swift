@@ -19,6 +19,7 @@ struct LocationView: View {
     @State var isOrigin = true
     @Binding var isPublishView: Bool
     @State var newSelectedDate: Date? = Date()
+
     @EnvironmentObject var vm: MapAndSearchRideViewModel
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @EnvironmentObject var baseApi: BaseApiManager
@@ -32,7 +33,7 @@ struct LocationView: View {
     @State var openTimePicker = false
     @State var vehicleIndex: Int = 0
     @State var vehicleName: String?
-    
+    @Binding var showAlert: Bool
     @Environment(\.colorScheme) var colorScheme
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
     let maxDate = Date()
@@ -141,7 +142,7 @@ struct LocationView: View {
                                 Image(systemName: Constants.Icons.calander).font(.title3).padding(.leading).foregroundColor(.blue)
                                 DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.date).padding(.leading, 8)
                                 Spacer()
-                                }
+                            }
                                 .padding(.trailing, 10)
                                 .frame(height: 40)
                        
@@ -247,17 +248,20 @@ struct LocationView: View {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = Constants.Date.timeFormat
                         vm.time = dateFormatter.string(from: currentDate)
-                        isPublishView ? vm.apiCall(for: .fetchPolylineAndDistanceOfRide ) : nil
+//                        isPublishView ? vm.apiCall(for: .fetchPolylineAndDistanceOfRide ) : nil
                         
-                        if isComingFromPublishedView {
-                            vm.publishId = 
-                            vm.apiCall(for: .updateRide)
-                        } else {
+                    
                             vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
+//                            vm.time = Helper().dateToString(selectedDate: newTime ?? Date())
+                        if vm.originData != nil && vm.destinationData != nil {
                             isPublishView ?  vm.apiCall(for: .fetchPolylineAndDistanceOfRide) : vm.apiCall(for: .searchRide)
                             // To show searched Ride
                             isPublishView ? showMap.toggle() :  showCarPoolView.toggle()
+                        } else {
+                            showAlert.toggle()
                         }
+                           
+                        
                     } label: {
                         HStack {
                             Spacer()
@@ -268,12 +272,11 @@ struct LocationView: View {
                                 Color.blue
                             }.foregroundColor(.white)
                     }
-                    .alert(isPresented: $baseApi.alert) {
-                        baseApi.successAlert ?
+                    .alert(isPresented: $vm.alertSuccess) {
                         Alert(title: Text(Constants.Alert.success), message: Text(Constants.Alert.ridePublishSuccess), dismissButton: .default(Text(Constants.Buttons.ok), action: {
-                           
-                        }))
-                        :
+                            
+                        }))}
+                    .alert(isPresented: $vm.alertFailure) {
                         Alert(title: Text(Constants.Alert.error), message: Text(Constants.Alert.failToPublishRide), dismissButton: .default(Text(Constants.Buttons.ok), action: {
                           
                         }))
@@ -285,12 +288,9 @@ struct LocationView: View {
                     .navigationDestination(isPresented: $showMap) {
                      ShowPolylineView()
                  }
-                    
-
                 }.onTapGesture {
                     self.isFocused = false
-                    
-                  
+                    self.showAlert = false
             }.cornerRadius(20)
         }.onAppear {
             vehicleVm.apiCall(method: .getVehicle)
@@ -310,7 +310,7 @@ struct LocationView: View {
 
 struct LocationView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationView(isPublishView: .constant(true), isComingFromPublishedView: .constant(false))
+        LocationView(isPublishView: .constant(true), isComingFromPublishedView: .constant(false), showAlert: .constant(false))
             .environmentObject(RegisterVehicleViewModel()).environmentObject(MapAndSearchRideViewModel()).environmentObject(BaseApiManager())
     }
 }

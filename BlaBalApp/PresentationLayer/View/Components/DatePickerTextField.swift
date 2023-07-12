@@ -16,13 +16,13 @@ struct DatePickerTextField: UIViewRepresentable {
     private let helper = Helper()
     private let dateFormatterForDate: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat =  "yyyy-MM-dd"
+        dateFormatter.dateFormat =  Constants.Date.outputDateFormat
         return dateFormatter
     }()
     
     private let dateFormatterForTime: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "hh:mm"
         return dateFormatter
     }()
     
@@ -81,6 +81,22 @@ struct DatePickerTextField: UIViewRepresentable {
         @objc func dateValueChanged() {
             self.dateChanged?()
         }
+        
+//        @objc func dateValueChanged() {
+//                   // Get the selected date from the date picker
+//                   let selectedDate = datePicker.date
+//
+//                   // Check if the selected date is a future date
+//                   if selectedDate > Date() {
+//                       // Set the minimum date to the current date and time
+//                       datePicker.minimumDate = Date()
+//                   } else {
+//                       // Set the minimum date to the predefined value (e.g., minDate or minDate2)
+//                       datePicker.minimumDate = isDOB ? minDate : minDate2
+//                   }
+//
+//                   self.dateChanged?()
+//               }
         
         @objc func doneButtonAction() {
             self.doneButtonTapped?()

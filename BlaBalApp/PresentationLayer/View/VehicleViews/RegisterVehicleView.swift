@@ -97,6 +97,11 @@ struct RegisterVehicleView: View {
                         
                        
                               
+                    }.alert(isPresented: $vm.failAlert){
+                            Alert(title: Text(Constants.Alert.error),
+                                  message: Text(isUpdateVehicle ? ErrorAlert.updateVehicle.rawValue : ErrorAlert.registerVehicle.rawValue),
+                                  dismissButton: .cancel(Text(Constants.Buttons.ok)))
+
                     }.padding()
                 }.scrollIndicators(.hidden)
             }.opacity(showCustomAlert ? 0.5 : 1.0)

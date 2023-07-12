@@ -24,9 +24,9 @@ struct AllVehicleView: View {
                             NavigationLink {
                                 VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
                             } label: {
-                                VStack{
+                                VStack {
                                     HStack {
-                                        Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing,50)
+                                        Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing, 50)
                                        
                                         Text(data[index].vehicleBrand)
                                         Spacer()
@@ -39,7 +39,8 @@ struct AllVehicleView: View {
                             deleteIndex = index
                             alertToDelete.toggle()
                         }
-                    }.environment(\.editMode, $editMode).refreshable {
+                    }.environment(\.editMode, $editMode)
+                        .refreshable {
                         vm.apiCall(method: .getVehicle)
                     }.toolbar {
                         Button("Delete", action: {
@@ -58,22 +59,6 @@ struct AllVehicleView: View {
                                 }
                             }), .cancel()])
                         }
-                        
-//                        .alert(isPresented: $alertToDelete) {
-//                          Alert(
-//                              title: Text(Constants.Alert.warning),
-//                              message: Text(Constants.Alert.deleteItem),
-//                              primaryButton: .destructive(
-//                                  Text(Constants.Alert.delete),
-//                                  action: {
-//                                      if let index = deleteIndex {
-//                                          delete(at: index)
-//                                      }
-//                                  }
-//                              ),
-//                              secondaryButton: .cancel()
-//                          )
-//                      }
                 } else {
                     VStack {
                         Image("carsaf").resizable().scaledToFit().frame(width: 300)
@@ -96,10 +81,8 @@ struct AllVehicleView: View {
             vm.isDeletingVehicle = false
             vm.isUpdatingVehicle = false
             vm.apiCall(method: .getVehicle)
-        }.alert(isPresented: $baseAPI.errorAlert) {
-            Alert(title: Text("error"), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel(Text("Done"), action: {
-                baseAPI.errorAlert = false
-            }))
+        }.alert(isPresented: $vm.failAlert) {
+            Alert(title: Text("error"), message: Text(ErrorAlert.getVehicle.rawValue), dismissButton: .cancel(Text("Ok"), action: {}))
         }
         .onDisappear {
             vm.isDeletingVehicle = false

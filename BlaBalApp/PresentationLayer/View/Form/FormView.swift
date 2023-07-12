@@ -29,12 +29,13 @@ struct FormView: View {
             Spacer()
             VStack {
                 Button {
-                  
-                    
+                    hideKeyboard()
                     if step == 0 {
-                        if vm.fname.isEmpty || vm.lname.isEmpty {
+                      
+                        if Helper().nameValidation(name: vm.fname) || Helper().nameValidation(name: vm.lname) {
                             alert.toggle()
                         }
+                       
                     }
                     
                     if step == 1 {
@@ -71,7 +72,7 @@ struct FormView: View {
                     
                 } label: {
                     Buttons(image: "", text: Constants.Buttons.cont, color: .blue)
-                }.disabled(alert).padding(.bottom)
+                }.disabled(alert)
                 Button {
                     withAnimation {
                         if step > 0 {
