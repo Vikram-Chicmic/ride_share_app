@@ -9,6 +9,7 @@ import SwiftUI
 
 struct YourRidesView: View {
     @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vmm: LoginSignUpViewModel
     @State var isPublishRidesView = true
     @State var selectedCardData: AllPublishRideData?
     
@@ -113,10 +114,12 @@ struct YourRidesView: View {
                                     .onTapGesture {
 //                                        if data[index].status != "cancel booking" {
                                             self.selectedCardData = data[index].ride
+                                            vmm.userId = data[index].ride.userID
                                             vm.passengerId = data[index].bookingID
                                             indexValue = index
                                             vehicleVm.getVehicleId = data[index].ride.vehicleID
                                             vehicleVm.apiCall(method: .getVehicleDetailsById)
+                                            vmm.apiCall(forMethod: .getUserById)
 //                                        }
                                       
                                     }

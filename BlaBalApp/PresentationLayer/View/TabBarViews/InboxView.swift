@@ -8,66 +8,73 @@
 import SwiftUI
 
 struct InboxView: View {
-    @State var message: String = ""
-    @State var sendMsgArr: [String] = ["Hello", "How are you", "What are you doing"]
-    @State var recievedMsgArr: [String] = ["HI", "I am fine", "Nothing"]
+    @EnvironmentObject var chatVm: ChatViewModel
+    @State var openChat = false
+    @State var indexToSend: Int?
     var body: some View {
-//        VStack {
-//            HStack {
-//                Text(Constants.Labels.inbox).font(.largeTitle).fontWeight(.semibold)
-//                Spacer()}
-//            Text(Constants.Texts.nomsg).padding(.vertical)
-//            Spacer()
-//        }.padding()
-        
-        
-        VStack {
-          
+        VStack(alignment: .leading) {
+            Text("Inbox").font(.title).fontWeight(.semibold).padding(.leading).padding(.top)
+            Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
             ScrollView {
-                VStack(alignment: .leading) {
-                    Spacer()
-                    ForEach(recievedMsgArr, id: \.self) { msg in
-                        HStack{
-                            Text(msg).padding().background(.cyan).cornerRadius(20)
-                            Spacer()
-                        }.padding(.horizontal)
-                     
-                    }
-                    ForEach(sendMsgArr, id: \.self) { msg in
-                        HStack{
-                            Spacer()
-                            Text(msg).padding().background(.blue).cornerRadius(20)
+                if let data = chatVm.allChats {
+                    if data.count > 0 {
+                        ForEach(data.indices, id: \.self) { index in
+                            HStack {
+                         
+                                if let imageURL = URL(string: data[index].receiverImage ?? "") {
+                                 AsyncImage(url: imageURL) { phase in
+                                     switch phase {
+                                     case .empty:
+                                         ProgressView()
+                                             .progressViewStyle(CircularProgressViewStyle()).frame(width: 50).clipShape(Circle())
+                                     case .success(let image):
+                                         image.resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
+                                     case .failure(_):
+                                         // Show placeholder for failed image load
+                                         Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                                     }
+                                 }
+                             } else {
+                                 Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                             }
+                                Text(data[index].receiver.firstName + " " + data[index].receiver.lastName).fontWeight(.semibold).padding(.leading)
+                                Spacer()
+                            }.padding(.horizontal).frame(height: 60)
+                            .onTapGesture {
+                                    chatVm.chatId = data[index].id
+                                    chatVm.receiverId = data[index].receiverID
+                                    self.indexToSend = index
+                                    openChat.toggle()
+                                    
+                            }
+                            .navigationDestination(isPresented: $openChat) {
+                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage, reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName)
+                            }
                             
-                        }.padding(.horizontal)
-                     
-                    }
-                }.frame(height: 620)
-                
-            }.scrollIndicators(.hidden)
-            HStack {
-                CustomTextfield(label: "", placeholder: "type message here", value: $message).padding(.bottom, 11)
-                Image(systemName: "arrow.right.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 45)
-                    .foregroundColor(.blue)
-                    .background(.white)
-                    .clipShape(Circle()).onTapGesture {
-                        if !message.isEmpty {
-                            sendMsgArr.append(message)
+                            Divider().padding(.horizontal)
                         }
-                   
-                    message = ""
+                        
+                    } else {
+                       Text("You have no chats.")
+                    }
+                    
+                } else {
+                    Text("all chats is nil")
                 }
+            }.refreshable {
+                chatVm.apiCall(mehtod: .getAllChatRoom)
             }
-           
+            Spacer()
+        }.onAppear {
+            chatVm.apiCall(mehtod: .getAllChatRoom)
+        }
         }
         
     }
-}
+
 
 struct InboxView_Previews: PreviewProvider {
     static var previews: some View {
-        InboxView()
+        InboxView().environmentObject(ChatViewModel())
     }
 }

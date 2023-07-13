@@ -29,12 +29,31 @@ class BaseApiManager: ObservableObject {
         switch method {
         case .login:
             UserDefaults.standard.set(true, forKey: Constants.Url.userLoggedIN)
-     
+            let decoder = JSONDecoder()
+            do {
+                let user = try decoder.decode(Welcome.self, from: data)
+                LoginSignUpViewModel.shared.recievedData = user
+                print(user)
+                
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+            UserDefaults.standard.set(data,forKey: Constants.UserDefaultsKeys.userDataKey)
             LoginSignUpViewModel.shared.navigate.toggle()
 
         case .signUp:
             LoginSignUpViewModel.shared.fname = ""
             LoginSignUpViewModel.shared.lname = ""
+            let decoder = JSONDecoder()
+            do {
+                let user = try decoder.decode(Welcome.self, from: data)
+                LoginSignUpViewModel.shared.recievedData = user
+                print(user)
+                
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+            UserDefaults.standard.set(data,forKey: Constants.UserDefaultsKeys.userDataKey)
             LoginSignUpViewModel.shared.alert.toggle()
      
             
@@ -49,6 +68,7 @@ class BaseApiManager: ObservableObject {
             do {
                 let user = try decoder.decode(Welcome.self, from: data)
                 LoginSignUpViewModel.shared.recievedData = user
+                print(user)
                 
             } catch {
                 print("\(error.localizedDescription)")
@@ -73,6 +93,7 @@ class BaseApiManager: ObservableObject {
             do {
                 let user = try decoder.decode(DecodeUser.self, from: data)
                 LoginSignUpViewModel.shared.decodedData = user
+                print(user)
             } catch {
                 print("\(error.localizedDescription)")
             }
@@ -354,12 +375,23 @@ class BaseApiManager: ObservableObject {
         
         switch method {
         case .createChatRoom:
+            ChatViewModel.shared.chatRoomSuccessAlert.toggle()
             print("Room created successfully")
+            
         case .getAllChatRoom:
+            guard let result = try? JSONDecoder().decode(ChatDecode.self, from: data) else {
+                return
+            }
+            ChatViewModel.shared.allChats = result.chats
+            print(result)
             print("All chats get successfully")
         case .sendMessage:
             print("message send successfully")
         case .recieveMessage:
+            guard let result = try? JSONDecoder().decode(ReceiveChat.self, from: data) else {
+                return
+            }
+            ChatViewModel.shared.allMessages = result.messages
             print("message recieved successfully")
         }
     }
@@ -374,6 +406,8 @@ class BaseApiManager: ObservableObject {
         
         switch method {
         case .createChatRoom:
+            response.statusCode
+            ChatViewModel.shared.chatRoomFailAlert.toggle()
             print("Failed to create chat room")
         case .getAllChatRoom:
             print("Failed to get all chats")

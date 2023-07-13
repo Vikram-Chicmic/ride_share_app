@@ -17,6 +17,8 @@ struct BlaBalAppApp: App {
     @StateObject var mapVm = MapAndSearchRideViewModel.shared
     @StateObject var sessionManager = SessionManager()
     @StateObject var baseAPiManager = BaseApiManager.shared
+    @StateObject var chatVm = ChatViewModel.shared
+
     var body: some Scene {
         WindowGroup {
             Group {
@@ -34,6 +36,7 @@ struct BlaBalAppApp: App {
                 .environmentObject(mapVm)
                 .environmentObject(sessionManager)
                 .environmentObject(baseAPiManager)
+                .environmentObject(chatVm)
             }
              
             

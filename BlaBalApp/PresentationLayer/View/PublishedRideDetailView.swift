@@ -13,10 +13,12 @@ struct PublishedRideDetailView: View {
     @State var showEditView = false
     @EnvironmentObject var baseApi: BaseApiManager
     @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vmm: LoginSignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State var showAlert = false
     @State var vehicleName: String = ""
     var indexValue: Int?
+    @State var navigate = false
     var body: some View {
         
             VStack {
@@ -74,6 +76,46 @@ struct PublishedRideDetailView: View {
                 
                     VehicleDetailView(isComingFromPublishView: .constant(true)).padding(-15)
                     
+                    if let data = vmm.decodedData {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(data.user.firstName+data.user.lastName).font(.title3)
+                                HStack {
+
+                                    
+                                }.foregroundColor(.yellow)
+                            }
+                            Spacer()
+                            if let imageURL = URL(string: data.imageURL ?? "") {
+                             AsyncImage(url: imageURL) { phase in
+                                 switch phase {
+                                 case .empty:
+                                     ProgressView()
+                                         .progressViewStyle(CircularProgressViewStyle())
+                                 case .success(let image):
+                                     image.resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
+                                 case .failure(_):
+                                     // Show placeholder for failed image load
+                                     Image("Cathy").resizable().scaledToFit().frame(width: 80).clipShape(Circle())
+                                 }
+                             }
+                         } else {
+                             Image("Cathy").resizable().scaledToFit().frame(width: 80).clipShape(Circle())
+                         }
+                            
+                            Image(systemName: Constants.Icons.rightChevron)
+                        }.frame(height: 100)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(20)
+                            .onTapGesture {
+                                navigate.toggle()
+                                ChatViewModel.shared.publishId = selectedCardData?.id
+                            }.navigationDestination(isPresented: $navigate) {
+                                DriverDetailView(data: data)
+                            }
+                    }
+                  
                     
                 // show data only if it is avialable
                 if let data = selectedCardData {

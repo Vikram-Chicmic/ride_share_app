@@ -45,9 +45,7 @@ struct CarPoolCard: View {
                             Spacer()
                         }
                     }.padding().background {
-                        Image("Bank").resizable().cornerRadius(10).overlay {
-                            TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-                        }
+                        Color.gray.opacity(0.2)
                     }
                  
                  
@@ -82,16 +80,16 @@ struct CarPoolCard: View {
                             
                       
                             VStack(alignment: .leading) {
-                                Text("\(data.name)").font(.system(size: 20))
+                                Text("\(data.name)").font(.system(size: 20)).foregroundColor(.white)
                             }
                             
                             Spacer()
-                            Text("Rs. \(data.publish.setPrice)").bold()
+                            Text("Rs. \(data.publish.setPrice)").bold().foregroundColor(.white)
                         }.padding(8)
                             .padding(.horizontal)
                         
                     }.background {
-                        Image("bluebg")
+                        Image(Constants.Images.blue)
                                    .resizable()
                                    .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
                             TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))

@@ -146,7 +146,7 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
     
     func apiCallForChat( method: APIcallsForChat, request: URLRequest) {
        var finalRequest = request
-       
+
        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
            finalRequest.setValue(token, forHTTPHeaderField: Constants.Url.auth)
        }

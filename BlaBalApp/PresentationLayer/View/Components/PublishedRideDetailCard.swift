@@ -48,9 +48,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                                Image(Constants.Images.white).resizable().cornerRadius(10).overlay {
-                                TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-                            }
+                                Color.gray.opacity(0.2).cornerRadius(20)
                         }
                      
                        
@@ -118,9 +116,7 @@ struct PublishedRideDetailCard: View {
                             }
                         }.padding()
                             .background {
-                                Image(Constants.Images.white).resizable().cornerRadius(10).overlay {
-                                TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-                            }
+                                Color.gray.opacity(0.2)
                         }
                      
                        

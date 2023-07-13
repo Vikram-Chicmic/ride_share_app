@@ -76,6 +76,9 @@
 		93D291AD2A0CEBB500E0D13C /* AddSeatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */; };
 		93D291AF2A0D07E000E0D13C /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291AE2A0D07E000E0D13C /* CalendarView.swift */; };
 		93D291B22A0D0F8C00E0D13C /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D291B12A0D0F8C00E0D13C /* DateExtension.swift */; };
+		93D366A02A5FD0A100392D3F /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3669F2A5FD0A100392D3F /* ChatModel.swift */; };
+		93D366A22A5FED2900392D3F /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D366A12A5FED2900392D3F /* MessageBubble.swift */; };
+		93D366A42A5FEFBA00392D3F /* ChatReceiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */; };
 		93D78A8B2A582BA600823443 /* LocationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8A2A582BA600823443 /* LocationUpdate.swift */; };
 		93D78A8D2A5836F100823443 /* UpdatePriceAndSeats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */; };
 		93D78A902A583BAD00823443 /* DateAndVehicleUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8F2A583BAD00823443 /* DateAndVehicleUpdate.swift */; };
@@ -169,6 +172,9 @@
 		93D291AC2A0CEBB500E0D13C /* AddSeatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeatView.swift; sourceTree = "<group>"; };
 		93D291AE2A0D07E000E0D13C /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		93D291B12A0D0F8C00E0D13C /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		93D3669F2A5FD0A100392D3F /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		93D366A12A5FED2900392D3F /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReceiveModel.swift; sourceTree = "<group>"; };
 		93D78A8A2A582BA600823443 /* LocationUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdate.swift; sourceTree = "<group>"; };
 		93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePriceAndSeats.swift; sourceTree = "<group>"; };
 		93D78A8F2A583BAD00823443 /* DateAndVehicleUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndVehicleUpdate.swift; sourceTree = "<group>"; };
@@ -376,6 +382,7 @@
 				93ECF8802A4AA97A00331457 /* DatePickerTextField.swift */,
 				93ECF8822A4AA9A700331457 /* TextFieldPicker.swift */,
 				933CD7F92A57CF4600BA7A38 /* CustomShape.swift */,
+				93D366A12A5FED2900392D3F /* MessageBubble.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -415,6 +422,8 @@
 				937E51002A4408D400194140 /* AllPublishRideModel.swift */,
 				93E571562A45A63900AF5C4D /* BookedRideModal.swift */,
 				93B6F7962A4D7D4600609A04 /* UserDecode.swift */,
+				93D3669F2A5FD0A100392D3F /* ChatModel.swift */,
+				93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -654,8 +663,10 @@
 				938077F22A0BC4F4008A889A /* SearchView.swift in Sources */,
 				9391DC1F2A1E0F3E007B5ADE /* VehicleModel.swift in Sources */,
 				93DF53702A2A0880002607BB /* MapAndSearchRideViewModel.swift in Sources */,
+				93D366A22A5FED2900392D3F /* MessageBubble.swift in Sources */,
 				932F00032A5ED2F5005D9756 /* ChatView.swift in Sources */,
 				93C2C9312A1F61EB00CA4C92 /* MapView.swift in Sources */,
+				93D366A02A5FD0A100392D3F /* ChatModel.swift in Sources */,
 				9391DC1B2A1DD323007B5ADE /* RegisterVehicleView.swift in Sources */,
 				9367EF112A49BDD900841B4D /* GoogleMapsProvider.swift in Sources */,
 				938886042A207A9200A838BC /* RidelDetailView.swift in Sources */,
@@ -697,6 +708,7 @@
 				938077E12A0B816E008A889A /* Buttons.swift in Sources */,
 				93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */,
 				93C2C9352A1F8D3900CA4C92 /* CarPoolCard.swift in Sources */,
+				93D366A42A5FEFBA00392D3F /* ChatReceiveModel.swift in Sources */,
 				93BD9F6C2A40523B002BF186 /* ViewExtension.swift in Sources */,
 				9391E1A92A0E4E7E00427F22 /* ProfileButtons.swift in Sources */,
 				936540BC2A1C9260004240D1 /* UpdateUserModel.swift in Sources */,

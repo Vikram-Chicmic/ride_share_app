@@ -30,7 +30,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var failToFetchUser = false
     // Variable for show form view and custom progressBar
     @Published var step: Int = 0
-    
+    @Published var currentState: Tabs = .searchView
     // Variables for alerts
     @Published var alert: Bool = false
     @Published var showAlert: Bool = false
@@ -42,7 +42,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var verified = false
     @Published var showAlertSignUpProblem = false
     @Published var failtToSendOtpAlert = false
-    @Published var userId : Int = 0
+    @Published var userId: Int = 0
     // Variable to store data response
     @Published var recievedData: Welcome?
     @Published var decodedData: DecodeUser?
@@ -127,17 +127,7 @@ class LoginSignUpViewModel: ObservableObject {
     }
     
    
-    // MARK: DecodeResponse
-    func decodeResponse<T: Decodable>(data: Data, responseType: T.Type) -> T? {
-        do {
-            let decoder = JSONDecoder()
-            let decodedData = try decoder.decode(responseType, from: data)
-            return decodedData
-        } catch {
-            print("Error decoding response: \(error.localizedDescription)")
-            return nil
-        }
-    }
+
 
     // MARK: encode recieved data
     func encodeData(recievedData: Welcome) {
@@ -177,6 +167,7 @@ class LoginSignUpViewModel: ObservableObject {
         case .changePassword:
             return URL(string: Constants.Url.updatePassword)!
         case .getUserById:
+            print(Constants.Url.signUpUrl+"/\(userId)")
             return URL(string: Constants.Url.signUpUrl+"/\(userId)")!
         }
     }

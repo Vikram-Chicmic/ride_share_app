@@ -11,8 +11,8 @@ struct ProfileDetailTileView: View {
     var image: String
     var value: String
     var body: some View {
-        HStack {
-            Image(systemName: image).foregroundColor(Constants.Colors.bluecolor)
+        HStack(spacing: 20) {
+            Image(systemName: image).foregroundColor(Constants.Colors.bluecolor).scaledToFit().frame(width: 10)
             Text(value).foregroundColor(.gray)
         }
     }

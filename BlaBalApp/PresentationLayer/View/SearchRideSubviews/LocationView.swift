@@ -112,9 +112,8 @@ struct LocationView: View {
                         }.sheet(isPresented: $showMapView, content: {
                             MapView( isOrigin: $isOrigin)
                         })
-                        .padding(.top, 4)
                         .frame(height: 45)
-                        Divider().frame(height: 1).padding(.horizontal)
+                        Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
 
 
                         // MARK: - Going to
@@ -133,13 +132,13 @@ struct LocationView: View {
                         })
                         .frame(height: 40)
                         
-                        Divider().frame(height: 1).padding(.horizontal)
+                        Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                        
                         
                         // MARK: - Calendar
                         HStack {
                             HStack(spacing: 20) {
-                                Image(systemName: Constants.Icons.calander).font(.title3).padding(.leading).foregroundColor(.blue)
+                                Image(systemName: Constants.Icons.calander).padding(.leading).foregroundColor(.blue)
                                 DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.date).padding(.leading, 8)
                                 Spacer()
                             }
@@ -147,7 +146,7 @@ struct LocationView: View {
                                 .frame(height: 40)
                        
                             HStack {
-                                Divider().frame(width: 1).padding(.horizontal)
+                                Rectangle().frame(width: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                             }
                             
                             // MARK: - Seats
@@ -155,7 +154,7 @@ struct LocationView: View {
                                     addSeatNavigate.toggle()
                                 } label: {
                                     HStack {
-                                        Image(systemName: Constants.Icons.person).font(.title2)
+                                        Image(systemName: Constants.Icons.person).bold()
                                         Text("\(vm.passengers)").font(.title2).foregroundColor(colorScheme == .dark ? .white : .black)
                                     }
                                 }.padding(.trailing, 40)
@@ -167,31 +166,30 @@ struct LocationView: View {
                         
                         if isPublishView {
                             
-                               Divider().frame(height: 1).padding(.horizontal)
+                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                             // MARK: - Time
                             HStack {
-                                Image(systemName: Constants.Icons.clock).font(.title2).foregroundColor(.blue).padding(.leading).bold()
+                                Image(systemName: Constants.Icons.clock).foregroundColor(.blue).padding(.leading).bold()
                                 DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.time).padding(.leading)
                                 Spacer()
                             }.frame(height: 40)
                             
-                            Divider().frame(height: 1).padding(.horizontal)
+                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                             
                             
                             
                             // MARK: - Discription
                             HStack {
-                                Image(systemName: Constants.Icons.pencil).font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                                TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 60).padding(.horizontal).focused($isFocused)
-                                Divider().frame(height: 20)
+                                Image(systemName: Constants.Icons.pencil).foregroundColor(.blue).padding(.leading).bold()
+                                TextField(Constants.Placeholders.description, text: $vm.aboutRide).frame(height: 50).padding(.horizontal).focused($isFocused)
+                               
                             }
-                            Divider().frame(height: 1).padding(.horizontal)
+                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                             
                         
                             //MARK: - Vehicle Selection
                             HStack {
                                 Image(systemName: Constants.Icons.carfill)
-                                    .font(.title3)
                                     .foregroundColor(.blue)
                                     .bold()
                                 
@@ -219,14 +217,14 @@ struct LocationView: View {
                                            Image(systemName: Constants.Icons.rightChevron).foregroundColor(.gray)
                                        }
                                    }
-                                   .frame(height: 60)
+                                   .frame(height: 50)
                             }.padding(.horizontal)
-                            Divider().frame(height: 1).padding(.horizontal)
+                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                 
                                 //MARK: - Amount
                                     HStack {
-                                        Image(systemName: Constants.Icons.rupeeSign).font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                                        TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 60).padding(.horizontal).keyboardType(.numberPad).focused($isFocused)
+                                        Image(systemName: Constants.Icons.rupeeSign).foregroundColor(.blue).padding(.leading).bold()
+                                        TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 50).padding(.horizontal).keyboardType(.numberPad).focused($isFocused)
                                     }
                                 
                             
@@ -234,13 +232,8 @@ struct LocationView: View {
                            
                         }
                         
-                    }.background {
-                        Image("Bank")
-                            
-                                   .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
-                        }
                     }
+                 
                     
                     
                     // MARK: - Search
@@ -292,6 +285,8 @@ struct LocationView: View {
                     self.isFocused = false
                     self.showAlert = false
             }.cornerRadius(20)
+        }   .background {
+            Color.gray.opacity(0.1).cornerRadius(20)
         }.onAppear {
             vehicleVm.apiCall(method: .getVehicle)
         }.padding()

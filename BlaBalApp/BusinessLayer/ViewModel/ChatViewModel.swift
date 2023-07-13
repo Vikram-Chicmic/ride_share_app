@@ -13,6 +13,10 @@ class ChatViewModel: ObservableObject {
     @Published var publishId: Int?
     @Published var chatId: Int?
     @Published var message: String?
+    @Published var chatRoomSuccessAlert = false
+    @Published var chatRoomFailAlert = false
+    @Published var allChats: [Chat]?
+    @Published var allMessages: [Message]?
     
     static var shared = ChatViewModel()
     
@@ -34,7 +38,7 @@ class ChatViewModel: ObservableObject {
     func createJSON(method: APIcallsForChat) -> [String: Any]{
         switch method {
         case .createChatRoom:
-            return  [ "chat" : [
+            return  [ "chat": [
                 "receiver_id": receiverId,
                 "publish_id": publishId
             ]
@@ -44,8 +48,8 @@ class ChatViewModel: ObservableObject {
             return [:]
             
         case .sendMessage:
-            return [ "message" : [
-                "content" : message,
+            return [ "message": [
+                "content": message,
                 "receiver_id": receiverId
             ]
             ]
@@ -57,7 +61,7 @@ class ChatViewModel: ObservableObject {
         case .createChatRoom, .getAllChatRoom:
             return URL(string: Constants.Url.createChat)!
         case .sendMessage, .recieveMessage:
-            return URL(string: Constants.Url.createChat+"/\(chatId)/messages")!
+            return URL(string: Constants.Url.createChat+"/\(chatId!)/messages")!
         }
     }
     

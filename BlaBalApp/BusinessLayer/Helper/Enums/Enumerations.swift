@@ -72,7 +72,10 @@ enum APIcallsForChat {
     case recieveMessage
 }
 
-
+enum APIResponseCase {
+    case success
+    case failure
+}
 
 
 enum AuthenticateError: LocalizedError{

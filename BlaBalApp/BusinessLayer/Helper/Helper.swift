@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Helper {
     
@@ -53,8 +54,12 @@ class Helper {
           return nil
       }
     
-    
-    
+     struct TabState: EnvironmentKey {
+        // 1
+         static let defaultValue: Tabs = .searchView
+    }
+ 
+  
     ///  method to convert date into string
     /// - Parameter selectedDate: accept date
     /// - Returns: return date in string format
@@ -106,4 +111,42 @@ class Helper {
         data.polylineString = ""
         data.passengerId = 0
     }
+    
+    
+    var message: [[String:Any]] = [        [
+        "id": 270,
+        "content": "Ggb",
+        "sender_id": 4,
+        "receiver_id": 249,
+        "created_at": "2023-06-27T12:24:27.387Z",
+        "updated_at": "2023-06-27T12:24:27.387Z",
+        "chat_id": 45
+    ],
+    [
+        "id": 216,
+        "content": "Gh",
+        "sender_id": 4,
+        "receiver_id": 249,
+        "created_at": "2023-06-27T04:52:15.241Z",
+        "updated_at": "2023-06-27T04:52:15.241Z",
+        "chat_id": 45
+    ],
+    [
+        "id": 203,
+        "content": "Hello",
+        "sender_id": 4,
+        "receiver_id": 249,
+        "created_at": "2023-06-26T05:05:56.517Z",
+        "updated_at": "2023-06-26T05:05:56.517Z",
+        "chat_id": 45
+    ],
+    [
+        "id": 186,
+        "content": "Aaj ka taza khabar",
+        "sender_id": 4,
+        "receiver_id": 249,
+        "created_at": "2023-06-23T06:31:44.279Z",
+        "updated_at": "2023-06-23T06:31:44.279Z",
+        "chat_id": 45
+    ]]
 }
