@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-class MapAndSearchRideViewModel: ObservableObject {
+class MapAndRidesViewModel: ObservableObject {
     
     @Published var searchText                                               = ""
     private var publishers                                                  = Set<AnyCancellable>()
@@ -48,7 +48,7 @@ class MapAndSearchRideViewModel: ObservableObject {
     @Published var isUpdatedSuccess = false
     
     @Published var estimatedTimeInSeconds: Int?
-    static var shared = MapAndSearchRideViewModel()
+    static var shared = MapAndRidesViewModel()
     @Published var allPublishRides: [AllPublishRideData]?
     @Published var allBookedRides: AllBookedRide?
     @Published var originData: Result?
@@ -139,12 +139,7 @@ class MapAndSearchRideViewModel: ObservableObject {
                 Constants.Url.publishId: publishId,
                 Constants.Url.seats: noOfSeatsToBook
             ]]
-        case .searchRide, .fetchPlaces, .getAllBookedRideOfCurentUser:
-            return [:]
-       
-        case .fetchPolylineAndDistanceOfRide:
-            return [:]
-        case .getAllPublisghRideOfCurrentUser:
+        case .searchRide, .fetchPlaces, .getAllBookedRideOfCurentUser, .fetchPolylineAndDistanceOfRide,.getAllPublisghRideOfCurrentUser:
             return [:]
         case .cancelRide:
             return ["id": publishId]
@@ -258,7 +253,6 @@ class MapAndSearchRideViewModel: ObservableObject {
     func generateURL() -> String {
             var url = Constants.Url.searchRide
             if let og = originData?.geometry.location, let dt = destinationData?.geometry.location {
-                
                 url += Constants.Url.srcLong+"\(og.lng)"
                 url += Constants.Url.srcLat+"\(og.lat)"
                 url += Constants.Url.desLong+"\(dt.lng)"
@@ -267,7 +261,6 @@ class MapAndSearchRideViewModel: ObservableObject {
                 url += Constants.Url.dateUrl+"\(date)"
 //                print(url)
             }
-            
             return url
         }
 

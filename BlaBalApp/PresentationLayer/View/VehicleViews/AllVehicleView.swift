@@ -66,11 +66,6 @@ struct AllVehicleView: View {
                     }
                 }
             }
-            
-            
-          
-         
-            
         }
         .onChange(of: alertToDelete, perform: { newValue in
             print(alertToDelete)

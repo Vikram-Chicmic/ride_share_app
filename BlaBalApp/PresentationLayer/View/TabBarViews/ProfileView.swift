@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State var navigate: Bool = false
+    @State var navigateToEditDetail: Bool = false
     @State var navigateToPhoneVerification: Bool = false
     @State var navigateToRegisterVehicle = false
     @State var detail: Welcome?
@@ -16,7 +16,8 @@ struct ProfileView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
-    @EnvironmentObject var sessionManager: SessionManager
+    @State var jumpToSplash = false
+   
     @EnvironmentObject var baseApi: BaseApiManager
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
@@ -31,7 +32,7 @@ struct ProfileView: View {
                                 Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                             }
                         }
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
                     }
                     VStack(alignment: .leading, spacing: 15) {
                         Section {
@@ -44,52 +45,17 @@ struct ProfileView: View {
                             }.padding(.leading)
                         }
                         
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
                         
                         VStack {
-                            // MARK: - edit personal detail
-                     
-                            Button {
-                                navigate.toggle()
-                            }label: {
-                                HStack {
-                                    Text(Constants.Buttons.editprofile)
-                                    Spacer()
-                            Image(systemName: Constants.Icons.rightChevron)
-                        }
-                            }.frame(minHeight: 30)
-                                .navigationDestination(isPresented: $navigate) {
-                                    EditPersonalDetailsView()
+                                    ProfileOptionButton( label: Text(Constants.Buttons.editprofile), destination: EditPersonalDetailsView(),isPresented: $navigateToEditDetail)
+                                    Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2))
+                                    ProfileOptionButton(label: Text(Constants.Buttons.changePassword), destination: ChangePasswordView(),isPresented: $navigateToChangePassword)
+                                    Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2))
+                                    ProfileOptionButton(label: Text(Constants.Buttons.verifyNumber),destination: PhoneView(),isPresented: $navigateToPhoneVerification)
                                 }
-                      
-                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2))
-                            // MARK: - Change Password
-                                Button {
-                                    navigateToChangePassword.toggle()
-                                } label: {
-                                    HStack {
-                                        Text(Constants.Buttons.changePassword)
-                                        Spacer()
-                                        Image(systemName: Constants.Icons.rightChevron)                    }
-                                }.frame(minHeight: 30).fullScreenCover(isPresented: $navigateToChangePassword) {
-                                    ChangePasswordView()
-                                }
-                            
-                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2))
-                            
-                            // MARK: - Phone verification
-                                Button {
-                                    navigateToPhoneVerification.toggle()
-                                } label: {
-                                    HStack {
-                                        Text(Constants.Buttons.verifyNumber)
-                                        Spacer()
-                                        Image(systemName: Constants.Icons.rightChevron)
-                                    }
-                                }.frame(minHeight: 30).navigationDestination(isPresented: $navigateToPhoneVerification) {
-                                    PhoneView()
-                                }
-                        }.padding(.horizontal).padding(.vertical,-5)
+                                .padding(.horizontal)
+                                .padding(.vertical, -5)
                         
                         Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                         
@@ -121,12 +87,10 @@ struct ProfileView: View {
                                 AllVehicleView()
                             }
                         }.padding(.horizontal)
-                        
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
                         // MARK: - Logout Button
                         Button {
                             showAlert.toggle()
-                            
                         }label: {
                                 HStack {
                                     Text(Constants.Buttons.logout).foregroundColor(.red)
@@ -135,21 +99,20 @@ struct ProfileView: View {
                         }.padding(.leading)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
-                                    sessionManager.isLoggedIn.toggle()
-                                    LoginSignUpViewModel.shared.currentState = .searchView
+                                    self.jumpToSplash.toggle()
                                     vm.apiCall(forMethod: .logout)
                                 }), .cancel()])
-                            }
+                            }.navigationDestination(isPresented: $jumpToSplash, destination: {
+                                SplashScreen()
+                            })
                             .alert(isPresented: $vm.failToLogout) {
                                 Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
                             }
-                           
                     }
                     Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                 }.refreshable {
                     vm.apiCall(forMethod: .getUser)
                 }.scrollIndicators(.hidden)
-            
                 Spacer()
             }
             .onAppear {

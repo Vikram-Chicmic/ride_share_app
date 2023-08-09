@@ -24,7 +24,7 @@ struct RideDetailView: View {
                                     HStack {
                                         DistanceCircleShowView(maxWidhth: 3, maxHeight: 35)
                                         
-                                        VStack(alignment: .leading, spacing: 30){
+                                        VStack(alignment: .leading, spacing: 30) {
                                             Text("\(details.publish.source)").bold()
                                             Text("\(details.publish.destination)").bold()
 
@@ -60,14 +60,10 @@ struct RideDetailView: View {
                     
                                 
                                 VStack {
-                                  
-                                    
                                     HStack {
                                         VStack(alignment: .leading) {
                                             Text(details.name).font(.title3)
                                             HStack {
-
-                                                
                                             }.foregroundColor(.yellow)
                                         }
                                         Spacer()
@@ -79,9 +75,11 @@ struct RideDetailView: View {
                                                      .progressViewStyle(CircularProgressViewStyle())
                                              case .success(let image):
                                                  image.resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
-                                             case .failure(_):
+                                             case .failure:
                                                  // Show placeholder for failed image load
                                                  Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
+                                             @unknown default:
+                                                 fatalError("")
                                              }
                                          }
                                      } else {

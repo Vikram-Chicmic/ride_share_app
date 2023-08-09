@@ -48,7 +48,7 @@ struct BirthdayView: View {
                 }
         } .onDisappear {
             let newDate = Helper().dateToString(selectedDate: selectedDate ?? Date())
-             //TODO: - check if date is valid and custom alert
+             // MARK: - check if date is valid and custom alert
              vm.bday = newDate
      }.padding()
         

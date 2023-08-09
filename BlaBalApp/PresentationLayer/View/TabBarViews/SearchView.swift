@@ -13,7 +13,7 @@ struct SearchView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image("carpoolIcon").resizable().frame(width: 50,height: 50).scaledToFit()
+                Image("carpoolIcon").resizable().frame(width: 50, height: 50).scaledToFit()
                 Text("Car Pool").font(.title2).fontWeight(.semibold).padding(.leading)
                 Spacer()
             }.padding(.horizontal)
@@ -23,17 +23,13 @@ struct SearchView: View {
                 LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false), showAlert: $showAlert)
                 Spacer()
                 if showAlert {
-                    CustomAlert(text: Constants.Alert.emptyfield, dismiss:$showAlert)
+                    CustomAlert(text: Constants.Alert.emptyfield, dismiss: $showAlert)
                 }
-
             }
                 }
             .onTapGesture {
                 self.hideKeyboard()
             }
-
-        
-
     }
 }
 

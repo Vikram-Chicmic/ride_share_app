@@ -13,17 +13,6 @@ struct ChangePasswordView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: Constants.Icons.cross).padding().font(.title2).foregroundColor(Constants.Colors.bluecolor)
-                }
-                Spacer()
-                Text(Constants.Header.changePassword).font(.title2).fontWeight(.semibold)
-                Spacer()
-                Spacer()
-            }.padding(.bottom)
             VStack(alignment: .leading) {
              
                 CustomTextfield(label: Constants.Labels.oldPassword, placeholder: Constants.Placeholders.oldPassword, value: $vm.oldPassword)
@@ -69,7 +58,7 @@ struct ChangePasswordView: View {
                         })
                     )
                 }
-            }.padding(.horizontal)
+            }.padding()
                 .alert(isPresented: $vm.passwordChangeFailAlert) {
                     Alert(
                         title: Text(Constants.Alert.error),
@@ -78,7 +67,7 @@ struct ChangePasswordView: View {
                     )
                 }
 
-        }.overlay(content: {
+        }.navigationTitle(Text(Constants.Header.changePassword)).overlay(content: {
             if vm.isLoading {
                 ProgressView().progressViewStyle(.circular)
             }

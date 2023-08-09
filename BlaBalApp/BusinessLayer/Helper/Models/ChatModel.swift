@@ -16,6 +16,7 @@ struct ChatDecode: Codable {
 
 // MARK: - Chat
 struct Chat: Codable {
+    let publish: AllPublishRideData
     let id, receiverID, senderID, publishID: Int
     let receiver, sender: Receiver
     let receiverImage: String?
@@ -29,6 +30,7 @@ struct Chat: Codable {
         case receiver, sender
         case receiverImage = "receiver_image"
         case senderImage = "sender_image"
+        case publish
     }
 }
 
@@ -98,4 +100,3 @@ struct Receiver: Codable {
 //        try container.encodeNil()
 //    }
 //}
-

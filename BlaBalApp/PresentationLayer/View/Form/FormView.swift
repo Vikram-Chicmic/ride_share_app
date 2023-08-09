@@ -11,6 +11,7 @@ struct FormView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var alert: Bool =  false
     @State var selectedDate: Date? = Calendar.current.date(from: DateComponents(year: 2008, month: 12, day: 31))!
+    @Environment(\.dismiss) var dismiss
   
     var body: some View {
         VStack {
@@ -75,19 +76,25 @@ struct FormView: View {
                 }.disabled(alert)
                 Button {
                     withAnimation {
+                        if step == 0 {
+                            dismiss()
+                        }
                         if step > 0 {
                             step -= 1 // Move to the previous view
                         }
                     }
                 } label: {
-                    if step>0 {
+                    
+       
                         Buttons(image: "", text: Constants.Buttons.back, color: .gray.opacity(0.5))
-                    }
+                    
                 }.padding(.bottom)
 
             }.padding(.horizontal)
 
-        }.navigationBarBackButtonHidden(true)
+        }.navigationDestination(isPresented: $vm.navigateToTabView, destination: {
+            TabBarView()
+        }).navigationBarBackButtonHidden(true)
     }
 }
 

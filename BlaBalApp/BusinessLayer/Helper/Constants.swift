@@ -229,6 +229,7 @@ struct Constants {
         static let emptyfield               = "Field can't be empty"
         static let invalidName              = "Name is invalid"
         static let invalidPhone             = "Invalid phone number"
+        static let failToSendOTP            = "Fail to send OTP. Please try again later."
         static let error                    = "Error"
         static let usrExist                 = "User already exist"
         static let userNotExist             = "Invalid User Password"
@@ -247,7 +248,7 @@ struct Constants {
     }
     // MARK: - Urls
     struct Url {
-        static let baseUrl                  = "https://1fe5-122-160-165-213.ngrok-free.app/"
+        static let baseUrl                  = "http://192.180.2.134:3001/"
         static let signUpUrl                = baseUrl+"users"
         static let signOutUrl               = baseUrl+"users/sign_out"
         static let loginUrl                 = baseUrl+"users/sign_in"

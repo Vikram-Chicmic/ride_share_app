@@ -1,4 +1,3 @@
-
 import SwiftUI
 import GoogleMaps
 
@@ -31,8 +30,8 @@ struct GoogleMapView: UIViewRepresentable {
 }
 
 struct ShowPolylineView: View {
-    let polylineOverview = MapAndSearchRideViewModel.shared.polylineString
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    let polylineOverview = MapAndRidesViewModel.shared.polylineString
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
@@ -93,18 +92,8 @@ struct ShowPolylineView: View {
     }
         .navigationTitle("Publish Ride")
             .onAppear {
-                print(
-                vm.estimatedTimeInSeconds
-            )
-            
-            
-            
+//                print(vm.estimatedTimeInSeconds!)
         }
-
-        
-    
-        
-        
     }
     
     func toConvertDate(seconds: Int) -> String {
@@ -113,14 +102,10 @@ struct ShowPolylineView: View {
         let seconds = (seconds % 3600) % 60
         return "\(hours):\(minutes):\(seconds)"
     }
-
-   
-
 }
 
 struct ShowPolylineView_Previews: PreviewProvider {
     static var previews: some View {
-        ShowPolylineView().environmentObject(MapAndSearchRideViewModel())
+        ShowPolylineView().environmentObject(MapAndRidesViewModel())
     }
 }
-

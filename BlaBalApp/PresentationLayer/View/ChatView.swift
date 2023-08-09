@@ -25,9 +25,11 @@ struct ChatView: View {
                              .progressViewStyle(CircularProgressViewStyle()).frame(width: 50).clipShape(Circle())
                      case .success(let image):
                          image.resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
-                     case .failure(_):
+                     case .failure:
                          // Show placeholder for failed image load
                          Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                     @unknown default:
+                         fatalError("")
                      }
                  }
              } else {
@@ -39,7 +41,7 @@ struct ChatView: View {
             Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
             
             
-            ScrollView{
+            ScrollView {
                 if let messages  =  vm.allMessages?.reversed() {
                     ForEach(messages.indices, id: \.self) { index in
                         MessageBubble(message: messages[index]).padding(.top, -10)
@@ -66,14 +68,14 @@ struct ChatView: View {
                     vm.apiCall(mehtod: .sendMessage)
                     vm.apiCall(mehtod: .recieveMessage)
                 } label: {
-                    Image(systemName: "paperplane.circle.fill").font(.system(size: 45)).padding(.trailing,10)
+                    Image(systemName: "paperplane.circle.fill").font(.system(size: 45)).padding(.trailing, 10)
                 }
 
             }.padding(.bottom)
             
         }.onAppear {
             vm.apiCall(mehtod: .recieveMessage)
-            vm.allMessages?.sort{$0.updatedAt < $1.updatedAt}
+            vm.allMessages?.sort { $0.updatedAt < $1.updatedAt }
         }.navigationBarBackButtonHidden(true)
 
     }

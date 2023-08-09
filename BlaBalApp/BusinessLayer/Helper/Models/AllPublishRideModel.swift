@@ -12,4 +12,3 @@ struct AllPublishRide: Codable {
     let code: Int
     let data: [AllPublishRideData]
 }
-

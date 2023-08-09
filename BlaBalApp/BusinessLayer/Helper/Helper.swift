@@ -31,9 +31,9 @@ class Helper {
     /// - Returns: return true or false value based on validation , return true if it is invalid otherwise false
     func nameValidation(name: String) -> Bool {
         if name.isEmpty { return true}
-        if name.containsSpecialCharacters{ return true}
-        if name.containsNumbers{ return true}
-        if name.containsWhitespace{ return true}
+        if name.containsSpecialCharacters { return true}
+        if name.containsNumbers { return true}
+        if name.containsWhitespace { return true}
         return false
     }
     
@@ -54,6 +54,7 @@ class Helper {
           return nil
       }
     
+    /// to set first view of tab always when login or signup after logout
      struct TabState: EnvironmentKey {
         // 1
          static let defaultValue: Tabs = .searchView
@@ -63,7 +64,7 @@ class Helper {
     ///  method to convert date into string
     /// - Parameter selectedDate: accept date
     /// - Returns: return date in string format
-    func dateToString(selectedDate: Date)-> String{
+    func dateToString(selectedDate: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = Constants.Date.dateFormat
         return formatter.string(from: selectedDate)
@@ -74,7 +75,7 @@ class Helper {
     ///  method to convert string formatted date into date
     /// - Parameter date: accept date in string format
     /// - Returns: return formatted date
-    func stringTodate(date: String)-> Date {
+    func stringTodate(date: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Constants.Date.stringToDateForamat
         return dateFormatter.date(from: date) ?? Date()
@@ -100,7 +101,7 @@ class Helper {
     
     ///  mehtod to empty the model for mapandSearchViewModel
     func emptyMapAndSearchView() {
-        var data = MapAndSearchRideViewModel.shared
+        let data = MapAndRidesViewModel.shared
         data.time = ""
         data.passengers = 1
         data.aboutRide = ""
@@ -113,7 +114,44 @@ class Helper {
     }
     
     
-    var message: [[String:Any]] = [        [
+    /// funciton to valid phone number
+    /// - Parameter phoneNumber: phone number in string
+    /// - Returns: boolean which indicates wether the number is valid or not
+    func isValidIndianPhoneNumber(_ phoneNumber: String) -> Bool {
+        let phoneRegex = #"^\d{10}$"#
+        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        return phonePredicate.evaluate(with: phoneNumber)
+    }
+    
+    
+    func optionButton(for option: Option) -> some View {
+        Button {
+            option.isPresented.toggle()
+        } label: {
+            HStack {
+                Text(option.title)
+                Spacer()
+                Image(systemName: Constants.Icons.rightChevron)
+            }
+        }
+        .navigationDestination(isPresented: option.$isPresented) {
+            option.destination
+        }
+        .padding()
+    }
+    
+    public struct Option {
+         let title: String
+         let destination: AnyView
+         @Binding var isPresented: Bool
+     }
+    
+    
+    
+    
+    
+    
+    var message: [[String: Any]] = [        [
         "id": 270,
         "content": "Ggb",
         "sender_id": 4,

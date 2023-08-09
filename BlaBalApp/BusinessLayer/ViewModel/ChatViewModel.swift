@@ -35,7 +35,7 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func createJSON(method: APIcallsForChat) -> [String: Any]{
+    func createJSON(method: APIcallsForChat) -> [String: Any] {
         switch method {
         case .createChatRoom:
             return  [ "chat": [

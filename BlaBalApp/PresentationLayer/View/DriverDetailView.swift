@@ -23,7 +23,7 @@ struct DriverDetailView: View {
                              .progressViewStyle(CircularProgressViewStyle())
                      case .success(let image):
                          image.resizable().frame(width: 80).clipShape(Circle()).scaledToFit()
-                     case .failure(_):
+                     case .failure:
                          // Show placeholder for failed image load
                          Image("Cathy").resizable().scaledToFit().frame(width: 80).clipShape(Circle())
                      }
@@ -35,7 +35,7 @@ struct DriverDetailView: View {
                 VStack(alignment: .leading) {
                     Text(data.user.firstName+data.user.lastName).font(.title).bold()
                 }.padding(.leading)
-                Spacer ()
+                Spacer()
            
             }.frame(height: 80)
                 .padding()
@@ -56,10 +56,10 @@ struct DriverDetailView: View {
                 chatVm.apiCall(mehtod: .createChatRoom)
             }
             .alert(isPresented: $chatVm.chatRoomSuccessAlert) {
-                Alert(title: Text("Success"), message: Text("Chat room has been created successfully. You can contact the driver through chat section."),dismissButton: .cancel(Text(Constants.Buttons.ok)))
+                Alert(title: Text("Success"), message: Text("Chat room has been created successfully. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
             }
             .alert(isPresented: $chatVm.chatRoomFailAlert) {
-                Alert(title: Text("Error"), message: Text("Chat room has been created already. You can contact the driver through chat section."),dismissButton: .cancel(Text(Constants.Buttons.ok)))
+                Alert(title: Text("Error"), message: Text("Chat room has been created already. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
             }
             Spacer()
         }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)

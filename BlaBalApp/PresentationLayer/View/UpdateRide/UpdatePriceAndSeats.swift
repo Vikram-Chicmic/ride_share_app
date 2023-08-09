@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct UpdatePriceAndSeats: View {
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @FocusState var isFocused: Bool
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
-            //MARK: - Amount
+            // MARK: - Amount
             HStack {
-                Image(systemName: Constants.Icons.rupeeSign).font(.title2).foregroundColor(.blue).bold().padding([.leading,.top])
+                Image(systemName: Constants.Icons.rupeeSign).font(.title2).foregroundColor(.blue).bold().padding([.leading, .top])
                     HStack {
                        
                         TextField(Constants.Placeholders.enterAmount, text: $vm.amount).padding(.horizontal).keyboardType(.numberPad).focused($isFocused)
@@ -25,8 +25,7 @@ struct UpdatePriceAndSeats: View {
             }.padding(.top)
          
             
-            
-            //MARK: - Seats
+            // MARK: - Seats
                 HStack {
                     Image(systemName: Constants.Icons.seat).font(.title2).foregroundColor(.blue).padding([.top]).bold()
                        HStack {
@@ -66,6 +65,6 @@ struct UpdatePriceAndSeats: View {
 
 struct UpdatePriceAndSeats_Previews: PreviewProvider {
     static var previews: some View {
-        UpdatePriceAndSeats().environmentObject(MapAndSearchRideViewModel())
+        UpdatePriceAndSeats().environmentObject(MapAndRidesViewModel())
     }
 }

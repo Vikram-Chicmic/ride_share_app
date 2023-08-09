@@ -30,7 +30,7 @@ struct ConfirmOTPView: View {
             Button {
                 vmm.sendOTP = false
                 vmm.apiCall(forMethod: .otpVerify)
-                if vmm.verified {
+                if vmm.phoneVerified {
                     showview.toggle()
                 } else {
                     //Alert("Cant varify")
@@ -43,9 +43,7 @@ struct ConfirmOTPView: View {
             } label: {
                 Text(Constants.Buttons.back).frame(height: 50)
             }
-
             Spacer()
-            
         }.onAppear {
             vmm.passcode = ""
         }

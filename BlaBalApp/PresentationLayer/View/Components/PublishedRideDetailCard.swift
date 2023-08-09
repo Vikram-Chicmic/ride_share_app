@@ -12,143 +12,74 @@ struct PublishedRideDetailCard: View {
     var bookedRideData: AllBookedRideData?
     var indexValue: Int?
     @Binding var isPublishRideData: Bool
+    
     var body: some View {
         VStack {
-            if isPublishRideData {
-                if let data =  publishRideData {
-                    VStack {
+            if let data = isPublishRideData ? publishRideData : bookedRideData?.ride {
+                VStack {
+                    HStack {
+                        Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
+                        Text(Helper().formatDateToMMM(data.date))
+                        Spacer()
                         VStack {
-                            HStack {
-                                Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
-                                Text(Helper().formatDateToMMM(data.date))
-                                Spacer()
-                                VStack {
-                                    Text(data.status.capitalized).padding().font(.system(size: 12)).foregroundColor(.white)
-                                }
-                                .background(data.status == "pending" ? Color.green : Color.red)
-                                .cornerRadius(10)
-                            }
-                            
-                            
-                            HStack(spacing: 20) {
-                                DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
-                                
-                                VStack(alignment: .leading, spacing: 30) {
-                                         VStack(alignment: .leading) {
-                            
-                                             Text(data.source).bold()
-                                         }
-                                     
-                                
-                                        VStack(alignment: .leading) {
-                                            Text("\(data.destination)").bold()
-                                    }
-                                 }.padding(.vertical)
-                                Spacer()
-                            }
-                        }.padding()
-                            .background {
-                                Color.gray.opacity(0.2).cornerRadius(20)
+                            Text(data.status.capitalized).padding().font(.system(size: 12)).foregroundColor(.white)
                         }
-                     
-                       
-                        
-                 
-                        VStack {
-                            HStack {
-                                HStack {
-                                    Image(systemName: Constants.Icons.person).foregroundColor(.blue)
-                                    Text(String(data.passengersCount)).foregroundColor(.white)
-                                }
-                                Spacer()
-                                Text("Rs. \(data.setPrice)").bold().foregroundColor(.white)
-                            }.padding(15)
-                        }.background {
-                            Image(Constants.Images.blue)
-                                           .resizable()
-                                           .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                                    TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
-                                }
-                        }.padding(.top, -15)
-                    
+                        .background(data.status == (isPublishRideData ? "pending" : Constants.DefaultValues.confirmBooking) ? Color.green : Color.red)
+                        .cornerRadius(10)
                     }
-
-                    
-                } else {
-                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
-                }
-            }
-            else {
-                if let data =  bookedRideData {
-                    VStack {
-                        VStack {
-                            HStack {
-                                Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
-                                Text(Helper().formatDateToMMM(data.ride.date))
-                                Spacer()
-                                VStack {
-                                    Text(data.status.capitalized).padding(12).font(.system(size: 12)).foregroundColor(.white)
-                                }.background(data.status == Constants.DefaultValues.confirmBooking ? Color.green : Color.red).cornerRadius(10)
-                            }
-                            
-                            
-                            HStack(spacing: 20) {
-                                VStack {
-                                    Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                    HStack {
-                                        Divider().frame(height: 20)
-                                    }
-                                    Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
-                                }.padding(.leading)
-                                
-                                VStack(alignment: .leading, spacing: 30) {
-                                         VStack(alignment: .leading) {
-                            
-                                             Text(data.ride.source).bold()
-                                         }
-                                     
-                                
-                                        VStack(alignment: .leading) {
-                                            Text("\(data.ride.destination)").bold()
-                                    }
-                                 }.padding(.vertical)
-                                Spacer()
-                            }
-                        }.padding()
-                            .background {
-                                Color.gray.opacity(0.2)
+                    HStack(spacing: 20) {
+                        if isPublishRideData {
+                            DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
+                        } else {
+                            VStack {
+                                Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
+                                HStack {
+                                    Divider().frame(height: 20)
+                                }
+                                Image(systemName: Constants.Icons.circle).foregroundColor(.blue)
+                            }.padding(.leading)
                         }
-                     
-                       
                         
-                 
-                        VStack {
-                            HStack {
-                                HStack {
-                                        Image(systemName: Constants.Icons.person).foregroundColor(.blue)
-                                        Text(String(data.ride.passengersCount)).foregroundColor(.white)
-                                    }
-                                    HStack {
-                                        Image(systemName: Constants.Icons.seat).foregroundColor(.blue)
-                                        Text(String(data.seat)).foregroundColor(.white)
-                                    }
-                                Spacer()
-                                Text("Rs. \(data.ride.setPrice)").bold().foregroundColor(.white)
-                            }.padding(15)
-                        }.background {
-                            Image(Constants.Images.blue)
-                                           .resizable()
-                                           .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                                    TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
-                                }
-                        }.padding(.top, -15)
-                    
+                        VStack(alignment: .leading, spacing: 30) {
+                            VStack(alignment: .leading) {
+                                Text(data.source).bold()
+                            }
+                            VStack(alignment: .leading) {
+                                Text("\(data.destination)").bold()
+                            }
+                        }.padding(.vertical)
+                        
+                        Spacer()
                     }
-
-                    
-                } else {
-                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                }.padding()
+                .background {
+                    Color.gray.opacity(0.2).cornerRadius(20)
                 }
+                
+                VStack {
+                    HStack {
+                        HStack {
+                            Image(systemName: Constants.Icons.person).foregroundColor(.blue)
+                            Text(String(data.passengersCount)).foregroundColor(.white)
+                        }
+                        if let bookedRideData = bookedRideData {
+                            HStack {
+                                Image(systemName: Constants.Icons.seat).foregroundColor(.blue)
+                                Text(String(bookedRideData.seat)).foregroundColor(.white)
+                            }
+                        }
+                        Spacer()
+                        Text("Rs. \(data.setPrice)").bold().foregroundColor(.white)
+                    }.padding(15)
+                }.background {
+                    Image(Constants.Images.blue)
+                        .resizable()
+                        .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
+                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
+                        }
+                }.padding(.top, -15)
+            } else {
+                EmptyView()
             }
         }
     }

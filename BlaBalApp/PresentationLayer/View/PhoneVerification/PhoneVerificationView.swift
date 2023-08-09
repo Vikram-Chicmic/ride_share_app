@@ -15,6 +15,7 @@ struct PhoneView: View {
     @State var alertSuccess = false
     @State var showAlert = false
     @State var blur: Bool = false
+    @State var alertFailSend: Bool = false
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @State private var showSuccessView = false
@@ -22,51 +23,58 @@ struct PhoneView: View {
         ZStack {
             VStack(alignment: .leading) {
                 Text(Constants.Titles.phnNum).font(.title).fontWeight(.semibold).padding(.bottom, 40)
-                CustomTextfield(label: "", placeholder: Constants.Placeholders.phonenumber, value: $vm.phoneNumber).keyboardType(.numberPad).foregroundColor(vm.verified ? .gray : colorScheme == .dark ? Color.white : Color.black).disabled(vm.verified)
+                CustomTextfield(label: "", placeholder: Constants.Placeholders.phonenumber, value: $vm.phoneNumber).keyboardType(.numberPad).foregroundColor(vm.phoneVerified ? .gray : colorScheme == .dark ? Color.white : Color.black).disabled(vm.phoneVerified)
 
                 
                      Button {
-                         if vm.verified {
-                             alertSuccess.toggle()
-                             dismiss()
-                         } else {
-                             if vm.phoneNumber.isEmpty {
-                                 alert.toggle()
+                         if Helper().isValidIndianPhoneNumber(vm.phoneNumber) {
+                             vm.sendOTP = true
+                              vm.apiCall(forMethod: .phoneVerify)
+                             if vm.failtToSendOtpAlert {
+                                 alertFailSend.toggle()
                              } else {
-                                    vm.sendOTP = true
-                                 vm.apiCall(forMethod: .phoneVerify)
-                                 if vm.failtToSendOtpAlert {
-                                     print("Fail to send otp")
-                                 } else {
-                                     navigate.toggle()
-                                 }
+                                 navigate.toggle()
                              }
+                             // call phoneverify
+                             // if verified then back
+                         } else {
+                             alert.toggle() // invalid number
                          }
+//                         if vm.phoneVerified {
+//                             alertSuccess.toggle()
+//                             dismiss()
+//                         } else {
+//                                vm.sendOTP = true
+//                                 vm.apiCall(forMethod: .phoneVerify)
+//                                 if vm.failtToSendOtpAlert {
+//                                     print("Fail to send otp")
+//                                 } else {
+//                                     navigate.toggle()
+//                                 }
+//                             }
+                         
                         
                      }label: {
-                         Buttons(image: "", text: vm.verified ?  Constants.Buttons.done : "Verify", color: .blue).padding(.top)
+                         Buttons(image: "", text: vm.phoneVerified ?  Constants.Buttons.done : "Verify", color: .blue).padding(.top)
                      }
-                
-                
-                
-                    
-                
-                
+
                 Spacer()
-      
-                if alert {
-                    CustomAlert(text: Constants.Alert.emptyfield, dismiss: $alert)
+                
+                if alertFailSend {
+                    CustomAlert(text: Constants.Alert.failToSendOTP, dismiss: $alertFailSend)
                 }
-            }.opacity(navigate ? 0.5 : 1).overlay(content: {
+                if alert {
+                    CustomAlert(text: Constants.Alert.invalidPhone, dismiss: $alert)
+                }
+            }.opacity(navigate ? 0.5 : 1)
+                .overlay(content: {
                 if navigate {
                     ConfirmOTPView( vmm: vm, showview: $navigate)
                 }
               
             })
             .onAppear {
-                withAnimation {
-                    vm.step = 3
-                }
+                
             }
         .padding()
             

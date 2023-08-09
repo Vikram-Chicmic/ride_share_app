@@ -10,19 +10,18 @@ import SwiftUI
 struct CarPoolView: View {
     @Environment(\.dismiss) var dismiss
     @State var selectedCardData: SearchRideResponseData?
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @State var navigate = false
     var body: some View {
         ZStack {
             VStack {
-               
                     RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 1).foregroundColor(Color.cyan).frame(height: 55).padding(.horizontal).overlay {
                         HStack {
                             Button {
                                 dismiss()
                             } label: {
                                 Image(systemName: Constants.Icons.back).bold().font(.title2).foregroundColor(.cyan)
-                            }.padding(.leading,30)
+                            }.padding(.leading, 30)
                             VStack {
                                 HStack {
                                     Spacer()
@@ -34,15 +33,9 @@ struct CarPoolView: View {
                                     Spacer()
                                 }
                             }
-                          
                             Spacer()
                         }.frame(height: 100)
                     }
-                
-              
-          
-                
-               
                     if let data = vm.searchRideResult {
                         if data.count > 0 {
                             ScrollView {
@@ -76,8 +69,6 @@ struct CarPoolView: View {
 struct CarPoolView_Previews: PreviewProvider {
     static var previews: some View {
         CarPoolView()
-            .environmentObject(MapAndSearchRideViewModel())
+            .environmentObject(MapAndRidesViewModel())
     }
 }
-
-

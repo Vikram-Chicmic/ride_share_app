@@ -22,7 +22,6 @@ struct AddImageView: View {
                             .frame(width: 150, height: 150)
                             .clipShape(Circle())
                     }
-
                 } else {
                   
                     if let imageURLString = vmm.recievedData?.status.imageURL,
@@ -34,7 +33,7 @@ struct AddImageView: View {
                                     .progressViewStyle(CircularProgressViewStyle()).frame(width: 150, height: 150)
                                     .clipShape(Circle())
                                 
-                            case .failure(_):
+                            case .failure:
                                 // Show placeholder while loading
                                 Image(systemName: Constants.Icons.perosncircle)
                                     .resizable()
@@ -56,10 +55,9 @@ struct AddImageView: View {
                         Image(systemName: Constants.Icons.perosncircle)
                             .resizable()
                             .frame(width: 150, height: 150)
-                            .clipShape(Circle())                }
-
+                            .clipShape(Circle())
+                    }
                 }
-                
                 Button("Edit image") {
                     showImagePicker.toggle()
                 }.sheet(isPresented: $showImagePicker) {
@@ -73,7 +71,6 @@ struct AddImageView: View {
                     Buttons(image: "", text: "Update", color: Constants.Colors.bluecolor)
                 }.padding()
                     .alert(isPresented: $vm.alert) {
-                        
                         vm.success ?  Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.imageUploadSuccess), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                             dismiss()
                         })) : Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.errorUploadImage), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
@@ -81,8 +78,7 @@ struct AddImageView: View {
                         }))
                     }
             }.opacity(vm.isLoading ? 0.5 : 1.0).padding(.top).navigationTitle("Add Image")
-            
-            if vm.isLoading{
+            if vm.isLoading {
                 ProgressView().progressViewStyle(.circular)
             }
         }

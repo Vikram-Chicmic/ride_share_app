@@ -24,7 +24,6 @@ struct HollowButton: View {
             )
             .contentShape(RoundedRectangle(cornerRadius: 25)).foregroundColor(color).fontWeight(.semibold)
         }
-       
 }
 
 struct HollowButton_Previews: PreviewProvider {

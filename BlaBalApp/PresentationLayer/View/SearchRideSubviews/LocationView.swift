@@ -20,7 +20,7 @@ struct LocationView: View {
     @Binding var isPublishView: Bool
     @State var newSelectedDate: Date? = Date()
 
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @EnvironmentObject var baseApi: BaseApiManager
     @State private var isDropdownVisible = false
@@ -65,14 +65,10 @@ struct LocationView: View {
                                                 Text(Constants.Buttons.searchRide)
                                                 Spacer()
                                             }
-                                            
-                                            
-                                          
                                         }
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                         if !isPublishView { UnderlineView().padding(.horizontal) }
                                     }
-                                   
                                     VStack {
                                         Button {
                                             withAnimation(.easeInOut(duration: 0.5)) {
@@ -86,12 +82,10 @@ struct LocationView: View {
                                                 Text(Constants.Buttons.publishRide)
                                                 Spacer()
                                             }
-                                            
                                         }
                                         .frame(minWidth: 0, maxWidth: .infinity)
                                         if isPublishView { UnderlineView().padding(.horizontal) }
                                     }
-                                    
                                 }
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundColor(.secondary)
@@ -110,7 +104,7 @@ struct LocationView: View {
                                 Spacer()
                             }
                         }.sheet(isPresented: $showMapView, content: {
-                            MapView( isOrigin: $isOrigin)
+                            MapSearchView( isOrigin: $isOrigin)
                         })
                         .frame(height: 45)
                         Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
@@ -128,7 +122,7 @@ struct LocationView: View {
                             }
                         }
                         .sheet(isPresented: $showMapView, content: {
-                            MapView( isOrigin: $isOrigin)
+                            MapSearchView( isOrigin: $isOrigin)
                         })
                         .frame(height: 40)
                         
@@ -192,13 +186,6 @@ struct LocationView: View {
                                 Image(systemName: Constants.Icons.carfill)
                                     .foregroundColor(.blue)
                                     .bold()
-                                
-                              
-                                
-//                                if let data = vehicleVm.decodedVehicleData?.data {
-//                                    TextFieldWithPickerAsInputView(data: data, placeholder: "", selectionIndex: $vehicleIndex, text: $vehicleName)
-//                                }
-                                
                                 Menu {
                                        if let data = vehicleVm.decodedVehicleData?.data {
                                            ForEach(data.indices, id: \.self) { index in
@@ -221,15 +208,11 @@ struct LocationView: View {
                             }.padding(.horizontal)
                             Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                 
-                                //MARK: - Amount
+                                // MARK: - Amount
                                     HStack {
                                         Image(systemName: Constants.Icons.rupeeSign).foregroundColor(.blue).padding(.leading).bold()
                                         TextField(Constants.Placeholders.enterAmount, text: $vm.amount).frame(height: 50).padding(.horizontal).keyboardType(.numberPad).focused($isFocused)
                                     }
-                                
-                            
-                          
-                           
                         }
                         
                     }
@@ -242,8 +225,6 @@ struct LocationView: View {
                         dateFormatter.dateFormat = Constants.Date.timeFormat
                         vm.time = dateFormatter.string(from: currentDate)
 //                        isPublishView ? vm.apiCall(for: .fetchPolylineAndDistanceOfRide ) : nil
-                        
-                    
                             vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
 //                            vm.time = Helper().dateToString(selectedDate: newTime ?? Date())
                         if vm.originData != nil && vm.destinationData != nil {
@@ -253,8 +234,6 @@ struct LocationView: View {
                         } else {
                             showAlert.toggle()
                         }
-                           
-                        
                     } label: {
                         HStack {
                             Spacer()
@@ -294,7 +273,7 @@ struct LocationView: View {
     }
     
     
-    func timeFormat(currentDate: Date)-> String {
+    func timeFormat(currentDate: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Constants.Date.timeFormat
        return dateFormatter.string(from: currentDate)
@@ -306,6 +285,6 @@ struct LocationView: View {
 struct LocationView_Previews: PreviewProvider {
     static var previews: some View {
         LocationView(isPublishView: .constant(true), isComingFromPublishedView: .constant(false), showAlert: .constant(false))
-            .environmentObject(RegisterVehicleViewModel()).environmentObject(MapAndSearchRideViewModel()).environmentObject(BaseApiManager())
+            .environmentObject(RegisterVehicleViewModel()).environmentObject(MapAndRidesViewModel()).environmentObject(BaseApiManager())
     }
 }

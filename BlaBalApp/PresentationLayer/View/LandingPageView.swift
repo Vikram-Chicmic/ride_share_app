@@ -12,7 +12,7 @@ struct LandingView: View {
     @State var isLoginView: Bool = false
    
     var body: some View {
-        NavigationStack {
+       
             VStack {
                 BackgroundView().padding(.top, -20)
                 Spacer()
@@ -39,7 +39,7 @@ struct LandingView: View {
                     .accentColor(Color(red: 0.993, green: 0.452, blue: 0.366))
                 }.padding(.top, 30)
 
-            }.onAppear {
+            }.navigationBarBackButtonHidden(true).onAppear {
                 isLoginView = false
                 
             }
@@ -49,7 +49,6 @@ struct LandingView: View {
                     LoginSignupWithEmailView(isLoginView: $isLoginView)
             }
         }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {

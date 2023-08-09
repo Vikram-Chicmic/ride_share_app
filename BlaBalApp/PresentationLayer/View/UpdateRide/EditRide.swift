@@ -1,76 +1,33 @@
-//
-//  EditRide.swift
-//  BlaBalApp
-//
-//  Created by ChicMic on 29/06/23.
-//
-
 import SwiftUI
 
 struct EditRide: View {
-    @State var navigateToLocationUpdate: Bool = false
-    @State var navigateToPriceUpdate: Bool = false
-    @State var navigateToDateUpdate: Bool = false
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @State private var navigateToLocationUpdate = false
+    @State private var navigateToPriceUpdate = false
+    @State private var navigateToDateUpdate = false
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var vm: MapAndRidesViewModel
+    var options: [Helper.Option] {
+        [
+            Helper.Option(title: "Itinerary details", destination: AnyView(LocationUpdate()), isPresented: $navigateToLocationUpdate),
+            Helper.Option(title: "Price and Seats", destination: AnyView(UpdatePriceAndSeats()), isPresented: $navigateToPriceUpdate),
+            Helper.Option(title: "Date and Vehicle", destination: AnyView(DateAndVehicleUpdate()), isPresented: $navigateToDateUpdate)
+        ]
+    }
     var body: some View {
         VStack {
-            
-            Button {
-            
-                navigateToLocationUpdate.toggle()
-            } label: {
-                HStack {
-                    Text("Itinerary details")
-                    Spacer()
-                    Image(systemName: Constants.Icons.rightChevron)
-                }
+            ForEach(options, id: \.title) { option in
+                Helper().optionButton(for: option)
+                Divider().padding(.horizontal)
             }
-          
-            .navigationDestination(isPresented: $navigateToLocationUpdate) {
-                LocationUpdate()
-            }.padding()
-    
-            Divider().padding(.horizontal)
-            
-            
-            
-            
-            Button {
-                navigateToPriceUpdate.toggle()
-            } label: {
-                HStack {
-                    Text("Price and Seats")
-                    Spacer()
-                    Image(systemName: Constants.Icons.rightChevron)
-                }
-            }.navigationDestination(isPresented: $navigateToPriceUpdate) {
-                UpdatePriceAndSeats()
-            }.padding()
-    
-            Divider().padding(.horizontal)
-            
-            Button {
-                navigateToDateUpdate.toggle()
-            } label: {
-                HStack {
-                    Text("Date and Vehicle")
-                    Spacer()
-                    Image(systemName: Constants.Icons.rightChevron)
-                }
-            }.navigationDestination(isPresented: $navigateToDateUpdate) {
-                DateAndVehicleUpdate()
-            }.padding()
-    
-            Divider().padding(.horizontal)
-            
             Spacer()
-        }.onAppear {
+        }
+        .onAppear {
             if vm.isUpdatedSuccess {
                 dismiss()
                 vm.isUpdatedSuccess = false
             }
-        }.navigationTitle("Update Ride")
+        }
+        .navigationTitle("Update Ride")
     }
 }
 

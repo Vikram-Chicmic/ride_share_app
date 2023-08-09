@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct CustomAlert: View {
-
-    
     var text: String
     @Binding var dismiss: Bool
     var body: some View {

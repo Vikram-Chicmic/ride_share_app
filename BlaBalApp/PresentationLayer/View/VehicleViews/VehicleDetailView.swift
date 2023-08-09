@@ -27,12 +27,10 @@ struct VehicleDetailView: View {
                        
                         VStack(spacing: 10) {
                             HStack {
-                                Text (
-                                    data.vehicleBrand
-                                )
+                                Text(data.vehicleBrand)
                                 Spacer()
                             }.fontWeight(.semibold).font(.title2)
-                            RideDetailTileView(title: Constants.Texts.model, value:data.vehicleName) //MODEL
+                            RideDetailTileView(title: Constants.Texts.model, value: data.vehicleName) //MODEL
                             RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data.vehicleNumber)
                             RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data.vehicleModelYear))
                             RideDetailTileView(title: Constants.Texts.VehicleType, value: data.vehicleType)

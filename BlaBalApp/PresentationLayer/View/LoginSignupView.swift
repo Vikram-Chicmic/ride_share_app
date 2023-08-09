@@ -136,10 +136,6 @@ struct LoginSignupWithEmailView: View {
             .navigationDestination(isPresented: $vm.navigateToForm, destination: {
                 FormView()
         })
-            
-
-            
-        
     }
 }
 

@@ -15,9 +15,11 @@ struct InboxView: View {
         VStack(alignment: .leading) {
             Text("Inbox").font(.title).fontWeight(.semibold).padding(.leading).padding(.top)
             Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
-            ScrollView {
+            
+           Spacer()
                 if let data = chatVm.allChats {
                     if data.count > 0 {
+                        ScrollView {
                         ForEach(data.indices, id: \.self) { index in
                             HStack {
                          
@@ -29,9 +31,11 @@ struct InboxView: View {
                                              .progressViewStyle(CircularProgressViewStyle()).frame(width: 50).clipShape(Circle())
                                      case .success(let image):
                                          image.resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
-                                     case .failure(_):
+                                     case .failure:
                                          // Show placeholder for failed image load
                                          Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                                     @unknown default:
+                                         fatalError("")
                                      }
                                  }
                              } else {
@@ -54,23 +58,42 @@ struct InboxView: View {
                             Divider().padding(.horizontal)
                         }
                         
-                    } else {
-                       Text("You have no chats.")
+                    }.refreshable {
+                        chatVm.apiCall(mehtod: .getAllChatRoom)
                     }
-                    
                 } else {
-                    Text("all chats is nil")
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Image("chat").resizable().frame(width: 150, height: 150)
+                            Text("No chat found").fontWeight(.semibold).font(.title2)
+                        }
+                        
+                        Spacer()
+                    }
+                 
                 }
-            }.refreshable {
-                chatVm.apiCall(mehtod: .getAllChatRoom)
-            }
+                } else {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Image("chat").resizable().frame(width: 150, height: 150)
+                            Text("No chat found").fontWeight(.semibold).font(.title2)
+                        }
+                        
+                        Spacer()
+                    }
+                 
+                }
             Spacer()
+            
         }.onAppear {
             chatVm.apiCall(mehtod: .getAllChatRoom)
         }
         }
         
     }
+
 
 
 struct InboxView_Previews: PreviewProvider {

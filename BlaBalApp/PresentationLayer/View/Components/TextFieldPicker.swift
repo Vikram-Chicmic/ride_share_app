@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct TextFieldWithPickerAsInputView : UIViewRepresentable {
+struct TextFieldWithPickerAsInputView: UIViewRepresentable {
     
-    var data : [String]
-    var placeholder : String
+    var data: [String]
+    var placeholder: String
     
-    @Binding var selectionIndex : Int
-    @Binding var text : String?
+    @Binding var selectionIndex: Int
+    @Binding var text: String?
     
     private let textField = UITextField()
     private let picker = UIPickerView()
@@ -60,11 +60,11 @@ struct TextFieldWithPickerAsInputView : UIViewRepresentable {
         }
     }
     
-    class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate , UITextFieldDelegate {
+    class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
         
-        private let parent : TextFieldWithPickerAsInputView
+        private let parent: TextFieldWithPickerAsInputView
         
-        init(textfield : TextFieldWithPickerAsInputView) {
+        init(textfield: TextFieldWithPickerAsInputView) {
             self.parent = textfield
         }
         

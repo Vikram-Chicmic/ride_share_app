@@ -10,29 +10,24 @@ import SwiftUI
 struct DateAndVehicleUpdate: View {
     @State var newSelectedDate: Date? = Date()
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @State var selectedVehicle: Datum?
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
             // MARK: - Time
-         
-            
             HStack {
                 Image(systemName: Constants.Icons.clock).font(.title2).foregroundColor(.blue).padding(.leading).bold()
-                DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.date).padding(.leading).frame(height: 60).background(Color.gray.opacity(0.1).cornerRadius(25)).padding(.vertical).padding(.trailing,8)
+                DatePickerTextField(placeholder: "", date: $newSelectedDate, pickerType: PickerType.date).padding(.leading).frame(height: 60).background(Color.gray.opacity(0.1).cornerRadius(25)).padding(.vertical).padding(.trailing, 8)
                 Spacer()
             }
             
-            //MARK: - Vehicle Selection
+            // MARK: - Vehicle Selection
             HStack {
                 Image(systemName: Constants.Icons.carfill)
                     .font(.title3)
                     .foregroundColor(.blue)
                     .bold()
-                
-
-                
                 Menu {
                        if let data = vehicleVm.decodedVehicleData?.data {
                            ForEach(data.indices, id: \.self) { index in
@@ -65,7 +60,6 @@ struct DateAndVehicleUpdate: View {
                     dismiss()
                 }))
             }
-            
             Spacer()
         }.navigationTitle("Update Date and Vehicle").onAppear {
             self.newSelectedDate = Helper().stringTodate(date: vm.date)
@@ -75,7 +69,7 @@ struct DateAndVehicleUpdate: View {
 
 struct DateAndVehicleUpdate_Previews: PreviewProvider {
     static var previews: some View {
-        DateAndVehicleUpdate().environmentObject(MapAndSearchRideViewModel())
+        DateAndVehicleUpdate().environmentObject(MapAndRidesViewModel())
             .environmentObject(RegisterVehicleViewModel())
     }
 }

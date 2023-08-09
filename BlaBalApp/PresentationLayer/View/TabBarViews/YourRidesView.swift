@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct YourRidesView: View {
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @EnvironmentObject var vmm: LoginSignUpViewModel
     @State var isPublishRidesView = true
     @State var selectedCardData: AllPublishRideData?
     
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
-    @State var indexValue : Int = 0
+    @State var indexValue: Int = 0
     var body: some View {
         VStack {
             VStack(spacing: 5) {
@@ -88,7 +88,7 @@ struct YourRidesView: View {
                         ProgressView().progressViewStyle(.circular)
                     }
                 })
-                .padding(.bottom,10)
+                .padding(.bottom, 10)
                 .refreshable {
                     vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
                 }
@@ -104,8 +104,7 @@ struct YourRidesView: View {
                         }
                        
                     }
-            }
-            else {
+            } else {
                 ScrollView {
                     if let data =  vm.allBookedRides?.rides {
                         if data.count > 0 {
@@ -148,7 +147,7 @@ struct YourRidesView: View {
                           dismissButton: .cancel(Text(Constants.Buttons.ok)))
             }
                 .navigationDestination(isPresented: $vehicleVm.navigateToDetail) {
-                        if let data = selectedCardData{
+                        if let data = selectedCardData {
                             PublishedRideDetailView(selectedCardData: data, isPublishedRide: $isPublishRidesView, indexValue: indexValue)
                         }
                         
@@ -165,6 +164,6 @@ struct YourRidesView: View {
 
 struct YourRidesView_Previews: PreviewProvider {
     static var previews: some View {
-        YourRidesView().environmentObject(MapAndSearchRideViewModel())
+        YourRidesView().environmentObject(MapAndRidesViewModel())
     }
 }

@@ -13,14 +13,10 @@ import MapKit
 class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var authorizationStatus: CLAuthorizationStatus
     @Published var currentLocation: String = ""
-    
-     let locationManager: CLLocationManager
+    let locationManager: CLLocationManager
     override init() {
         locationManager = CLLocationManager()
         authorizationStatus = locationManager.authorizationStatus
-      
-       
-        
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -63,7 +59,7 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { (placemarks, _) in
             self.currentLocation = "\(placemarks?.first?.administrativeArea ?? "") \(placemarks?.first?.country ?? "")"
-            MapAndSearchRideViewModel.shared.searchText = self.currentLocation
+            MapAndRidesViewModel.shared.searchText = self.currentLocation
         }
     }
 }

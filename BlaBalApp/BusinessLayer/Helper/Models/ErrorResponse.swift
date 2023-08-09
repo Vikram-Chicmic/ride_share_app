@@ -12,7 +12,7 @@ struct ErrorResponse: Codable, Error {
     var status: ErrorStatus
 }
 
-struct ErrorStatus: Codable{
+struct ErrorStatus: Codable {
     var code: Int
     var message: String?
     var error: String?

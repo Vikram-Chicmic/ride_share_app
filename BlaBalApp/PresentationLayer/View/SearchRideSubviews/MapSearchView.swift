@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct MapView: View {
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+struct MapSearchView: View {
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @StateObject var locationViewModel = LocationViewModel()
     @Binding var isOrigin: Bool
     @Environment(\.dismiss) var dismiss
@@ -25,8 +25,6 @@ struct MapView: View {
                 Text(isOrigin ? Constants.Header.startLocation : Constants.Header.destinationLocation ).font(.title2).fontWeight(.semibold)
                 Spacer()
                 Spacer()
-                
-               
             }
                 
             HStack {
@@ -81,12 +79,7 @@ struct MapView: View {
                         }
                     }
                 }
-                    
-                
             }.listStyle(.plain)
-            
-       
-            
             Spacer()
         }.onAppear {
             vm.searchText = ""
@@ -99,7 +92,7 @@ struct MapView: View {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView( isOrigin: .constant(true)).environmentObject(MapAndSearchRideViewModel())
+        MapSearchView( isOrigin: .constant(true)).environmentObject(MapAndRidesViewModel())
     }
 }
 

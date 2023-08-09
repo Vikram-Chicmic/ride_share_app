@@ -8,11 +8,11 @@
 import Foundation
 
 class SessionManager: ObservableObject {
+    static var shared = SessionManager()
     var isLoggedIn: Bool = false {
         didSet {
             rootId = UUID()
         }
     }
-    
     @Published var rootId: UUID = UUID()
 }

@@ -39,7 +39,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var navigateToForm = false
     @Published var isUpdating = false
     @Published var sendOTP = false
-    @Published var verified = false
+    @Published var phoneVerified = false
     @Published var showAlertSignUpProblem = false
     @Published var failtToSendOtpAlert = false
     @Published var userId: Int = 0
@@ -50,6 +50,9 @@ class LoginSignUpViewModel: ObservableObject {
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     }
+    
+    @Published var jumpToSplash = false
+    @Published var navigateToTabView = false
     
     // Variable for progresView
     @Published var isLoading = false
@@ -99,7 +102,6 @@ class LoginSignUpViewModel: ObservableObject {
             }
             .eraseToAnyPublisher()
     }
-    
     var isUserPasswordValidPublisher: AnyPublisher<Bool, Never> {
         $password
             .map { password in
@@ -107,9 +109,6 @@ class LoginSignUpViewModel: ObservableObject {
             }
             .eraseToAnyPublisher()
     }
-    
-
-    
     
     func loginCheck() -> Bool {
         if isUserEmailValid && isUserPasswordValid {
@@ -126,9 +125,6 @@ class LoginSignUpViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-   
-
-
     // MARK: encode recieved data
     func encodeData(recievedData: Welcome) {
         let encoder = JSONEncoder()
@@ -143,9 +139,7 @@ class LoginSignUpViewModel: ObservableObject {
            let decodedData = try? JSONDecoder().decode(Welcome.self, from: storedData) {
             // Use the decodedData as needed
             self.recievedData = decodedData
-    
         }
-
     }
 
     
@@ -301,7 +295,6 @@ class LoginSignUpViewModel: ObservableObject {
                 Constants.Url.passcode: passcode
             ]
             
-            
         case .changePassword:
             return [
                 Constants.Url.currentPassword: oldPassword,
@@ -310,81 +303,4 @@ class LoginSignUpViewModel: ObservableObject {
             ]
         }
     }
-
-    
-    
-    // MARK: Phone Verify
-//    func phoneVerify() {
-//        var phoneurl: URL?
-//        if sendOTP {
-//            phoneurl = URL(string: Constants.Url.sendOTP)
-//        } else {
-//           phoneurl = URL(string: Constants.Url.phoneVerify)
-//        }
-//
-//        guard let url = phoneurl else {
-//            print(Constants.Error.invalidUrl)
-//            return
-//        }
-//        self.isLoading = true
-//        var userData: [String: Any]?
-//        if !sendOTP {
-//             userData = [
-//                Constants.Url.phnnumber: phoneNumber,
-//                Constants.Url.passcode: passcode
-//            ]
-//        } else {
-//             userData = [
-//                Constants.Url.phnnumber: phoneNumber
-//            ]
-//        }
-//
-//        let jsonData = try? JSONSerialization.data(withJSONObject: userData as Any, options: [])
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = Constants.Methods.post
-//        request.httpBody = jsonData
-//        request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
-//
-//
-//        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
-//            request.setValue(token, forHTTPHeaderField: Constants.Url.auth)
-//        } else {
-//            // Key not found or value not a String
-//        }
-//        URLSession.shared.dataTaskPublisher(for: request)
-//            .tryMap { data, response -> Data in
-//                guard let httpResponse = response as? HTTPURLResponse else {
-//                    throw URLError(.badServerResponse)
-//                }
-//
-//
-//                if (200...299).contains(httpResponse.statusCode) {
-//                    print(httpResponse.statusCode)
-//                    self.verified = true
-//                } else {
-//                    print(httpResponse.statusCode)
-//                        self.failtToSendOtpAlert.toggle()
-//                }
-//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-//                    print(json)
-//                }
-//
-//                return data
-//            }
-//            .receive(on: DispatchQueue.main)
-//            .sink(receiveCompletion: { completion in
-//                self.isLoading = false
-//                switch completion {
-//                case .finished:
-//                    break
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }, receiveValue: { decodedData in
-//                print(decodedData)
-//            })
-//            .store(in: &publishers)
-//
-//    }
 }

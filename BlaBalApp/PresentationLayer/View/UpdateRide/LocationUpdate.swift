@@ -10,7 +10,7 @@ import SwiftUI
 struct LocationUpdate: View {
     @State var showMapView = false
     @State var isOrigin = true
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
@@ -30,9 +30,8 @@ struct LocationUpdate: View {
             }.padding().background(content: {
                 Color.gray.opacity(0.22).cornerRadius(25)
             }).padding(.horizontal).padding(.top).sheet(isPresented: $showMapView, content: {
-                MapView(isOrigin: $isOrigin)
+                MapSearchView(isOrigin: $isOrigin)
             })
-           
             
             Button {
                 showMapView.toggle()
@@ -50,9 +49,8 @@ struct LocationUpdate: View {
             }.padding().background(content: {
                 Color.gray.opacity(0.22).cornerRadius(25)
             }).padding(.horizontal).sheet(isPresented: $showMapView, content: {
-                MapView(isOrigin: $isOrigin)
+                MapSearchView(isOrigin: $isOrigin)
             })
-            
             
             Button {
                 if vm.originData != nil {
@@ -61,7 +59,6 @@ struct LocationUpdate: View {
                 if vm.destinationData != nil {
                     vm.isUpdatedDestination = true
                 }
-                
                 vm.apiCall(for: .updateRide)
                 
             } label: {
@@ -71,10 +68,6 @@ struct LocationUpdate: View {
                     dismiss()
                 }))
             }
-
-           
-            
-            
             Spacer()
         }.onAppear {
             vm.originData = nil
@@ -88,6 +81,6 @@ struct LocationUpdate: View {
 
 struct LocationUpdate_Previews: PreviewProvider {
     static var previews: some View {
-        LocationUpdate().environmentObject(MapAndSearchRideViewModel())
+        LocationUpdate().environmentObject(MapAndRidesViewModel())
     }
 }

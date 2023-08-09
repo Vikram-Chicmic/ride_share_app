@@ -9,7 +9,7 @@ import Foundation
 
 class BaseApiManager: ObservableObject {
     static var shared = BaseApiManager()
-
+  
     
  
     
@@ -22,8 +22,8 @@ class BaseApiManager: ObservableObject {
     func successCaseHandler(method: APIcallsForUser, data: Data, response: HTTPURLResponse) {
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            print(json)
-        } catch (let e) {
+            print(json as Any)
+        } catch let e {
             print(e.localizedDescription)
         }
         switch method {
@@ -38,7 +38,7 @@ class BaseApiManager: ObservableObject {
             } catch {
                 print("\(error.localizedDescription)")
             }
-            UserDefaults.standard.set(data,forKey: Constants.UserDefaultsKeys.userDataKey)
+            UserDefaults.standard.set(data, forKey: Constants.UserDefaultsKeys.userDataKey)
             LoginSignUpViewModel.shared.navigate.toggle()
 
         case .signUp:
@@ -53,15 +53,18 @@ class BaseApiManager: ObservableObject {
             } catch {
                 print("\(error.localizedDescription)")
             }
-            UserDefaults.standard.set(data,forKey: Constants.UserDefaultsKeys.userDataKey)
+            UserDefaults.standard.set(data, forKey: Constants.UserDefaultsKeys.userDataKey)
             LoginSignUpViewModel.shared.alert.toggle()
+            LoginSignUpViewModel.shared.navigateToTabView.toggle()
      
             
         case .logout:
             UserDefaults.standard.set(false, forKey: Constants.UserDefaultsKeys.userLoggedIn)
             UserDefaults.standard.removeObject(forKey: Constants.Url.token)
             UserDefaults.standard.set(nil, forKey: Constants.UserDefaultsKeys.userDataKey)
-
+            SessionManager.shared.isLoggedIn.toggle()
+            LoginSignUpViewModel.shared.currentState = .searchView
+            LoginSignUpViewModel.shared.jumpToSplash.toggle()
             
         case .getUser:
             let decoder = JSONDecoder()
@@ -82,7 +85,7 @@ class BaseApiManager: ObservableObject {
             
             
         case .phoneVerify, .otpVerify:
-            LoginSignUpViewModel.shared.verified = true
+            LoginSignUpViewModel.shared.phoneVerified = true
         
           
         case .changePassword:
@@ -123,7 +126,7 @@ class BaseApiManager: ObservableObject {
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         switch method {
@@ -165,7 +168,7 @@ class BaseApiManager: ObservableObject {
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         switch method {
@@ -198,7 +201,7 @@ class BaseApiManager: ObservableObject {
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         switch method {
@@ -226,21 +229,20 @@ class BaseApiManager: ObservableObject {
     ///   - data: taking three input as method it use , data provided by api response and httpUrlresponse for status check
     ///   - response: return alert and navigation instructions
     func successCaseHandleforRides(method: APIcallsForRides, data: Data, response: HTTPURLResponse) {
-        
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         
         LoginSignUpViewModel.shared.isLoading = false
         switch method {
         case .publishRide:
-            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            MapAndRidesViewModel.shared.alertSuccess.toggle()
             print(SuccessAlerts.publishRide.rawValue)
         case .bookRide:
-            MapAndSearchRideViewModel.shared.alertSuccess.toggle() //ride has been booked successfully
+            MapAndRidesViewModel.shared.alertSuccess.toggle() //ride has been booked successfully
             print(SuccessAlerts.publishRide.rawValue)
         case .searchRide:
             guard let result = try? JSONDecoder().decode(SearchRideResponse.self, from: data) else {
@@ -249,7 +251,7 @@ class BaseApiManager: ObservableObject {
                 return
             }
             print(result)
-            MapAndSearchRideViewModel.shared.searchRideResult = result.data
+            MapAndRidesViewModel.shared.searchRideResult = result.data
             
         case .fetchPlaces:
             guard let result = try? JSONDecoder().decode(PlacesResponse.self, from: data) else {
@@ -257,7 +259,7 @@ class BaseApiManager: ObservableObject {
                 return
             }
            
-            MapAndSearchRideViewModel.shared.searchResultArr = result
+            MapAndRidesViewModel.shared.searchResultArr = result
             
         case .fetchPolylineAndDistanceOfRide:
             guard let result = try? JSONDecoder().decode(DirectionsResponse.self, from: data) else {
@@ -267,9 +269,9 @@ class BaseApiManager: ObservableObject {
             }
             
             if let result = result.routes {
-                MapAndSearchRideViewModel.shared.estimatedTimeInSeconds = (result.first?.legs.first?.duration.value)
-                MapAndSearchRideViewModel.shared.estimatedTime = result.first?.legs.first?.duration.text ?? ""
-                MapAndSearchRideViewModel.shared.polylineString = result.first?.overviewPolyline.points ?? ""
+                MapAndRidesViewModel.shared.estimatedTimeInSeconds = (result.first?.legs.first?.duration.value)
+                MapAndRidesViewModel.shared.estimatedTime = result.first?.legs.first?.duration.text ?? ""
+                MapAndRidesViewModel.shared.polylineString = result.first?.overviewPolyline.points ?? ""
             }
             print(result)
 
@@ -280,15 +282,15 @@ class BaseApiManager: ObservableObject {
                 return
             }
     
-            MapAndSearchRideViewModel.shared.allPublishRides = result.data
+            MapAndRidesViewModel.shared.allPublishRides = result.data
           
             
         case .updateRide:
-            MapAndSearchRideViewModel.shared.updateRideSuccess.toggle()
-            MapAndSearchRideViewModel.shared.isUpdatedSuccess.toggle()
+            MapAndRidesViewModel.shared.updateRideSuccess.toggle()
+            MapAndRidesViewModel.shared.isUpdatedSuccess.toggle()
             
         case .cancelRide:
-            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            MapAndRidesViewModel.shared.alertSuccess.toggle()
             print(SuccessAlerts.cancelRide.rawValue)
             
         case .getAllBookedRideOfCurentUser:
@@ -296,11 +298,11 @@ class BaseApiManager: ObservableObject {
                 print(ErrorAlert.decode.rawValue)
                 return
             }
-            MapAndSearchRideViewModel.shared.allBookedRides = result
+            MapAndRidesViewModel.shared.allBookedRides = result
 //            print(result.rides)
             
         case .cancelBookedRide:
-            MapAndSearchRideViewModel.shared.alertSuccess.toggle()
+            MapAndRidesViewModel.shared.alertSuccess.toggle()
             print(SuccessAlerts.cancelRide.rawValue)
         }
     }
@@ -312,64 +314,68 @@ class BaseApiManager: ObservableObject {
     ///   - method: method to handle failure case for vehicleAPI's
     ///   - data:  taking three input as method it use , data provided by api response and httpUrlresponse for status check
     ///   - response: return alert and error description
-    func failureCaseHandleForRide(method: APIcallsForRides, data:Data, response: HTTPURLResponse) {
+    func failureCaseHandleForRide(method: APIcallsForRides, data: Data, response: HTTPURLResponse) {
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            print(json)
-        } catch (let e) {
+            print(json!)
+        } catch let e {
             print(e.localizedDescription)
         }
       
         switch method {
         case .publishRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.publishRide.rawValue)
             
         case .bookRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.bookRide.rawValue)
             
         case .searchRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.searchRide.rawValue)
             
         case .fetchPlaces:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.fetchPlaces.rawValue)
             
         case .fetchPolylineAndDistanceOfRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.fetchPolylineAndDistance.rawValue)
             
         case .getAllPublisghRideOfCurrentUser:
-            MapAndSearchRideViewModel.shared.alertFetchPublishedRideFailure.toggle()
+            MapAndRidesViewModel.shared.alertFetchPublishedRideFailure.toggle()
             print(ErrorAlert.fetchPublishedRide.rawValue)
             
         case .updateRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.updateRide.rawValue)
             
         case .cancelRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.cancelRide.rawValue)
             
         case .getAllBookedRideOfCurentUser:
-            MapAndSearchRideViewModel.shared.alertFetchBookedRideFailure.toggle()
+            MapAndRidesViewModel.shared.alertFetchBookedRideFailure.toggle()
             print(ErrorAlert.fetchBookedRide.rawValue)
             
         case .cancelBookedRide:
-            MapAndSearchRideViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.cancelRide.rawValue)
         }
     }
     
-    
+    /// success case
+    /// - Parameters:
+    ///   - method: method to handle success case for chat's
+    ///   - data: taking three input as method it use , data provided by api response and httpUrlresponse for status check
+    ///   - response: return alert and navigation instructions
     func successCaseHandlerForChat(method: APIcallsForChat, data: Data, response: HTTPURLResponse) {
         
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         
@@ -395,18 +401,24 @@ class BaseApiManager: ObservableObject {
             print("message recieved successfully")
         }
     }
+    
+    /// failure case
+    /// - Parameters:
+    ///   - method: method to handle failure case for chat's
+    ///   - data:  taking three input as method it use , data provided by api response and httpUrlresponse for status check
+    ///   - response: return alert and error description
     func failureCaseHandlerForChat(method: APIcallsForChat, data: Data, response: HTTPURLResponse) {
         
         do {
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(json)
-        } catch (let e) {
+        } catch let e {
             print(e.localizedDescription)
         }
         
         switch method {
         case .createChatRoom:
-            response.statusCode
+           print(response.statusCode)
             ChatViewModel.shared.chatRoomFailAlert.toggle()
             print("Failed to create chat room")
         case .getAllChatRoom:

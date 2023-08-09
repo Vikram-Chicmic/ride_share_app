@@ -131,7 +131,7 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
                .decode(type: Welcome.self, decoder: JSONDecoder())
                .sink(receiveCompletion: { completion in
                    DispatchQueue.main.async {
-                       MapAndSearchRideViewModel.shared.isLoading = false
+                       MapAndRidesViewModel.shared.isLoading = false
                    }
              
                               switch completion {
@@ -144,6 +144,10 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
                           .store(in: &publishers)
                   }
     
+    ///   solo method to call api related to chats
+    /// - Parameters:
+    ///   - method: mehod on the basis of which the api will be perform same method will be passed to success and failure case handler
+    ///   - request: request is a urlRequest holding the json to be sent in put and post method , url and mehod of call (put, post, delete, get)
     func apiCallForChat( method: APIcallsForChat, request: URLRequest) {
        var finalRequest = request
 
@@ -179,8 +183,4 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
                           }, receiveValue: {_ in })
                           .store(in: &publishers)
                   }
-
-    
-    
 }
-

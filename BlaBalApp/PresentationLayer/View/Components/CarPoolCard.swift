@@ -17,30 +17,18 @@ struct CarPoolCard: View {
                     VStack {
                         HStack {
                             VStack {
-                                
-                               
                                     DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
-                                  
 //                                    Text(Helper().dateFormatter(date: data.publish.estimateTime))
-                                  
-                                
-                               
                             }
-                           
-                            
                             VStack(alignment: .leading, spacing: 30) {
-                                HStack{
+                                HStack {
                                     Text("\(data.publish.source)").bold()
                                     Spacer()
                                 }
-                                         
                                 HStack {
                                     Text("\(data.publish.destination)").bold()
                                     Spacer()
                                 }
-                                       
-                                    
-                                
                              }.padding(.vertical)
                             Spacer()
                         }
@@ -53,7 +41,6 @@ struct CarPoolCard: View {
                 // MARK: Lower Part
                     VStack {
                         HStack {
-                            
                             if let imageURL = URL(string: data.imageURL ?? "") {
                              AsyncImage(url: imageURL) { phase in
                                  switch phase {
@@ -61,11 +48,10 @@ struct CarPoolCard: View {
                                      ProgressView()
                                          .progressViewStyle(CircularProgressViewStyle()).frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
-
                                  case .success(let image):
                                      image.resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
-                                 case .failure(_):
+                                 case .failure:
                                      // Show placeholder for failed image load
                                      Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
@@ -75,10 +61,6 @@ struct CarPoolCard: View {
                              Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
                                  .padding(.trailing, 15)
                          }
-
-                            
-                            
-                      
                             VStack(alignment: .leading) {
                                 Text("\(data.name)").font(.system(size: 20)).foregroundColor(.white)
                             }

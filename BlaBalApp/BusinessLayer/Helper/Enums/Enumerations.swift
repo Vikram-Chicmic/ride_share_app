@@ -78,7 +78,7 @@ enum APIResponseCase {
 }
 
 
-enum AuthenticateError: LocalizedError{
+enum AuthenticateError: LocalizedError {
     case badURL
     case badResponse
     case url(URLError?)

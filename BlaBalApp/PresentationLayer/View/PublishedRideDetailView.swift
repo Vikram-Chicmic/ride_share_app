@@ -12,7 +12,7 @@ struct PublishedRideDetailView: View {
     @Binding var isPublishedRide: Bool
     @State var showEditView = false
     @EnvironmentObject var baseApi: BaseApiManager
-    @EnvironmentObject var vm: MapAndSearchRideViewModel
+    @EnvironmentObject var vm: MapAndRidesViewModel
     @EnvironmentObject var vmm: LoginSignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State var showAlert = false
@@ -125,20 +125,20 @@ struct PublishedRideDetailView: View {
                                 if data.status == "pending"{
                                 // edit button
                                 Button {
-                                    MapAndSearchRideViewModel.shared.publishId = data.id
-                                    MapAndSearchRideViewModel.shared.updatedOriginName = data.source
-                                    MapAndSearchRideViewModel.shared.updatedDestinationName = data.destination
-                                    MapAndSearchRideViewModel.shared.updatedOriginLong = data.sourceLongitude
-                                    MapAndSearchRideViewModel.shared.updatedOriginLat = data.sourceLongitude
-                                    MapAndSearchRideViewModel.shared.updatedDestinationLat = data.destinationLatitude
-                                    MapAndSearchRideViewModel.shared.updatedDestinationLong = data.destinationLongitude
-                                    MapAndSearchRideViewModel.shared.passengers = data.passengersCount
-                                    MapAndSearchRideViewModel.shared.date = data.date
-                                    MapAndSearchRideViewModel.shared.time = data.time
-                                    MapAndSearchRideViewModel.shared.amount = String(data.setPrice)
-                                    MapAndSearchRideViewModel.shared.vehicleId = data.vehicleID
-                                    MapAndSearchRideViewModel.shared.aboutRide = data.aboutRide
-                                    MapAndSearchRideViewModel.shared.estimatedTime = data.estimateTime
+                                    MapAndRidesViewModel.shared.publishId = data.id
+                                    MapAndRidesViewModel.shared.updatedOriginName = data.source
+                                    MapAndRidesViewModel.shared.updatedDestinationName = data.destination
+                                    MapAndRidesViewModel.shared.updatedOriginLong = data.sourceLongitude
+                                    MapAndRidesViewModel.shared.updatedOriginLat = data.sourceLongitude
+                                    MapAndRidesViewModel.shared.updatedDestinationLat = data.destinationLatitude
+                                    MapAndRidesViewModel.shared.updatedDestinationLong = data.destinationLongitude
+                                    MapAndRidesViewModel.shared.passengers = data.passengersCount
+                                    MapAndRidesViewModel.shared.date = data.date
+                                    MapAndRidesViewModel.shared.time = data.time
+                                    MapAndRidesViewModel.shared.amount = String(data.setPrice)
+                                    MapAndRidesViewModel.shared.vehicleId = data.vehicleID
+                                    MapAndRidesViewModel.shared.aboutRide = data.aboutRide
+                                    MapAndRidesViewModel.shared.estimatedTime = data.estimateTime
                                     self.showEditView.toggle()
                                     
                                 } label: {
@@ -182,8 +182,8 @@ struct PublishedRideDetailView: View {
                          
                     }.actionSheet(isPresented: $showAlert) {
                         ActionSheet(title: Text("Warning"), message: Text("You sure you want to cancel ride? "), buttons: [.destructive(Text("Yes"), action: {
-                            MapAndSearchRideViewModel.shared.publishId = data.id
-                            MapAndSearchRideViewModel.shared.apiCall(for: .cancelRide)
+                            MapAndRidesViewModel.shared.publishId = data.id
+                            MapAndRidesViewModel.shared.apiCall(for: .cancelRide)
                         }), .cancel(Text("No"))])
                     }.alert(isPresented: $vm.alertSuccess) {
                         vm.alertSuccess ?
@@ -223,6 +223,6 @@ struct PublishedRideDetailView: View {
 
 struct AllPublishedRidesView_Previews: PreviewProvider {
     static var previews: some View {
-        PublishedRideDetailView(selectedCardData:  AllPublishRideData(id: 461, source: "Elante Mall", destination: "VRP Telematics Private Limited", passengersCount: 4, addCity: nil, date: "2023-06-29", time: "2000-01-01T04:38:00.000Z", setPrice: 2500, aboutRide: "Adas", userID: 221, createdAt: "2023-06-21T11:27:41.551Z", updatedAt: "2023-06-21T11:27:41.551Z", sourceLatitude: 30.70549299999999, sourceLongitude: 76.8012561, destinationLatitude: 28.5193495, destinationLongitude: 77.28101509999999, vehicleID: 243, bookInstantly: nil, midSeat: nil, selectRoute: nil, status: "pending", estimateTime: "2000-01-01T01:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil), isPublishedRide: .constant(false)).environmentObject(MapAndSearchRideViewModel())
+        PublishedRideDetailView(selectedCardData:  AllPublishRideData(id: 461, source: "Elante Mall", destination: "VRP Telematics Private Limited", passengersCount: 4, addCity: nil, date: "2023-06-29", time: "2000-01-01T04:38:00.000Z", setPrice: 2500, aboutRide: "Adas", userID: 221, createdAt: "2023-06-21T11:27:41.551Z", updatedAt: "2023-06-21T11:27:41.551Z", sourceLatitude: 30.70549299999999, sourceLongitude: 76.8012561, destinationLatitude: 28.5193495, destinationLongitude: 77.28101509999999, vehicleID: 243, bookInstantly: nil, midSeat: nil, selectRoute: nil, status: "pending", estimateTime: "2000-01-01T01:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil), isPublishedRide: .constant(false)).environmentObject(MapAndRidesViewModel())
     }
 }

@@ -37,7 +37,7 @@ struct TabBarView: View {
                 ProfileView().tabItem {
                     Label(Constants.Labels.person, systemImage: Constants.Icons.perosn)
                 }.tag(Tabs.profileView)
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }
 

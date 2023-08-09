@@ -7,6 +7,7 @@
 
 import Foundation
 extension String {
+    /// extension to validate name 
     var containsSpecialCharacters: Bool {
         let specialCharacterSet = CharacterSet(charactersIn: "!@#$%^&*()_-+=~`|\\{[]}:;\"'<>,.?/")
         return rangeOfCharacter(from: specialCharacterSet) != nil

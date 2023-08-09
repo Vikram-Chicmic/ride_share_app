@@ -23,22 +23,15 @@ struct RegisterVehicleView: View {
                     VStack(alignment: .leading, spacing: 20) {
                    
                             Text(Constants.Labels.selectCountry)
-                            HStack{
+                            HStack {
                                 
                                 TextFieldWithPickerAsInputView(data: Constants.Arrays.country, placeholder: "Select Country", selectionIndex: $index, text: $vm.selectedCountry).padding()
                                     .background(.gray.opacity(0.2))
                                     .cornerRadius(24)
                             }
-                        
-                        
-                        
-                   
-                        
                         CustomTextfield(label: Constants.Labels.vehicleBrand, placeholder: Constants.Placeholders.brand, value: $vm.vehicleBrand)
-                        
                         CustomTextfield(label: Constants.Labels.vehicleModel, placeholder: Constants.Placeholders.model, value: $vm.vehicleModel)
                         CustomTextfield(label: Constants.Labels.plateNumber, placeholder: Constants.Placeholders.plateNumber, value: $vm.plateNumber)
-                        
                         VStack(alignment: .leading) {
                             Text(Constants.Labels.vehicleType)
                             TextFieldWithPickerAsInputView(data: Constants.Arrays.vehicleType, placeholder: "Select vehicle", selectionIndex: $index, text: $vm.selectedVehicleType).padding()
@@ -54,8 +47,6 @@ struct RegisterVehicleView: View {
                                 .cornerRadius(24)
                             
                         }
-                           
-                        
     //                    CustomTextfield(label: Constants.Labels.year, placeholder: Constants.Placeholders.year, value: $vm.madeYear).keyboardType(.numberPad)
                      
                         Button {
@@ -89,15 +80,7 @@ struct RegisterVehicleView: View {
                             }
                             )
                         }
-                      
-                 
-                        
-                
-                        
-                        
-                       
-                              
-                    }.alert(isPresented: $vm.failAlert){
+                    }.alert(isPresented: $vm.failAlert) {
                             Alert(title: Text(Constants.Alert.error),
                                   message: Text(isUpdateVehicle ? ErrorAlert.updateVehicle.rawValue : ErrorAlert.registerVehicle.rawValue),
                                   dismissButton: .cancel(Text(Constants.Buttons.ok)))
@@ -128,9 +111,6 @@ struct RegisterVehicleView: View {
             }
         }.navigationTitle(isUpdateVehicle ? "Update Vehicle" : Constants.Header.registerVehicle)
     }
-    
- 
-    
 }
 
 struct RegisterVehicleView_Previews: PreviewProvider {
