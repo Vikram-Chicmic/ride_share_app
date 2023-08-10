@@ -30,11 +30,11 @@ struct VehicleDetailView: View {
                                 Text(data.vehicleBrand)
                                 Spacer()
                             }.fontWeight(.semibold).font(.title2)
-                            RideDetailTileView(title: Constants.Texts.model, value: data.vehicleName) //MODEL
-                            RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data.vehicleNumber)
-                            RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data.vehicleModelYear))
-                            RideDetailTileView(title: Constants.Texts.VehicleType, value: data.vehicleType)
-                            RideDetailTileView(title: Constants.Texts.color, value: data.vehicleColor)
+                            RideDetailTileView(title: Constants.Texts.model, value: data.vehicleName).font(.subheadline) //MODEL
+                            RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data.vehicleNumber).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data.vehicleModelYear)).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.VehicleType, value: data.vehicleType).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.color, value: data.vehicleColor).font(.subheadline)
                         }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
                     }
                 
@@ -42,11 +42,11 @@ struct VehicleDetailView: View {
                     if let data = vm.decodedVehicleData?.data, let index = index {
                         Text(data[index].vehicleBrand).fontWeight(.semibold).font(.title)
                         VStack(spacing: 10) {
-                            RideDetailTileView(title: Constants.Texts.model, value: data[index].vehicleName) //MODEL
-                            RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data[index].vehicleNumber)
-                            RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear))
-                            RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType)
-                            RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor)
+                            RideDetailTileView(title: Constants.Texts.model, value: data[index].vehicleName).font(.subheadline) //MODEL
+                            RideDetailTileView(title: Constants.Texts.vehicleNumber, value: data[index].vehicleNumber).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear)).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType).font(.subheadline)
+                            RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor).font(.subheadline)
                         }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
                     }
                 }

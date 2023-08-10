@@ -22,7 +22,6 @@ struct InboxView: View {
                         ScrollView {
                         ForEach(data.indices, id: \.self) { index in
                             HStack {
-                         
                                 if let imageURL = URL(string: data[index].receiverImage ?? "") {
                                  AsyncImage(url: imageURL) { phase in
                                      switch phase {
@@ -41,12 +40,23 @@ struct InboxView: View {
                              } else {
                                  Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
                              }
-                                Text(data[index].receiver.firstName + " " + data[index].receiver.lastName).fontWeight(.semibold).padding(.leading)
+                                
+                                VStack(alignment: .leading) {
+                                    Text(data[index].receiver.firstName + " " + data[index].receiver.lastName).fontWeight(.semibold).padding(.leading)
+                                    HStack {
+                                        Text(data[index].publish.source).font(.subheadline)
+                                        Image(systemName: Constants.Icons.arrowRight)
+                                        Text(data[index].publish.destination).font(.subheadline)
+                                    }.padding(.leading)
+                                        .foregroundColor(.gray)
+                                }
+                                
+                                
                                 Spacer()
                             }.padding(.horizontal).frame(height: 60)
                             .onTapGesture {
                                     chatVm.chatId = data[index].id
-                                    chatVm.receiverId = data[index].receiverID
+                                chatVm.receiverId = data[index].receiverID
                                     self.indexToSend = index
                                     openChat.toggle()
                                     
@@ -71,7 +81,7 @@ struct InboxView: View {
                         
                         Spacer()
                     }
-                 
+                 // changes made here
                 }
                 } else {
                     HStack {

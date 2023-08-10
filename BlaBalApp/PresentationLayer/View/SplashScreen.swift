@@ -9,49 +9,42 @@ import SwiftUI
 
 struct SplashScreen: View {
     @State var animationAmount = 0.9
-    @State var navigation = false
-    @State var showFirstView = false
-    @EnvironmentObject var vm: LoginSignUpViewModel
-    @Environment(\.presentationMode) var presentationMode
+    @StateObject var navigationVm = NavigationViewModel.shared
+    @State var loginStatus: Bool = true
     var animation: Animation {
-        Animation.linear
+        Animation.easeInOut(duration: 1).repeatForever(autoreverses: true)
     }
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationVm.paths) {
             VStack {
                 Image("carpoolIcon")
-                    .scaleEffect(animationAmount)
-                    .animation(Animation.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animationAmount)
-                    .onAppear {
-                        self.animationAmount = 1
-                    }
+//                    .scaleEffect(animationAmount)
+//                    .animation(animation, value: animationAmount)
+//                    .onAppear {
+//                        self.animationAmount = 1
+//                    }
                 Text("Ride Share").font(.title).fontWeight(.semibold)
-                    .navigationDestination(isPresented: $navigation) {
-                    
-                        if vm.userLoggedIn {
-                            TabBarView()
-                        } else {
-                            LandingView()
-                        }
-                    }
-            }.onAppear {
-                // Simulate a delay before dismissing the splash screen
-                
+            }.navigationBarBackButtonHidden(true)
+            .onAppear {
+                loginStatus = UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    navigation.toggle()
+                    navigationVm.push(loginStatus ? .tabView : .landingView)
                 }
             }
-        }.navigationBarBackButtonHidden(true).navigationViewStyle(StackNavigationViewStyle())
-            .onChange(of: showFirstView) { newValue in
-                if newValue {
-                    presentationMode.wrappedValue.dismiss()
+            .navigationDestination(for: ViewIdentifiers.self) { path in
+                switch path {
+                case .landingView: LandingView()
+                case .tabView: TabBarView()
                 }
             }
+        }
     }
 }
 
+
 struct SplashScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SplashScreen()
+        SplashScreen(loginStatus: true)
     }
 }

@@ -69,6 +69,7 @@
 		93C2C9312A1F61EB00CA4C92 /* MapSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9302A1F61EB00CA4C92 /* MapSearchView.swift */; };
 		93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */; };
 		93C2C9352A1F8D3900CA4C92 /* CarPoolCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C2C9342A1F8D3900CA4C92 /* CarPoolCard.swift */; };
+		93C93CBC2A850BDD003D2AF1 /* NavigationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C93CBB2A850BDD003D2AF1 /* NavigationHandler.swift */; };
 		93D0E1762A3732510095E3EA /* RideDetailTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D0E1752A3732510095E3EA /* RideDetailTileView.swift */; };
 		93D0E1782A37377F0095E3EA /* BookRide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D0E1772A37377F0095E3EA /* BookRide.swift */; };
 		93D0E17C2A374E450095E3EA /* Pods_BlaBalApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D0E17B2A374E450095E3EA /* Pods_BlaBalApp.framework */; };
@@ -167,6 +168,7 @@
 		93C2C9302A1F61EB00CA4C92 /* MapSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchView.swift; sourceTree = "<group>"; };
 		93C2C9322A1F87DA00CA4C92 /* CarPoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolView.swift; sourceTree = "<group>"; };
 		93C2C9342A1F8D3900CA4C92 /* CarPoolCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolCard.swift; sourceTree = "<group>"; };
+		93C93CBB2A850BDD003D2AF1 /* NavigationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHandler.swift; sourceTree = "<group>"; };
 		93D0E1752A3732510095E3EA /* RideDetailTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailTileView.swift; sourceTree = "<group>"; };
 		93D0E1772A37377F0095E3EA /* BookRide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRide.swift; sourceTree = "<group>"; };
 		93D0E1792A374E3E0095E3EA /* Pods_BlaBalApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_BlaBalApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -457,6 +459,7 @@
 				9391E1982A0E04C600427F22 /* Models */,
 				934F67662A39907A00209F81 /* Enums */,
 				933248892A83CD7800AECC7F /* ImagePicker.swift */,
+				93C93CBB2A850BDD003D2AF1 /* NavigationHandler.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				938077CF2A0B79C8008A889A /* BlaBalAppApp.swift in Sources */,
 				938077DE2A0B8054008A889A /* Constants.swift in Sources */,
 				937E51012A4408D400194140 /* AllPublishRideModel.swift in Sources */,
+				93C93CBC2A850BDD003D2AF1 /* NavigationHandler.swift in Sources */,
 				938077E12A0B816E008A889A /* Buttons.swift in Sources */,
 				93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */,
 				93C2C9352A1F8D3900CA4C92 /* CarPoolCard.swift in Sources */,
@@ -785,7 +789,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -839,7 +844,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -871,6 +877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Immplay.gamexplay.BlaBalApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -905,6 +912,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Immplay.gamexplay.BlaBalApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

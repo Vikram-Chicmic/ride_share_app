@@ -22,19 +22,19 @@ struct CarPoolCard: View {
                             }
                             VStack(alignment: .leading, spacing: 30) {
                                 HStack {
-                                    Text("\(data.publish.source)").bold()
+                                    Text("\(data.publish.source)")
                                     Spacer()
                                 }
                                 HStack {
-                                    Text("\(data.publish.destination)").bold()
+                                    Text("\(data.publish.destination)")
                                     Spacer()
                                 }
                              }.padding(.vertical)
                             Spacer()
                         }
                     }.padding().background {
-                        Color.gray.opacity(0.2)
-                    }
+                        Color.gray.opacity(0.1)
+                    }.cornerRadius(20)
                  
                  
                    
@@ -46,19 +46,19 @@ struct CarPoolCard: View {
                                  switch phase {
                                  case .empty:
                                      ProgressView()
-                                         .progressViewStyle(CircularProgressViewStyle()).frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                         .progressViewStyle(CircularProgressViewStyle()).frame(width: 40, height: 40).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
                                  case .success(let image):
-                                     image.resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                     image.resizable().frame(width: 40, height: 50).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
                                  case .failure:
                                      // Show placeholder for failed image load
-                                     Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                                     Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 40, height: 40).scaledToFit().clipShape(Circle())
                                          .padding(.trailing, 15)
                                  }
                              }
                          } else {
-                             Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 50, height: 50).scaledToFit().clipShape(Circle())
+                             Image(systemName: Constants.Icons.perosncircle).resizable().frame(width: 40, height: 40).scaledToFit().clipShape(Circle())
                                  .padding(.trailing, 15)
                          }
                             VStack(alignment: .leading) {
@@ -66,17 +66,17 @@ struct CarPoolCard: View {
                             }
                             
                             Spacer()
-                            Text("Rs. \(data.publish.setPrice)").bold().foregroundColor(.white)
-                        }.padding(8)
+                            Text("Rs. \(data.publish.setPrice)").bold().foregroundColor(.white).bold()
+                        }.padding(5)
                             .padding(.horizontal)
                         
                     }.background {
                         Image(Constants.Images.blue)
                                    .resizable()
-                                   .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
-                        }
-                }.padding(.top, -15)
+                                   .mask(BottomCornerRadiusShape(cornerRadius: 20)).overlay {
+                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 20))
+                        }.opacity(0.9)
+                }.padding(.top,-20)
             }
             } else {
                 /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/

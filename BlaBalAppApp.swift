@@ -1,8 +1,10 @@
 import SwiftUI
 
+
+
 @main
 struct BlaBalAppApp: App {
-
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     init() {
                GoogleMapsProvider.configure()
            }
@@ -17,9 +19,7 @@ struct BlaBalAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group {
                     SplashScreen() // Show the splash screen
-            }
             .environmentObject(vm)
             .environmentObject(vehicleVm)
             .environmentObject(mapVm)

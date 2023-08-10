@@ -62,7 +62,7 @@ struct DriverDetailView: View {
                 Alert(title: Text("Error"), message: Text("Chat room has been created already. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
             }
             Spacer()
-        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
+        }.padding()
             .navigationTitle("Driver Details")
    
         

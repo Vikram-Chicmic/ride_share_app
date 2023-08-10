@@ -16,7 +16,6 @@ struct ProfileView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
-    @State var jumpToSplash = false
    
     @EnvironmentObject var baseApi: BaseApiManager
     @Environment(\.presentationMode) var presentationMode
@@ -99,12 +98,10 @@ struct ProfileView: View {
                         }.padding(.leading)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
-                                    self.jumpToSplash.toggle()
                                     vm.apiCall(forMethod: .logout)
                                 }), .cancel()])
-                            }.navigationDestination(isPresented: $jumpToSplash, destination: {
-                                SplashScreen()
-                            })
+                            }
+                           
                             .alert(isPresented: $vm.failToLogout) {
                                 Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
                             }
@@ -124,9 +121,10 @@ struct ProfileView: View {
                 }
             })
             .alert(isPresented: $vm.failToFetchUser) {
-                Alert(title: Text(Constants.Alert.error),
+          Alert(title: Text(Constants.Alert.error),
                       message: Text(ErrorAlert.getUser.rawValue),
                       dismissButton: .cancel(Text(Constants.Buttons.ok)))
+                
             }
     }
 }

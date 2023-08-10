@@ -74,7 +74,7 @@ struct PublishedRideDetailView: View {
                     /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                 }
                 
-                    VehicleDetailView(isComingFromPublishView: .constant(true)).padding(-15)
+//                    VehicleDetailView(isComingFromPublishView: .constant(true)).padding(-15)
                     
                     if let data = vmm.decodedData {
                         HStack {
@@ -125,22 +125,8 @@ struct PublishedRideDetailView: View {
                                 if data.status == "pending"{
                                 // edit button
                                 Button {
-                                    MapAndRidesViewModel.shared.publishId = data.id
-                                    MapAndRidesViewModel.shared.updatedOriginName = data.source
-                                    MapAndRidesViewModel.shared.updatedDestinationName = data.destination
-                                    MapAndRidesViewModel.shared.updatedOriginLong = data.sourceLongitude
-                                    MapAndRidesViewModel.shared.updatedOriginLat = data.sourceLongitude
-                                    MapAndRidesViewModel.shared.updatedDestinationLat = data.destinationLatitude
-                                    MapAndRidesViewModel.shared.updatedDestinationLong = data.destinationLongitude
-                                    MapAndRidesViewModel.shared.passengers = data.passengersCount
-                                    MapAndRidesViewModel.shared.date = data.date
-                                    MapAndRidesViewModel.shared.time = data.time
-                                    MapAndRidesViewModel.shared.amount = String(data.setPrice)
-                                    MapAndRidesViewModel.shared.vehicleId = data.vehicleID
-                                    MapAndRidesViewModel.shared.aboutRide = data.aboutRide
-                                    MapAndRidesViewModel.shared.estimatedTime = data.estimateTime
+                                    Helper().setRideDetailsInEditMode(data: data)
                                     self.showEditView.toggle()
-                                    
                                 } label: {
                                     HStack {
                                         HollowButton(image: "", text: "Edit Ride", color: Constants.Colors.bluecolor )
@@ -210,12 +196,12 @@ struct PublishedRideDetailView: View {
                 
                 
         }.onAppear {
-            RegisterVehicleViewModel.shared.specificVehicleDetails = nil
-            if let data = selectedCardData {
-                RegisterVehicleViewModel.shared.getVehicleId = data.vehicleID
-                RegisterVehicleViewModel.shared.apiCall(method: .getVehicleDetailsById)
-                vehicleName = RegisterVehicleViewModel.shared.specificVehicleDetails?.vehicleBrand ?? ""
-            }
+//            RegisterVehicleViewModel.shared.specificVehicleDetails = nil
+//            if let data = selectedCardData {
+//                RegisterVehicleViewModel.shared.getVehicleId = data.vehicleID
+//                RegisterVehicleViewModel.shared.apiCall(method: .getVehicleDetailsById)
+//                vehicleName = RegisterVehicleViewModel.shared.specificVehicleDetails?.vehicleBrand ?? ""
+//            }
            
         }.padding().navigationTitle(isPublishedRide ? "Published Ride Detail" : "Booked Ride Detail")
     }

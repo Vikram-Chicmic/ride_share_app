@@ -68,7 +68,8 @@ struct MapSearchView: View {
                                 Text(dataArr[index].name)
                                 Text(dataArr[index].formattedAddress).font(.system(size: 12))
                             }.frame(height: 80)
-                        }.onTapGesture {
+                        }.listRowSeparator(.hidden)
+                            .onTapGesture {
                             if isOrigin {
                                 vm.originData = dataArr[index]
                             } else {
@@ -82,6 +83,7 @@ struct MapSearchView: View {
             }.listStyle(.plain)
             Spacer()
         }.onAppear {
+            // fetch history from user defauts , upto 3 locations
             vm.searchText = ""
             vm.searchResultArr = nil
         }.onDisappear {

@@ -13,18 +13,34 @@ class Helper {
     ///  mehod to format the estimated time
     /// - Parameter date: date is the date provided by api in string format
     /// - Returns: returns the formatted date in string format
-    func estimatedTimeFormatter(date: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Constants.Date.estimatedTimeformat
-        
-        if let date = dateFormatter.date(from: date) {
-            let outputDateFormatter = DateFormatter()
-            outputDateFormatter.dateFormat = Constants.Date.estimatedTime
-            return  (outputDateFormatter.string(from: date)+" hours")
-        } else {
-            return Constants.Error.invalidDateFormat
+    func estimatedTimeFormatter(timestamp: String) -> String? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withFullDate, .withTime, .withTimeZone, .withDashSeparatorInDate, .withColonSeparatorInTime]
+
+        if let date = dateFormatter.date(from: timestamp) {
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.hour, .minute, .second], from: date)
+            
+            if let hour = components.hour, let minute = components.minute, let second = components.second {
+                return String(format: "%02d:%02d:%02d", hour, minute, second)
+            }
         }
+        
+        return nil
     }
+    
+//    func estimatedTimeFormatter(date: String) -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = Constants.Date.estimatedTimeformat
+//        
+//        if let date = dateFormatter.date(from: date) {
+//            let outputDateFormatter = DateFormatter()
+//            outputDateFormatter.dateFormat = Constants.Date.estimatedTime
+//            return  (outputDateFormatter.string(from: date)+" hours")
+//        } else {
+//            return Constants.Error.invalidDateFormat
+//        }
+//    }
     
     ///   mehod to validate name
     /// - Parameter name: string value get from textfield
@@ -37,7 +53,22 @@ class Helper {
         return false
     }
     
-    
+    func setRideDetailsInEditMode(data: AllPublishRideData){
+        MapAndRidesViewModel.shared.publishId = data.id
+        MapAndRidesViewModel.shared.updatedOriginName = data.source
+        MapAndRidesViewModel.shared.updatedDestinationName = data.destination
+        MapAndRidesViewModel.shared.updatedOriginLong = data.sourceLongitude
+        MapAndRidesViewModel.shared.updatedOriginLat = data.sourceLongitude
+        MapAndRidesViewModel.shared.updatedDestinationLat = data.destinationLatitude
+        MapAndRidesViewModel.shared.updatedDestinationLong = data.destinationLongitude
+        MapAndRidesViewModel.shared.passengers = data.passengersCount
+        MapAndRidesViewModel.shared.date = data.date
+        MapAndRidesViewModel.shared.time = data.time
+        MapAndRidesViewModel.shared.amount = String(data.setPrice)
+        MapAndRidesViewModel.shared.vehicleId = data.vehicleID
+        MapAndRidesViewModel.shared.aboutRide = data.aboutRide
+        MapAndRidesViewModel.shared.estimatedTime = data.estimateTime
+    }
     
     ///  method to fomat date into date string
     /// - Parameter dateString: recieve date into string format in timezone format

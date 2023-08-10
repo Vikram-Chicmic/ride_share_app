@@ -19,25 +19,28 @@ struct TabBarView: View {
     @EnvironmentObject var vm: LoginSignUpViewModel
    
     var body: some View {
-        
-        TabView(selection: $vm.currentState) {
-                SearchView()
-                    .tabItem {
-                        Label(Constants.Labels.search, systemImage: Constants.Icons.quotes)
-                }.tag(Tabs.searchView)
-            
-                YourRidesView().tabItem {
-                    Label(Constants.Labels.ride, systemImage: Constants.Icons.car)
-                }.tag(Tabs.yourRideView)
-            
-                InboxView().tabItem {
-                    Label(Constants.Labels.inbox, systemImage: Constants.Icons.bubble)
-                }.tag(Tabs.inboxView)
-            
-                ProfileView().tabItem {
-                    Label(Constants.Labels.person, systemImage: Constants.Icons.perosn)
-                }.tag(Tabs.profileView)
-        }.navigationBarBackButtonHidden(true)
+//        NavigationStack {
+            TabView(selection: $vm.currentState) {
+                    SearchView()
+                        .tabItem {
+                            Label(Constants.Labels.search, systemImage: Constants.Icons.quotes)
+                    }.tag(Tabs.searchView)
+                
+                    YourRidesView().tabItem {
+                        Label(Constants.Labels.ride, systemImage: Constants.Icons.car)
+                    }.tag(Tabs.yourRideView)
+                
+                    InboxView().tabItem {
+                        Label(Constants.Labels.inbox, systemImage: Constants.Icons.bubble)
+                    }.tag(Tabs.inboxView)
+                
+                    ProfileView().tabItem {
+                        Label(Constants.Labels.person, systemImage: Constants.Icons.perosn)
+                    }.tag(Tabs.profileView)
+                   
+            }.navigationBarBackButtonHidden(true)
+//        }
+       
     }
 }
 

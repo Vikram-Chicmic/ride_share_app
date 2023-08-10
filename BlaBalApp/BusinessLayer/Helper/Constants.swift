@@ -203,7 +203,7 @@ struct Constants {
         static let calander                 = "calendar"
         static let star                     = "star.fill"
         static let starHollow               = "star"
-        static let arrowRight               = "arrowshape.right.fill"
+        static let arrowRight               = "arrow.forward"
         static let quotes                   = "quote.closing"
         static let clock                    = "clock"
         static let phone                    = "phone.fill"

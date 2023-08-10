@@ -27,7 +27,7 @@ struct CarPoolView: View {
                                     Spacer()
                                     Text("\(vm.originData?.name ?? "")").font(.headline)
                                     Spacer()
-                                    Image(systemName: Constants.Icons.arrowRight).foregroundColor(.green)
+                                    Image(systemName: Constants.Icons.arrowRight).foregroundColor(.gray)
                                     Spacer()
                                     Text("\(vm.destinationData?.name ?? "")").font(.headline)
                                     Spacer()

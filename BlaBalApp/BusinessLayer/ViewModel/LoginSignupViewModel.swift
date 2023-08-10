@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class LoginSignUpViewModel: ObservableObject {
     
@@ -63,6 +64,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var isUserPasswordValid = false
     @Published var updateAlertProblem = false
     @Published var isFirstNameAndLastNameValid = false
+    
     
     static var authorizationToken = ""
     

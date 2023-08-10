@@ -12,7 +12,7 @@ struct LandingView: View {
     @State var isLoginView: Bool = false
    
     var body: some View {
-       
+//        NavigationStack {
             VStack {
                 BackgroundView().padding(.top, -20)
                 Spacer()
@@ -48,7 +48,9 @@ struct LandingView: View {
                 .navigationDestination(isPresented: $navigate) {
                     LoginSignupWithEmailView(isLoginView: $isLoginView)
             }
-        }
+
+//        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

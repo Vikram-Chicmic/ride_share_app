@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 
 class BaseApiManager: ObservableObject {
     static var shared = BaseApiManager()
@@ -62,9 +64,11 @@ class BaseApiManager: ObservableObject {
             UserDefaults.standard.set(false, forKey: Constants.UserDefaultsKeys.userLoggedIn)
             UserDefaults.standard.removeObject(forKey: Constants.Url.token)
             UserDefaults.standard.set(nil, forKey: Constants.UserDefaultsKeys.userDataKey)
-            SessionManager.shared.isLoggedIn.toggle()
+//            SessionManager.shared.isLoggedIn.toggle()
             LoginSignUpViewModel.shared.currentState = .searchView
-            LoginSignUpViewModel.shared.jumpToSplash.toggle()
+            NavigationViewModel.shared.pop()
+//            LoginSignUpViewModel.shared.jumpToSplash.toggle()
+          
             
         case .getUser:
             let decoder = JSONDecoder()
