@@ -16,15 +16,14 @@ struct EditRide: View {
     var body: some View {
         VStack {
             ForEach(options, id: \.title) { option in
-                Helper().optionButton(for: option)
-                Divider().padding(.horizontal)
+                Helper().optionButton(for: option).foregroundColor(.black)
+                Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.1)).padding(.horizontal)
             }
             Spacer()
         }
         .onAppear {
             if vm.isUpdatedSuccess {
                 dismiss()
-                vm.isUpdatedSuccess = false
             }
         }
         .navigationTitle("Update Ride")

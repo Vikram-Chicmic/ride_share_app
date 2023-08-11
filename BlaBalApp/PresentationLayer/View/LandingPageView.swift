@@ -15,7 +15,7 @@ struct LandingView: View {
 //        NavigationStack {
             VStack {
                 BackgroundView().padding(.top, -20)
-                Spacer()
+    
                 Text(Constants.Texts.pickride).font(.title).multilineTextAlignment(.center).fontWeight(.semibold).padding()
       
             VStack {
@@ -39,7 +39,12 @@ struct LandingView: View {
                     .accentColor(Color(red: 0.993, green: 0.452, blue: 0.366))
                 }.padding(.top, 30)
 
-            }.navigationBarBackButtonHidden(true).onAppear {
+            }.overlay(alignment: .top, content: {
+                VStack{
+                    Image("carpoolIcon").resizable().frame(width: 50, height: 50)
+                    Text("Ride Share").fontWeight(.semibold)
+                }
+            }).navigationBarBackButtonHidden(true).onAppear {
                 isLoginView = false
                 
             }

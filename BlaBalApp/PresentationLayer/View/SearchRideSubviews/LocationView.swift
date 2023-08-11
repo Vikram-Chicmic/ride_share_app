@@ -206,6 +206,9 @@ struct LocationView: View {
                                    }
                                    .frame(height: 50)
                             }.padding(.horizontal)
+                                .onTapGesture {
+                                    if vehicleVm.decodedVehicleData?.data.count == 0 { showAlert.toggle() }
+                                }
                             Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2)).padding(.horizontal)
                 
                                 // MARK: - Amount
@@ -221,6 +224,7 @@ struct LocationView: View {
                     
                     // MARK: - Search
                     Button {
+                        hideKeyboard()
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = Constants.Date.timeFormat
                         vm.time = dateFormatter.string(from: currentDate)
@@ -228,6 +232,12 @@ struct LocationView: View {
                             vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
 //                            vm.time = Helper().dateToString(selectedDate: newTime ?? Date())
                         if vm.originData != nil && vm.destinationData != nil {
+                            if isPublishView{
+                                if Int(vm.amount) ?? 0 < 1 {
+                                    showAlert.toggle()
+                                    return
+                                }
+                            }
                             isPublishView ?  vm.apiCall(for: .fetchPolylineAndDistanceOfRide) : vm.apiCall(for: .searchRide)
                             // To show searched Ride
                             isPublishView ? showMap.toggle() :  showCarPoolView.toggle()

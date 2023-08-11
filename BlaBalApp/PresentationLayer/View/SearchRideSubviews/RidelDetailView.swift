@@ -36,7 +36,7 @@ struct RideDetailView: View {
                                  }
                                 Text("Details").font(.title3).fontWeight(.semibold).padding(.top)
                                 VStack(spacing: 10) {
-                                    RideDetailTileView(title: Constants.Texts.estTime, value: estimatedTimeToString(timestamp: details.publish.estimateTime) ?? "2000-01-01T00:33:58.000Z").font(.subheadline)
+                                    RideDetailTileView(title: Constants.Texts.estTime, value: Helper().datetimeFormat(dateTime: details.publish.estimateTime, format: Constants.Date.estimatedTime)).font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.passengers, value: String(details.publish.passengersCount)).font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.reachTime, value: Helper().formatDate(details.reachTime) ?? "").font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.ridestatus, value: details.publish.status).font(.subheadline)
@@ -133,21 +133,6 @@ struct RideDetailView: View {
             }
             
         
-    }
-    func estimatedTimeToString(timestamp: String) -> String? {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime]
-        
-        if let date = formatter.date(from: timestamp) {
-            let calendar = Calendar.current
-            let components = calendar.dateComponents([.hour, .minute], from: date)
-            
-            if let hour = components.hour, let minute = components.minute {
-                return String(format: "%02d:%02d", hour, minute)
-            }
-        }
-        
-        return nil
     }
 }
 

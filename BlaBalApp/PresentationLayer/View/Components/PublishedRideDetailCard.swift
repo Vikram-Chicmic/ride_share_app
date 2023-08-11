@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct PublishedRideDetailCard: View {
     var publishRideData: AllPublishRideData?
     var bookedRideData: AllBookedRideData?
@@ -22,10 +23,15 @@ struct PublishedRideDetailCard: View {
                         Text(Helper().formatDateToMMM(data.date))
                         Spacer()
                         VStack {
-                            Text(data.status.capitalized).padding().font(.system(size: 12)).foregroundColor(.white)
+                            Text(data.status.capitalized).padding(10).padding(.horizontal).font(.system(size: 12))
+                                .foregroundColor(Helper().colorSelector(status: data.status))
                         }
-                        .background(data.status == (isPublishRideData ? "pending" : Constants.DefaultValues.confirmBooking) ? Color.green : Color.red)
-                        .cornerRadius(10)
+                        .background(Helper().colorSelector(status: data.status).opacity(0.1))
+                        .cornerRadius(20, corners: [.topRight,.bottomLeft])
+                        .padding(-15)
+                        .padding(.top, -30)
+                        
+                        
                     }
                     HStack(spacing: 20) {
                         if isPublishRideData {
@@ -51,7 +57,7 @@ struct PublishedRideDetailCard: View {
                         
                         Spacer()
                     }
-                }.padding()
+                }.padding().padding(.vertical, 20)
                 .background {
                     Color.gray.opacity(0.2).cornerRadius(20)
                 }
@@ -59,7 +65,7 @@ struct PublishedRideDetailCard: View {
                 VStack {
                     HStack {
                         HStack {
-                            Image(systemName: Constants.Icons.person).foregroundColor(.blue)
+                            Image(systemName: Constants.Icons.person).foregroundColor(.white).bold()
                             Text(String(data.passengersCount)).foregroundColor(.white)
                         }
                         if let bookedRideData = bookedRideData {
@@ -77,12 +83,13 @@ struct PublishedRideDetailCard: View {
                         .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
                             TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
                         }
-                }.padding(.top, -15)
+                }.padding(.top, -25)
             } else {
                 EmptyView()
             }
         }
     }
+    
 }
 
 struct PublishedRideDetailCard_Previews: PreviewProvider {
@@ -90,6 +97,3 @@ struct PublishedRideDetailCard_Previews: PreviewProvider {
         PublishedRideDetailCard(publishRideData: AllPublishRideData(id: 461, source: "Elante Mall", destination: "VRP Telematics Private Limited", passengersCount: 4, addCity: nil, date: "2023-06-29", time: "2000-01-01T04:38:00.000Z", setPrice: 2500, aboutRide: "Adas", userID: 221, createdAt: "2023-06-21T11:27:41.551Z", updatedAt: "2023-06-21T11:27:41.551Z", sourceLatitude: 30.70549299999999, sourceLongitude: 76.8012561, destinationLatitude: 28.5193495, destinationLongitude: 77.28101509999999, vehicleID: 243, bookInstantly: nil, midSeat: nil, selectRoute: nil, status: "pending", estimateTime: "2000-01-01T01:00:00.000Z", addCityLongitude: nil, addCityLatitude: nil), isPublishRideData: .constant(true))
     }
 }
-
-
-

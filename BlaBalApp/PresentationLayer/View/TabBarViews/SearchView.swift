@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     @State var isPublishView = false
     @State var showAlert = false
+    @EnvironmentObject var vm: MapAndRidesViewModel
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -22,11 +23,17 @@ struct SearchView: View {
             ScrollView {
                 LocationView(isPublishView: $isPublishView, isComingFromPublishedView: .constant(false), showAlert: $showAlert)
                 Spacer()
-                if showAlert {
-                    CustomAlert(text: Constants.Alert.emptyfield, dismiss: $showAlert)
-                }
+            }.disabled(showAlert ? true : false).opacity(showAlert ? 0.5 : 1)
+        }.overlay(alignment: .bottom, content: {
+            if showAlert {
+                
+                CustomAlert(text: Int(vm.amount) ?? 0 < 1 ?
+                            RegisterVehicleViewModel.shared.decodedVehicleData?.data.count == 0 || MapAndRidesViewModel.shared.vehicleId == 0 ?
+                            "No vehicle found" :
+                            "Invalid amount" :
+                            Constants.Alert.emptyfield, dismiss: $showAlert)
             }
-                }
+        })
             .onTapGesture {
                 self.hideKeyboard()
             }

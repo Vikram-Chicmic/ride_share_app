@@ -52,6 +52,12 @@ class AddImageViewModel: ObservableObject {
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, _ -> Data in
                 // Handle the response
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+                    print(json as Any)
+                } catch let e {
+                    print(e.localizedDescription)
+                }
                 return data
             }
             .sink(receiveCompletion: { completion in

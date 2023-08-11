@@ -49,7 +49,8 @@ struct UpdatePriceAndSeats: View {
                 }.padding(.leading)
             
             Button {
-                //
+                vm.isUpdatedSource = vm.originData != nil ? true :  false
+                vm.isUpdatedDestination =  vm.destinationData != nil ? true : false
                 vm.apiCall(for: .updateRide)
             } label: {
                 Buttons(image: "", text: Constants.Texts.update, color: (vm.amount.isEmpty) ? .gray : Constants.Colors.bluecolor).padding()

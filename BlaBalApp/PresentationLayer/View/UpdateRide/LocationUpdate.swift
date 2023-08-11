@@ -53,12 +53,9 @@ struct LocationUpdate: View {
             })
             
             Button {
-                if vm.originData != nil {
-                    vm.isUpdatedSource = true
-                }
-                if vm.destinationData != nil {
-                    vm.isUpdatedDestination = true
-                }
+                vm.isUpdatedSource = vm.originData != nil ? true :  false
+                vm.isUpdatedDestination =  vm.destinationData != nil ? true : false
+               
                 vm.apiCall(for: .updateRide)
                 
             } label: {

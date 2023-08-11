@@ -23,6 +23,7 @@ class MapAndRidesViewModel: ObservableObject {
     @Published var alertSuccess                                             = false
     @Published var updateRideSuccess                                        = false
     @Published var alertFailure                                             = false
+    @Published var alertForPublish                                          = false
     @Published var alertFetchPublishedRideFailure                           = false
     @Published var alertFetchBookedRideFailure                              = false
     @Published var publishId                                                = 0
@@ -31,7 +32,7 @@ class MapAndRidesViewModel: ObservableObject {
     private let apiKey                                                      = Constants.API.apiKey
     @Published var passengerId: Int                                         = 0
     @Published var isLoading                                                = false
-    
+    @Published var alertCancelRide                                          = false
     @Published var updatedOriginName: String?
     @Published var updatedOriginLong: Double?
     @Published var updatedOriginLat: Double?

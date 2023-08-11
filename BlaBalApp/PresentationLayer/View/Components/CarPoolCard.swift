@@ -15,10 +15,11 @@ struct CarPoolCard: View {
                 VStack {
                     // MARK: Upper part of card
                     VStack {
+                        
+                        
                         HStack {
                             VStack {
                                     DistanceCircleShowView(maxWidhth: 2, maxHeight: 35).padding(.leading)
-//                                    Text(Helper().dateFormatter(date: data.publish.estimateTime))
                             }
                             VStack(alignment: .leading, spacing: 30) {
                                 HStack {
@@ -32,6 +33,19 @@ struct CarPoolCard: View {
                              }.padding(.vertical)
                             Spacer()
                         }
+                        
+                        Rectangle().frame(height: 2).foregroundColor(.gray).opacity(0.2)
+                        
+                        HStack {
+                            Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
+                            Text(Helper().datetimeFormat(dateTime: data.publish.time, format: Constants.Date.timeFormat))
+                            Spacer()
+                     
+             
+                            Image(systemName: Constants.Icons.seat).foregroundColor(.blue)
+                            Text(String(data.publish.passengersCount))
+                         
+                        }.padding(10)
                     }.padding().background {
                         Color.gray.opacity(0.1)
                     }.cornerRadius(20)
@@ -67,7 +81,7 @@ struct CarPoolCard: View {
                             
                             Spacer()
                             Text("Rs. \(data.publish.setPrice)").bold().foregroundColor(.white).bold()
-                        }.padding(5)
+                        }.padding(10)
                             .padding(.horizontal)
                         
                     }.background {

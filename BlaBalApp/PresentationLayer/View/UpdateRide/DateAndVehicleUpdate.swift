@@ -50,7 +50,8 @@ struct DateAndVehicleUpdate: View {
             }.padding(.horizontal)
             
             Button {
-                //
+                vm.isUpdatedSource = vm.originData != nil ? true :  false
+                vm.isUpdatedDestination =  vm.destinationData != nil ? true : false
                 vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
                 vm.apiCall(for: .updateRide)
             } label: {

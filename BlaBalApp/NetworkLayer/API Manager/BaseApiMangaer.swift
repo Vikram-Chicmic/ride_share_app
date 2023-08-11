@@ -243,6 +243,7 @@ class BaseApiManager: ObservableObject {
         LoginSignUpViewModel.shared.isLoading = false
         switch method {
         case .publishRide:
+            MapAndRidesViewModel.shared.alertForPublish.toggle()
             MapAndRidesViewModel.shared.alertSuccess.toggle()
             print(SuccessAlerts.publishRide.rawValue)
         case .bookRide:
@@ -294,7 +295,7 @@ class BaseApiManager: ObservableObject {
             MapAndRidesViewModel.shared.isUpdatedSuccess.toggle()
             
         case .cancelRide:
-            MapAndRidesViewModel.shared.alertSuccess.toggle()
+            MapAndRidesViewModel.shared.alertCancelRide.toggle()
             print(SuccessAlerts.cancelRide.rawValue)
             
         case .getAllBookedRideOfCurentUser:
@@ -328,6 +329,7 @@ class BaseApiManager: ObservableObject {
       
         switch method {
         case .publishRide:
+            MapAndRidesViewModel.shared.alertForPublish.toggle()
             MapAndRidesViewModel.shared.alertFailure.toggle()
             print(ErrorAlert.publishRide.rawValue)
             
@@ -356,7 +358,7 @@ class BaseApiManager: ObservableObject {
             print(ErrorAlert.updateRide.rawValue)
             
         case .cancelRide:
-            MapAndRidesViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertCancelRide.toggle()
             print(ErrorAlert.cancelRide.rawValue)
             
         case .getAllBookedRideOfCurentUser:

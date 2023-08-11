@@ -29,18 +29,7 @@ class Helper {
         return nil
     }
     
-//    func estimatedTimeFormatter(date: String) -> String {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = Constants.Date.estimatedTimeformat
-//        
-//        if let date = dateFormatter.date(from: date) {
-//            let outputDateFormatter = DateFormatter()
-//            outputDateFormatter.dateFormat = Constants.Date.estimatedTime
-//            return  (outputDateFormatter.string(from: date)+" hours")
-//        } else {
-//            return Constants.Error.invalidDateFormat
-//        }
-//    }
+
     
     ///   mehod to validate name
     /// - Parameter name: string value get from textfield
@@ -52,6 +41,31 @@ class Helper {
         if name.containsWhitespace { return true}
         return false
     }
+    
+    func colorSelector(status: String) -> Color {
+        if status == "pending" { return .orange}
+        if status == "completed" { return .green}
+        if status == "cancelled" { return .red}
+        return .blue
+    }
+    
+    func datetimeFormat(dateTime: String, format: String) -> String {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            
+            let myTime = dateFormatter.date(from: dateTime)
+            
+            guard let time = myTime else {
+                return ""
+            }
+            
+            dateFormatter.dateFormat = format
+            let tme = dateFormatter.string(from: time)
+            return tme
+        }
+    
+
     
     func setRideDetailsInEditMode(data: AllPublishRideData){
         MapAndRidesViewModel.shared.publishId = data.id

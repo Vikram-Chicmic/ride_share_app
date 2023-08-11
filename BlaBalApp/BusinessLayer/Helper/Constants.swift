@@ -168,7 +168,7 @@ struct Constants {
         static let image                    = "Image"
         static let carbg                    = "carbg"
         static let car2                     = "car2"
-        static let blue                     = "download"
+        static let blue                     = "bg22"
         static let white                    = "Bank"
     }
     
@@ -413,7 +413,7 @@ struct Constants {
     }
     // MARK: - Colors
     struct Colors {
-        static let bluecolor                = /*@START_MENU_TOKEN@*/Color(red: 0.321, green: 0.501, blue: 0.927)/*@END_MENU_TOKEN@*/
+        static let bluecolor                = Color(red: 0.321, green: 0.501, blue: 0.927)
         static let underline = LinearGradient(gradient: Gradient(colors: [.blue.opacity(0), .blue, .blue.opacity(0)]), startPoint: .leading, endPoint: .trailing)
     }
     

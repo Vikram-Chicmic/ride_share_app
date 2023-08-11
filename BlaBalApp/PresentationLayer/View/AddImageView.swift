@@ -65,18 +65,21 @@ struct AddImageView: View {
                 }
                 
                 Spacer()
-                Button {
-                    vm.uploadImage()
-                } label: {
-                    Buttons(image: "", text: "Update", color: Constants.Colors.bluecolor)
-                }.padding()
-                    .alert(isPresented: $vm.alert) {
-                        vm.success ?  Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.imageUploadSuccess), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-                            dismiss()
-                        })) : Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.errorUploadImage), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-                            dismiss()
-                        }))
-                    }
+                if vm.selectedImage != nil {
+                    Button {
+                        vm.uploadImage()
+                    } label: {
+                        Buttons(image: "", text: "Update", color: Constants.Colors.bluecolor)
+                    }.padding()
+                        .alert(isPresented: $vm.alert) {
+                            vm.success ?  Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.imageUploadSuccess), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                                dismiss()
+                            })) : Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.errorUploadImage), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                                dismiss()
+                            }))
+                        }
+                }
+          
             }.opacity(vm.isLoading ? 0.5 : 1.0).padding(.top).navigationTitle("Add Image")
             if vm.isLoading {
                 ProgressView().progressViewStyle(.circular)
