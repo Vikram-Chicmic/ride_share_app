@@ -48,10 +48,10 @@ struct ChatView: View {
                     }
                 }
                 
-            }//            .scrollIndicators(.hidden)
-//                .refreshable {
-//                    vm.apiCall(mehtod: .recieveMessage)
-//                }
+            }.scrollIndicators(.hidden)
+                .refreshable {
+                    vm.apiCall(mehtod: .recieveMessage)
+                }
             
             
             

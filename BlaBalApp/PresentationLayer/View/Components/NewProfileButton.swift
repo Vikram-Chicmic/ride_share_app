@@ -23,6 +23,7 @@ struct ProfileOptionButton<Label: View, Destination: View>: View {
             }
         }
         .frame(minHeight: 30)
+        .foregroundColor(.black)
         .navigationDestination(isPresented: $isPresented) {
             destination
         }

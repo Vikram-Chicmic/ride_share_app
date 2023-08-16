@@ -10,13 +10,13 @@ import SwiftUI
 struct ProfileView: View {
     @State var navigateToEditDetail: Bool = false
     @State var navigateToPhoneVerification: Bool = false
-    @State var navigateToRegisterVehicle = false
+  
     @State var detail: Welcome?
     @State var showAlert: Bool = false
     @EnvironmentObject var vm: LoginSignUpViewModel
     @State var navigateToAllVehiclePage = false
     @State var navigateToChangePassword = false
-   
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var baseApi: BaseApiManager
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
@@ -58,20 +58,7 @@ struct ProfileView: View {
                         
                         Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                         
-                        VStack(alignment: .leading, spacing: 15) {
-                            Button {
-                                navigateToRegisterVehicle.toggle()
-                            } label: {
-                                HStack {
-                                    ProfileButtons(text: Constants.Buttons.addVehicle)
-                                    Spacer()
-                                }
-                            }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
-                                RegisterVehicleView(isUpdateVehicle: .constant(false), hasUpdated: .constant(false))
-                            }
-                            
-                            Rectangle().frame(height: 2).foregroundColor(.gray.opacity(0.2))
-                            
+                        VStack {
                             Button {
                                 navigateToAllVehiclePage.toggle()
                             } label: {
@@ -80,22 +67,24 @@ struct ProfileView: View {
                                     Spacer()
                                     Image(systemName: Constants.Icons.rightChevron)
                                 }
-                            }
+                            }.foregroundColor(.black)
                             .frame(minHeight: 30)
                             .navigationDestination(isPresented: $navigateToAllVehiclePage) {
                                 AllVehicleView()
                             }
                         }.padding(.horizontal)
-                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                         // MARK: - Logout Button
                         Button {
                             showAlert.toggle()
                         }label: {
                                 HStack {
-                                    Text(Constants.Buttons.logout).foregroundColor(.red)
+                                    Text(Constants.Buttons.logout)
                                     Spacer()
+                                    Image(systemName: Constants.Icons.rightChevron).padding(.trailing)
+                                   
                                 }
-                        }.padding(.leading)
+                        }.foregroundColor(.red).padding(.leading)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
                                     vm.apiCall(forMethod: .logout)
@@ -106,7 +95,7 @@ struct ProfileView: View {
                                 Alert(title: Text(Constants.Alert.error), message: Text(ErrorAlert.logout.rawValue), dismissButton: .cancel())
                             }
                     }
-                    Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                   
                 }.refreshable {
                     vm.apiCall(forMethod: .getUser)
                 }.scrollIndicators(.hidden)

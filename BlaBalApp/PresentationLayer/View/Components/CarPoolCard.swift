@@ -48,7 +48,7 @@ struct CarPoolCard: View {
                         }.padding(10)
                     }.padding().background {
                         Color.gray.opacity(0.1)
-                    }.cornerRadius(20)
+                    }.cornerRadius(20, corners: [.topLeft,.topRight])
                  
                  
                    
@@ -76,22 +76,18 @@ struct CarPoolCard: View {
                                  .padding(.trailing, 15)
                          }
                             VStack(alignment: .leading) {
-                                Text("\(data.name)").font(.system(size: 20)).foregroundColor(.white)
+                                Text("\(data.name)").font(.system(size: 20))
                             }
                             
                             Spacer()
-                            Text("Rs. \(data.publish.setPrice)").bold().foregroundColor(.white).bold()
+                            Text("Rs. \(data.publish.setPrice)").bold().bold()
                         }.padding(10)
                             .padding(.horizontal)
                         
                     }.background {
-                        Image(Constants.Images.blue)
-                                   .resizable()
-                                   .mask(BottomCornerRadiusShape(cornerRadius: 20)).overlay {
-                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 20))
-                        }.opacity(0.9)
-                }.padding(.top,-20)
-            }
+                        Color(red: 0.897, green: 0.897, blue: 0.897)
+                    }.cornerRadius(20, corners: [.bottomLeft,.bottomRight])
+                }
             } else {
                 /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
             }

@@ -70,6 +70,8 @@ class ApiManager {
            finalRequest.setValue(token, forHTTPHeaderField: Constants.Url.auth)
        }
 
+        print(finalRequest.url)
+        
        return URLSession.shared.dataTaskPublisher(for: finalRequest)
                .tryMap { (data, response) -> Data in
                    guard let response = response as? HTTPURLResponse else {

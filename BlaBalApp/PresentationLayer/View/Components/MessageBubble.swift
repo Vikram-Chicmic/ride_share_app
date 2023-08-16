@@ -9,9 +9,8 @@ import SwiftUI
 
 struct MessageBubble: View {
     var message: Message
-
     @State var showTime = false
-    var sent: Bool { message.senderID != LoginSignUpViewModel.shared.recievedData?.status.data?.id }
+    var sent: Bool { message.senderID == LoginSignUpViewModel.shared.recievedData?.status.data?.id }
     var body: some View {
         VStack(alignment: sent ? .trailing : .leading ) {
             HStack {

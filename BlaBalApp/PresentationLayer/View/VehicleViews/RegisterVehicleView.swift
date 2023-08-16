@@ -13,9 +13,10 @@ struct RegisterVehicleView: View {
     @Binding var isUpdateVehicle: Bool
     let years = (1980...2023).map { String($0) }
     @State var index: Int = 0
-    @State var selectedYear: String?
+    @State var selectedYear: String? = "1981"
     @State var showCustomAlert = false
     @Binding var hasUpdated: Bool
+    @State var alertNow = false
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
@@ -57,45 +58,50 @@ struct RegisterVehicleView: View {
                                     showCustomAlert.toggle()
                                 } else {
                                     if isUpdateVehicle {
-                                        vm.isUpdatingVehicle.toggle()
+                                        vm.isUpdatingVehicle = true
                                         vm.apiCall(method: .vehicleUpdate)
+                                        alertNow.toggle()
                                     } else {
                                         vm.apiCall(method: .vehicleRegister)
+                                        alertNow.toggle()
                                     }
                                 }
+                                  
                                 
                             } else {
                                 showCustomAlert.toggle()
                             }
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor).padding(.vertical)
-                        }.alert(isPresented: $vm.successAlert) {
-                            Alert(title: Text(Constants.Alert.success),
-                                  message: Text(Constants.Alert.vehicleAddSuccess),
-                                  dismissButton: .cancel(Text(Constants.Labels.ok)) {
-                                if isUpdateVehicle {
-                                    hasUpdated.toggle()
-                                }
-                                dismiss()
-                            }
-                            )
                         }
-                    }.alert(isPresented: $vm.failAlert) {
-                            Alert(title: Text(Constants.Alert.error),
-                                  message: Text(isUpdateVehicle ? ErrorAlert.updateVehicle.rawValue : ErrorAlert.registerVehicle.rawValue),
-                                  dismissButton: .cancel(Text(Constants.Buttons.ok)))
-
+                     
                     }.padding()
-                }.scrollIndicators(.hidden)
+                }.padding(.bottom).scrollIndicators(.hidden)
             }.opacity(showCustomAlert ? 0.5 : 1.0)
             if showCustomAlert {
                 CustomAlert(text: "Fields are empty", dismiss: $showCustomAlert)
             }
+        } .alert(isPresented: $alertNow) {
+             vm.successAlert ?
+                Alert(title: Text(Constants.Alert.success),
+                      message: isUpdateVehicle ? Text(SuccessAlerts.updateVehicle.rawValue) : Text(SuccessAlerts.addVehicle.rawValue),
+                      dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                    if isUpdateVehicle {
+                        hasUpdated.toggle()
+                        vm.isUpdatingVehicle = false
+                        dismiss()
+                        
+                    } else { dismiss() }
+                }))
+            :
+                Alert(title: Text(Constants.Alert.error),
+                      message: isUpdateVehicle ? Text(ErrorAlert.updateVehicle.rawValue) : Text(ErrorAlert.addVehicle.rawValue),
+                      dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+                }))
         }
         .onAppear {
             if isUpdateVehicle {
                 vm.isRegistering = false
-                vm.isUpdatingVehicle = true
                 selectedYear = "\(vm.madeYear!)"
             } else {
                 vm.isRegistering = true

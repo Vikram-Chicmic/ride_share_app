@@ -34,9 +34,6 @@ struct YourRidesView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                         if isPublishRidesView { UnderlineView().padding(.horizontal) }
                     }
-                   
-                    
-                    //
                     VStack {
                         Button {
                             withAnimation(.easeInOut(duration: 0.5)) {
@@ -70,8 +67,7 @@ struct YourRidesView: View {
 //                                        }
                                       
                                     }
-                            }.padding().padding(.bottom, 20)
-                            
+                            }.padding([.horizontal,.bottom])
                         } else {
                             VStack {
                                 Image(Constants.Images.travel).resizable().scaledToFit()
@@ -81,7 +77,8 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.onAppear {
+                }.transition(.move(edge: .leading))
+                    .onAppear {
                     vm.isLoading = true
                 }.overlay(content: {
                     if vm.isLoading == true {
@@ -122,7 +119,7 @@ struct YourRidesView: View {
 //                                        }
                                       
                                     }
-                            }.padding().padding(.bottom, 20)
+                            }.padding([.horizontal,.bottom])
                             
                         } else {
                             VStack {
@@ -133,7 +130,7 @@ struct YourRidesView: View {
                             }.padding(.horizontal)
                         }
                     }
-                }.onAppear {
+                }.transition(.move(edge: .trailing)).onAppear {
                     vm.isLoading = true
                 }.overlay(content: {
                     if vm.isLoading == true {

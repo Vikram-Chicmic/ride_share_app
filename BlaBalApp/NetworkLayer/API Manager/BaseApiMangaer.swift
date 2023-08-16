@@ -64,11 +64,8 @@ class BaseApiManager: ObservableObject {
             UserDefaults.standard.set(false, forKey: Constants.UserDefaultsKeys.userLoggedIn)
             UserDefaults.standard.removeObject(forKey: Constants.Url.token)
             UserDefaults.standard.set(nil, forKey: Constants.UserDefaultsKeys.userDataKey)
-//            SessionManager.shared.isLoggedIn.toggle()
             LoginSignUpViewModel.shared.currentState = .searchView
             NavigationViewModel.shared.pop()
-//            LoginSignUpViewModel.shared.jumpToSplash.toggle()
-          
             
         case .getUser:
             let decoder = JSONDecoder()
@@ -186,6 +183,8 @@ class BaseApiManager: ObservableObject {
             RegisterVehicleViewModel.shared.decodedVehicleData = vehicles
         case .deleteVehicle:
             RegisterVehicleViewModel.shared.deleteSuccess.toggle()
+            RegisterVehicleViewModel.shared.isDeletingVehicle = false
+            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
         
         case .getVehicleDetailsById:
             guard let vehicles = try? JSONDecoder().decode(Datum.self, from: data) else {

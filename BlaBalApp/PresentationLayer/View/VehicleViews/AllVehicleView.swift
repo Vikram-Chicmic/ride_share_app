@@ -11,6 +11,7 @@ struct AllVehicleView: View {
     @EnvironmentObject var vm: RegisterVehicleViewModel
     @EnvironmentObject var baseAPI: BaseApiManager
     @State var alertToDelete = false
+    @State var navigateToRegisterVehicle = false
     @State var deleteIndex: IndexSet?
     @State var editMode: EditMode = .inactive
     @State var isEditing = false
@@ -24,40 +25,46 @@ struct AllVehicleView: View {
                             NavigationLink {
                                 VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
                             } label: {
-                                VStack {
-                                    HStack {
-                                        Image(Constants.Images.car2).resizable().frame(width: 80, height: 80).padding(.trailing, 50)
-                                       
+                                    HStack(alignment: .center) {
+                                        Image(Constants.Images.car2).resizable().frame(width: 40, height: 40).padding(.trailing, 50)
                                         Text(data[index].vehicleBrand)
                                         Spacer()
-                                    }
-                                    Divider()
-                                }
-                            }
-                            .listRowSeparator(.hidden)
+                                    }.cornerRadius(20)
+                            }.listRowSeparator(.hidden)
+                              
                         }.onDelete { index in
                             deleteIndex = index
                             alertToDelete.toggle()
                         }
-                    }.environment(\.editMode, $editMode)
+                    }.listStyle(.plain).environment(\.editMode, $editMode)
                         .refreshable {
                         vm.apiCall(method: .getVehicle)
                     }.toolbar {
-                        Button("Delete", action: {
+                        Button {
+                            navigateToRegisterVehicle.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                        }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
+                                                            RegisterVehicleView(isUpdateVehicle: .constant(false), hasUpdated: .constant(false))
+                                                        }
+                        
+                        Button {
                             withAnimation {
                                 isEditing.toggle()
                             }
-                    
-                        editMode = isEditing ? .active : .inactive
-                        })
-//                        EditButton()
+                            editMode = isEditing ? .active : .inactive
+                        } label: {
+                            Image(systemName: "trash").foregroundColor(.red)
+                        }
                       }.listStyle(.plain)
                         .actionSheet(isPresented: $alertToDelete) {
                             ActionSheet(title: Text("Delete Vehicle"), message: Text("You sure you want to delete? "), buttons: [.destructive(Text("Delete"), action: {
                                 if let index = deleteIndex {
                                     delete(at: index)
                                 }
-                            }), .cancel()])
+                            }), .cancel(Text("Cancel"), action: {
+                                editMode = .inactive
+                            })])
                         }
                 } else {
                     VStack {
@@ -67,18 +74,17 @@ struct AllVehicleView: View {
                 }
             }
         }
-        .onChange(of: alertToDelete, perform: { newValue in
-            print(alertToDelete)
-        })
         .navigationTitle("Your Vehicles")
         .onAppear {
             vm.isRegistering = false
             vm.isDeletingVehicle = false
             vm.isUpdatingVehicle = false
             vm.apiCall(method: .getVehicle)
-        }.alert(isPresented: $vm.failAlert) {
-            Alert(title: Text("error"), message: Text(ErrorAlert.getVehicle.rawValue), dismissButton: .cancel(Text("Ok"), action: {}))
+//            dismiss()
         }
+//        .alert(isPresented: $vm.failAlert) {
+//            Alert(title: Text("error"), message: Text(ErrorAlert.getVehicle.rawValue), dismissButton: .cancel(Text("Ok"), action: {}))
+//        }
         .onDisappear {
             vm.isDeletingVehicle = false
         }
@@ -89,8 +95,10 @@ struct AllVehicleView: View {
         vm.isDeletingVehicle = true
         vm.deletingVehicleId = vm.decodedVehicleData?.data[offsets.first ?? 0].id
         print(vm.decodedVehicleData?.data[offsets.first ?? 0].id)
-        vm.apiCall(method: .deleteVehicle ) //toggle before calling function
-        dismiss()
+        vm.apiCall(method: .deleteVehicle )
+//        dismiss()
+        //toggle before calling function
+        editMode = .inactive
     }
     
 }

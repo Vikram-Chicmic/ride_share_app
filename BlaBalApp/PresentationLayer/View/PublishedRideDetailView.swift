@@ -259,10 +259,12 @@ struct PublishedRideDetailView: View {
                     EmptyView()
                 }
                 
-                if let data = vmm.decodedData {
-                    driverView(data: data)
+                if !isPublishedRide {
+                    if let data = vmm.decodedData {
+                        driverView(data: data)
+                    }
                 }
-                
+               
                
             }.scrollIndicators(.hidden)
             if let data = selectedCardData {

@@ -44,9 +44,9 @@ struct InboxView: View {
                                 VStack(alignment: .leading) {
                                     Text(data[index].receiver.firstName + " " + data[index].receiver.lastName).fontWeight(.semibold).padding(.leading)
                                     HStack {
-                                        Text(data[index].publish.source).font(.subheadline)
+                                        Text(data[index].publish?.source ?? "unable to fetch").font(.subheadline)
                                         Image(systemName: Constants.Icons.arrowRight)
-                                        Text(data[index].publish.destination).font(.subheadline)
+                                        Text(data[index].publish?.destination ?? "unable to fetch").font(.subheadline)
                                     }.padding(.leading)
                                         .foregroundColor(.gray)
                                 }
@@ -99,6 +99,8 @@ struct InboxView: View {
             
         }.onAppear {
             chatVm.apiCall(mehtod: .getAllChatRoom)
+            LoginSignUpViewModel.shared.decodeData()
+            print(LoginSignUpViewModel.shared.recievedData)
         }
         }
         

@@ -13,7 +13,7 @@ struct PublishedRideDetailCard: View {
     var bookedRideData: AllBookedRideData?
     var indexValue: Int?
     @Binding var isPublishRideData: Bool
-    
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         VStack {
             if let data = isPublishRideData ? publishRideData : bookedRideData?.ride {
@@ -29,7 +29,8 @@ struct PublishedRideDetailCard: View {
                         .background(Helper().colorSelector(status: data.status).opacity(0.1))
                         .cornerRadius(20, corners: [.topRight,.bottomLeft])
                         .padding(-15)
-                        .padding(.top, -30)
+                        .padding(.top,-9)
+                       
                         
                         
                     }
@@ -57,34 +58,33 @@ struct PublishedRideDetailCard: View {
                         
                         Spacer()
                     }
-                }.padding().padding(.vertical, 20)
+                }.padding()
                 .background {
-                    Color.gray.opacity(0.2).cornerRadius(20)
+                    Color.gray.opacity(0.2)
+                        .cornerRadius(20, corners: [.topRight,.topLeft])
                 }
                 
                 VStack {
                     HStack {
                         HStack {
-                            Image(systemName: Constants.Icons.person).foregroundColor(.white).bold()
-                            Text(String(data.passengersCount)).foregroundColor(.white)
+                            Image(systemName: Constants.Icons.seat).foregroundColor(.blue).bold()
+                            Text(String(data.passengersCount))
                         }
                         if let bookedRideData = bookedRideData {
                             HStack {
-                                Image(systemName: Constants.Icons.seat).foregroundColor(.blue)
-                                Text(String(bookedRideData.seat)).foregroundColor(.white)
+                                Image(systemName: Constants.Icons.seat).foregroundColor(.blue).bold()
+                                Text(String(bookedRideData.seat))
                             }
                         }
                         Spacer()
-                        Text("Rs. \(data.setPrice)").bold().foregroundColor(.white)
+                        Text("Rs. \(data.setPrice)").bold()
                     }.padding(15)
                 }.background {
-                    Image(Constants.Images.blue)
-                        .resizable()
-                        .mask(BottomCornerRadiusShape(cornerRadius: 10)).overlay {
-                            TransparentBlurView(removeAllFilters: false).mask(BottomCornerRadiusShape(cornerRadius: 10))
-                        }
-                }.padding(.top, -25)
+               Color.gray.opacity(0.4)
+                }.cornerRadius(20, corners: [.bottomLeft,.bottomRight])
+                    .padding(.top, -9)
             } else {
+                
                 EmptyView()
             }
         }
