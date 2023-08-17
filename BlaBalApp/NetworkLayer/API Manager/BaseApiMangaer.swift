@@ -85,9 +85,11 @@ class BaseApiManager: ObservableObject {
             LoginSignUpViewModel.shared.successUpdate.toggle()
             
             
-        case .phoneVerify, .otpVerify:
-            LoginSignUpViewModel.shared.phoneVerified = true
+        case .phoneVerify:
+            LoginSignUpViewModel.shared.otpSended = true
         
+        case .otpVerify:
+            LoginSignUpViewModel.shared.phoneVerified = true
           
         case .changePassword:
             LoginSignUpViewModel.shared.passwordChangeSuccessAlert.toggle()
@@ -246,12 +248,11 @@ class BaseApiManager: ObservableObject {
             MapAndRidesViewModel.shared.alertSuccess.toggle()
             print(SuccessAlerts.publishRide.rawValue)
         case .bookRide:
-            MapAndRidesViewModel.shared.alertSuccess.toggle() //ride has been booked successfully
+            MapAndRidesViewModel.shared.alertBookRideSuccess.toggle() //ride has been booked successfully
             print(SuccessAlerts.publishRide.rawValue)
         case .searchRide:
             guard let result = try? JSONDecoder().decode(SearchRideResponse.self, from: data) else {
                 print(Constants.Errors.decodeerror)
-                
                 return
             }
             print(result)
@@ -333,7 +334,7 @@ class BaseApiManager: ObservableObject {
             print(ErrorAlert.publishRide.rawValue)
             
         case .bookRide:
-            MapAndRidesViewModel.shared.alertFailure.toggle()
+            MapAndRidesViewModel.shared.alertBookRideFailure.toggle()
             print(ErrorAlert.bookRide.rawValue)
             
         case .searchRide:
@@ -394,7 +395,6 @@ class BaseApiManager: ObservableObject {
                 return
             }
             ChatViewModel.shared.allChats = result.chats
-            print(result)
             print("All chats get successfully")
         case .sendMessage:
             print("message send successfully")

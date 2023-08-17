@@ -10,6 +10,7 @@ import SwiftUI
 struct DriverDetailView: View {
     var data: DecodeUser
     @EnvironmentObject var chatVm: ChatViewModel
+    @State var navigateTochat = false
     var body: some View {
         VStack(spacing: 20) {
             HStack {
@@ -51,12 +52,15 @@ struct DriverDetailView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(20)
             
-            HollowButton(image: "message.badge", text: "Initiate Chat", color: Constants.Colors.bluecolor).onTapGesture {
+            HollowButton(image: "message.badge", text: "Chat Now", color: Constants.Colors.bluecolor).onTapGesture {
                 chatVm.receiverId = data.user.id
                 chatVm.apiCall(mehtod: .createChatRoom)
+                
             }
+            // first button create chat room than change it to chat now
             .alert(isPresented: $chatVm.chatRoomSuccessAlert) {
                 Alert(title: Text("Success"), message: Text("Chat room has been created successfully. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
+         
             }
             .alert(isPresented: $chatVm.chatRoomFailAlert) {
                 Alert(title: Text("Error"), message: Text("Chat room has been created already. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))

@@ -39,10 +39,10 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var navigate: Bool = false
     @Published var navigateToForm = false
     @Published var isUpdating = false
-    @Published var sendOTP = false
     @Published var phoneVerified = false
     @Published var showAlertSignUpProblem = false
     @Published var failtToSendOtpAlert = false
+    @Published var otpSended = false
     @Published var userId: Int = 0
     // Variable to store data response
     @Published var recievedData: Welcome?
@@ -202,10 +202,18 @@ class LoginSignUpViewModel: ObservableObject {
             request.httpMethod = Constants.Methods.get
             return request
             
-        case .phoneVerify, .otpVerify:
-            request = URLRequest(url: createUrl(forMethod: sendOTP ? .otpVerify : .phoneVerify))
+        case .phoneVerify:
+            request = URLRequest(url: createUrl(forMethod: .phoneVerify))
             request.httpMethod = Constants.Methods.post
-            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: sendOTP ? .otpVerify : .phoneVerify )!, options: [])
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .phoneVerify )!, options: [])
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
+            
+        case .otpVerify:
+            request = URLRequest(url: createUrl(forMethod: .otpVerify))
+            request.httpMethod = Constants.Methods.post
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .otpVerify)!, options: [])
             request.httpBody = jsonData
             request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
             return request

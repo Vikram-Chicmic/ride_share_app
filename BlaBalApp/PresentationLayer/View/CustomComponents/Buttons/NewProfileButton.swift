@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileOptionButton<Label: View, Destination: View>: View {
+    @Environment(\.colorScheme) var colorScheme
     let label: Label
     let destination: Destination
     @Binding var isPresented: Bool
@@ -23,7 +24,7 @@ struct ProfileOptionButton<Label: View, Destination: View>: View {
             }
         }
         .frame(minHeight: 30)
-        .foregroundColor(.black)
+        .foregroundColor(colorScheme == .dark ? .white : .black)
         .navigationDestination(isPresented: $isPresented) {
             destination
         }

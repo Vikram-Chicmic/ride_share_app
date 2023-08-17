@@ -31,20 +31,29 @@ struct ProfileView: View {
                                 Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                             }
                         }
-                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                     }
                     VStack(alignment: .leading, spacing: 15) {
                         Section {
                             Text(Constants.Header.yourProfile).font(.title2).fontWeight(.semibold).padding(.leading)
                             VStack(alignment: .leading, spacing: 10) {
-                                ProfileDetailTileView(image: Constants.Icons.phone, value: vm.recievedData?.status.data?.phoneNumber ?? Constants.DefaultValues.noPhone)
+                                HStack {
+                                    ProfileDetailTileView(image: Constants.Icons.phone, value: vm.recievedData?.status.data?.phoneNumber ?? Constants.DefaultValues.noPhone)
+                                    if let verified = vm.decodedData?.user.phoneVerified {
+                                        if verified {
+                                            Image(systemName: "checkmark.seal.fill").frame(width: 20, height: 20).foregroundColor(.green)
+                                        } else {
+                                            Image(systemName: "exclamationmark.triangle.fill").frame(width: 20, height: 20).foregroundColor(.yellow)
+                                        }
+                                    }
+                                }
                                 ProfileDetailTileView(image: Constants.Icons.mail, value: vm.recievedData?.status.data?.email ?? "")
                                 ProfileDetailTileView(image: Constants.Icons.calander, value: vm.recievedData?.status.data?.dob ?? Constants.DefaultValues.bday)
                                 ProfileDetailTileView(image: Constants.Icons.personText, value: vm.recievedData?.status.data?.bio ?? Constants.DefaultValues.bio)
                             }.padding(.leading)
                         }
                         
-                        Rectangle().frame(height: 2).padding(.horizontal, 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
                         
                         VStack {
                                     ProfileOptionButton( label: Text(Constants.Buttons.editprofile), destination: EditPersonalDetailsView(),isPresented: $navigateToEditDetail)
@@ -67,7 +76,7 @@ struct ProfileView: View {
                                     Spacer()
                                     Image(systemName: Constants.Icons.rightChevron)
                                 }
-                            }.foregroundColor(.black)
+                            }.foregroundColor(colorScheme == .dark ? .white : .black)
                             .frame(minHeight: 30)
                             .navigationDestination(isPresented: $navigateToAllVehiclePage) {
                                 AllVehicleView()

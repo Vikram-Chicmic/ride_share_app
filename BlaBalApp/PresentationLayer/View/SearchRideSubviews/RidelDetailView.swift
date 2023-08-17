@@ -36,7 +36,7 @@ struct RideDetailView: View {
                                  }
                                 Text("Details").font(.title3).fontWeight(.semibold).padding(.top)
                                 VStack(spacing: 10) {
-                                    RideDetailTileView(title: Constants.Texts.estTime, value: Helper().datetimeFormat(dateTime: details.publish.estimateTime, format: Constants.Date.estimatedTime)).font(.subheadline)
+                                    RideDetailTileView(title: Constants.Texts.estTime, value: Helper().datetimeFormat(dateTime: details.publish.estimateTime, format: Constants.Date.timeFormat)).font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.passengers, value: String(details.publish.passengersCount)).font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.reachTime, value: Helper().formatDate(details.reachTime) ?? "").font(.subheadline)
                                     RideDetailTileView(title: Constants.Texts.ridestatus, value: details.publish.status).font(.subheadline)
@@ -109,15 +109,9 @@ struct RideDetailView: View {
                         navigateToBookRide.toggle()
                     } label: {
                         HStack {
-                            Spacer()
-                            Text(Constants.Buttons.bookRide).font(.title3).bold()
-                            Spacer()
+                            Buttons(image: "", text: "Book Ride", color: Constants.Colors.bluecolor)
                         }.foregroundColor(.white)
-                    }.padding().background {
-                        Image("download").resizable().cornerRadius(10).overlay {
-                            TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-                        }
-                    }.padding(.horizontal).opacity(0.9)
+                    }.padding()
                 
                     .navigationDestination(isPresented: $navigateToBookRide) {
                         BookRide(details: details, dismissView: $navigateToBookRide)

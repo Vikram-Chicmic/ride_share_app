@@ -284,7 +284,7 @@ struct PublishedRideDetailView: View {
     private func rideInfoView(data: AllPublishRideData) -> some View {
         HStack {
             Image(systemName: "calendar").foregroundColor(.blue)
-            Text(Helper().formatDateToMMM(data.date))
+            Text(Helper().formatDateToMMM(data.date, dateFormat: Constants.Date.stringToDateForamat))
             Spacer()
             Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
             Text(Helper().datetimeFormat(dateTime: data.time, format: Constants.Date.timeFormat))

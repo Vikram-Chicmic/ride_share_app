@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatView: View {
     var recieverImage: String?
     var reciverName: String?
+    var chatFor: Chat?
     @State var messageTosend = ""
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: ChatViewModel
@@ -38,8 +39,35 @@ struct ChatView: View {
                 Text(reciverName ?? "").fontWeight(.semibold).padding(.leading)
                 Spacer()
             }.padding(.horizontal).frame(height: 60)
-            Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
+           
             
+   
+                VStack(alignment: .center,spacing: 5) {
+                    HStack {
+                        Text("\(chatFor?.publish?.source ?? "")")
+                            .font(.subheadline)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2) // Allow a maximum of two lines
+                            .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
+                        
+                        Image(systemName: Constants.Icons.arrowRight)
+                            .foregroundColor(.gray)
+                        
+                        Text("\(chatFor?.publish?.destination ?? "")")
+                            .font(.subheadline)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2) // Allow a maximum of two lines
+                            .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
+                    }
+                    Text("\(Helper().formatDateToMMM(chatFor?.publish?.updatedAt ?? "", dateFormat: Constants.Date.estimatedTimeformat))").foregroundColor(.gray).font(.subheadline)
+                }.padding()
+            .frame(maxHeight: 40)
+            .padding()
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(10)
+            .padding(.horizontal)
+            
+            Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
             
             ScrollView {
                 if let messages  =  vm.allMessages?.reversed() {

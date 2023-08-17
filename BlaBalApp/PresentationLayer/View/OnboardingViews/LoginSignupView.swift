@@ -13,6 +13,7 @@ struct LoginSignupWithEmailView: View {
     @State var isPopoverShowing = false
     @Binding var isLoginView: Bool
     @State var navigate: Bool = false
+    @State var navigateToForgot = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         ZStack {
@@ -116,6 +117,17 @@ struct LoginSignupWithEmailView: View {
                     Alert(title: Text(Constants.Alert.error), message: Text(isLoginView ? Constants.Alert.userNotExist : Constants.Alert.usrExist), dismissButton: .default(Text(Constants.Buttons.ok)))
                 }
                 .disabled(!vm.formIsValid && !isLoginView)
+                
+                if isLoginView {
+                    Button {
+                        navigateToForgot.toggle()
+                    } label: {
+                        Text("forgot password?")
+                    }.navigationDestination(isPresented: $navigateToForgot) {
+                        ForgotPasswordView()
+                    }
+                }
+                
                 Spacer()
                 Spacer()
             }.onTapGesture {
@@ -141,6 +153,6 @@ struct LoginSignupWithEmailView: View {
 
 struct LoginSignupView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginSignupWithEmailView(isLoginView: .constant(false)).environmentObject(LoginSignUpViewModel())
+        LoginSignupWithEmailView(isLoginView: .constant(true)).environmentObject(LoginSignUpViewModel())
     }
 }

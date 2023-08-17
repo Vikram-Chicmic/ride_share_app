@@ -23,6 +23,8 @@ class MapAndRidesViewModel: ObservableObject {
     @Published var alertSuccess                                             = false
     @Published var updateRideSuccess                                        = false
     @Published var alertFailure                                             = false
+    @Published var alertBookRideFailure                                     = false
+    @Published var alertBookRideSuccess                                     = false
     @Published var alertForPublish                                          = false
     @Published var alertFetchPublishedRideFailure                           = false
     @Published var alertFetchBookedRideFailure                              = false

@@ -129,9 +129,9 @@ class Helper {
     ///  method to change the display format  of date
     /// - Parameter dateString: accept date in string format
     /// - Returns: return string format date of MMM, d, yyyy
-    func formatDateToMMM(_ dateString: String) -> String {
+    func formatDateToMMM(_ dateString: String, dateFormat: String) -> String {
         let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = Constants.Date.stringToDateForamat
+        inputFormatter.dateFormat = dateFormat
         
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = Constants.Date.outputDateFormat

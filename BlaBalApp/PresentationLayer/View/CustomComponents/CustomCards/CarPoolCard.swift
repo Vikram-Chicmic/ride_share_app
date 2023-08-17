@@ -34,7 +34,7 @@ struct CarPoolCard: View {
                             Spacer()
                         }
                         
-                        Rectangle().frame(height: 2).foregroundColor(.gray).opacity(0.2)
+                       
                         
                         HStack {
                             Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
@@ -46,14 +46,9 @@ struct CarPoolCard: View {
                             Text(String(data.publish.passengersCount))
                          
                         }.padding(10)
-                    }.padding().background {
-                        Color.gray.opacity(0.1)
-                    }.cornerRadius(20, corners: [.topLeft,.topRight])
-                 
-                 
-                   
-                // MARK: Lower Part
-                    VStack {
+                        
+                        Rectangle().frame(height: 2).foregroundColor(.gray).opacity(0.2)
+                        
                         HStack {
                             if let imageURL = URL(string: data.imageURL ?? "") {
                              AsyncImage(url: imageURL) { phase in
@@ -80,13 +75,14 @@ struct CarPoolCard: View {
                             }
                             
                             Spacer()
-                            Text("Rs. \(data.publish.setPrice)").bold().bold()
-                        }.padding(10)
-                            .padding(.horizontal)
+                            Text("Rs. \(data.publish.setPrice)").bold()
+                        }
+                           
                         
-                    }.background {
-                        Color(red: 0.897, green: 0.897, blue: 0.897)
-                    }.cornerRadius(20, corners: [.bottomLeft,.bottomRight])
+                    }.padding().background {
+                        Color.gray.opacity(0.1)
+                    }.cornerRadius(20)
+    
                 }
             } else {
                 /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/

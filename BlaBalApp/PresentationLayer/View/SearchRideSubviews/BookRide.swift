@@ -47,27 +47,20 @@ struct BookRide: View {
                 vm.apiCall(for: .bookRide)
             } label: {
                 HStack {
-                    Spacer()
-                    Text(Constants.Buttons.bookRide).font(.title2).fontWeight(.semibold).foregroundColor(.white)
-                    Spacer()
-                }.padding().background {
-                    Image("download").resizable().cornerRadius(10).overlay {
-                        TransparentBlurView(removeAllFilters: false).cornerRadius(10)
-                    }
+                    Buttons(image: "", text: "Book ride", color: Constants.Colors.bluecolor)
                 }.padding()
             }
         }
         .onAppear {
             print(details)
         }
-        .alert(isPresented: $vm.alertSuccess) {
-            
-            vm.alertSuccess ?  Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.rideBookedSuccessfully), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-                dismiss()
-            })) :
-            Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.cantBookRide), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
+        .alert(isPresented: $vm.alertBookRideSuccess) {
+            Alert(title: Text(Constants.Alert.success), message: Text(Constants.Errors.rideBookedSuccessfully), dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
                 dismiss()
             }))
+        }
+        .alert(isPresented: $vm.alertBookRideFailure) {
+            Alert(title: Text(Constants.Alert.error), message: Text(Constants.Errors.cantBookRide), dismissButton: .cancel(Text(Constants.Buttons.ok)))
         }
     }
 }

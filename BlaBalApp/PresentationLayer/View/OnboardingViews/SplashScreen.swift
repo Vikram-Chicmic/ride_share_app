@@ -8,22 +8,15 @@
 import SwiftUI
 
 struct SplashScreen: View {
-    @State var animationAmount = 0.9
     @StateObject var navigationVm = NavigationViewModel.shared
     @State var loginStatus: Bool = true
-    var animation: Animation {
-        Animation.easeInOut(duration: 1).repeatForever(autoreverses: true)
-    }
-    
+   
     var body: some View {
         NavigationStack(path: $navigationVm.paths) {
             VStack {
                 Image("carpoolIcon")
-//                    .scaleEffect(animationAmount)
-//                    .animation(animation, value: animationAmount)
-//                    .onAppear {
-//                        self.animationAmount = 1
-//                    }
+                    .resizable()
+                    .frame(width: 90, height: 90)
                 Text("Ride Share").font(.title).fontWeight(.semibold)
             }.navigationBarBackButtonHidden(true)
             .onAppear {

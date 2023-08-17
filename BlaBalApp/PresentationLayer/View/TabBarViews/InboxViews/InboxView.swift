@@ -62,7 +62,8 @@ struct InboxView: View {
                                     
                             }
                             .navigationDestination(isPresented: $openChat) {
-                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage, reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName)
+                      
+                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage, reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName, chatFor: data[indexToSend ?? 0])
                             }
                             
                             Divider().padding(.horizontal)

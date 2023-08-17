@@ -361,7 +361,7 @@ struct Constants {
         static let imageUploadSuccess       = "Image upload Successfully"
         static let rideBookedSuccessfully   = "Ride Booked Successfully"
         static let errorUploadImage         = "Error while uploaing Image, try after sometime"
-        static let cantBookRide             = "Can't Book Ride"
+        static let cantBookRide             = "Ride has been already booked."
     }
     
     struct UserDefaultsKeys {

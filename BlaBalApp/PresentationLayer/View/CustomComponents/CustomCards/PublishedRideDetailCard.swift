@@ -20,7 +20,7 @@ struct PublishedRideDetailCard: View {
                 VStack {
                     HStack {
                         Image(systemName: Constants.Icons.clock).foregroundColor(.blue)
-                        Text(Helper().formatDateToMMM(data.date))
+                        Text(Helper().formatDateToMMM(data.date, dateFormat: Constants.Date.stringToDateForamat))
                         Spacer()
                         VStack {
                             Text(data.status.capitalized).padding(10).padding(.horizontal).font(.system(size: 12))
@@ -58,13 +58,9 @@ struct PublishedRideDetailCard: View {
                         
                         Spacer()
                     }
-                }.padding()
-                .background {
-                    Color.gray.opacity(0.2)
-                        .cornerRadius(20, corners: [.topRight,.topLeft])
-                }
-                
-                VStack {
+                    
+                    Rectangle().frame(height: 2).foregroundColor(.gray).opacity(0.2)
+                    
                     HStack {
                         HStack {
                             Image(systemName: Constants.Icons.seat).foregroundColor(.blue).bold()
@@ -78,11 +74,12 @@ struct PublishedRideDetailCard: View {
                         }
                         Spacer()
                         Text("Rs. \(data.setPrice)").bold()
-                    }.padding(15)
-                }.background {
-               Color.gray.opacity(0.4)
-                }.cornerRadius(20, corners: [.bottomLeft,.bottomRight])
-                    .padding(.top, -9)
+                    }.padding(.horizontal,15)
+                }.padding()
+                .background {
+                    Color.gray.opacity(0.15)
+                        .cornerRadius(20)
+                }
             } else {
                 
                 EmptyView()
