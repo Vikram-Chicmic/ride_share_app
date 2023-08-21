@@ -28,6 +28,9 @@ enum CreateJsonForUserAPI {
     case phoneVerify
     case otpVerify
     case changePassword
+    case forgotPassword
+    case verifyEmailOtp
+    case resetPassword
 }
 
 enum APIcallsForUser {
@@ -41,6 +44,9 @@ enum APIcallsForUser {
     case otpVerify
     case getUserById
     case changePassword
+    case forgotPassword
+    case verifyEmailOtp
+    case resetPassword
 }
 
 enum APIcallsForVehicle {

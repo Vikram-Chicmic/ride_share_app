@@ -10,6 +10,7 @@ import SwiftUI
 struct EditPersonalDetailsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: LoginSignUpViewModel
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var openCalendar: Bool = false
     @State var selectedDate : Date?
     var body: some View {
@@ -59,7 +60,7 @@ struct EditPersonalDetailsView: View {
                                    
                                     Spacer()
                                 }.padding(.trailing, 10).frame(height: 50).background(.gray.opacity(0.2))
-                                    .cornerRadius(24)
+                                    .cornerRadius(10)
                             
                         }
                         

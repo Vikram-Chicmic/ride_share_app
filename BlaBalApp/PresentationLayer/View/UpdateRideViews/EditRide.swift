@@ -6,6 +6,7 @@ struct EditRide: View {
     @State private var navigateToDateUpdate = false
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var vm: MapAndRidesViewModel
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var options: [Helper.Option] {
         [
             Helper.Option(title: "Itinerary details", destination: AnyView(LocationUpdate()), isPresented: $navigateToLocationUpdate),

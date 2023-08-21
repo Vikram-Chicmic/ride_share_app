@@ -10,6 +10,7 @@ import SwiftUI
 struct CarPoolCard: View {
     var data: SearchRideResponseData
     var body: some View {
+
         VStack {
             if let data = data {
                 VStack {
@@ -79,9 +80,13 @@ struct CarPoolCard: View {
                         }
                            
                         
-                    }.padding().background {
-                        Color.gray.opacity(0.1)
-                    }.cornerRadius(20)
+                    }.padding().background(content: {
+                        Color.gray.opacity(0.05)
+                    }).overlay {
+                        RoundedRectangle(cornerRadius: 10).stroke(lineWidth:0.1)
+//                        Color.gray.opacity(0.1)
+                    }
+                    
     
                 }
             } else {

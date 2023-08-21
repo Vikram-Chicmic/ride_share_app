@@ -10,6 +10,7 @@ import SwiftUI
 struct UpdatePriceAndSeats: View {
     @EnvironmentObject var vm: MapAndRidesViewModel
     @FocusState var isFocused: Bool
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {

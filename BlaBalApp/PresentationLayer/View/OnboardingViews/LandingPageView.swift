@@ -10,7 +10,7 @@ import SwiftUI
 struct LandingView: View {
     @State var navigate: Bool = false
     @State var isLoginView: Bool = false
-   
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var body: some View {
 //        NavigationStack {
             VStack {
@@ -26,7 +26,7 @@ struct LandingView: View {
                             Spacer()
                             Text(Constants.Buttons.signup).frame(height: 50)
                             Spacer()
-                        }.background(Constants.Colors.bluecolor).cornerRadius(25).foregroundColor(.white).fontWeight(.semibold)
+                        }.background(Constants.Colors.bluecolor).cornerRadius(10).foregroundColor(.white).fontWeight(.semibold)
                     }
                     
                     Button {

@@ -12,7 +12,7 @@ struct YourRidesView: View {
     @EnvironmentObject var vmm: LoginSignUpViewModel
     @State var isPublishRidesView = true
     @State var selectedCardData: AllPublishRideData?
-    
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @State var indexValue: Int = 0
     var body: some View {

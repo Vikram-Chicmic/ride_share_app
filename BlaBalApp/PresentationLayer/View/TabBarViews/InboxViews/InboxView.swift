@@ -11,6 +11,7 @@ struct InboxView: View {
     @EnvironmentObject var chatVm: ChatViewModel
     @State var openChat = false
     @State var indexToSend: Int?
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var body: some View {
         VStack(alignment: .leading) {
             Text("Inbox").font(.title).fontWeight(.semibold).padding(.leading).padding(.top)
@@ -62,8 +63,13 @@ struct InboxView: View {
                                     
                             }
                             .navigationDestination(isPresented: $openChat) {
+                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage,
+                                         reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName,
+                                         source: data[indexToSend ?? 0].publish?.source,
+                                         destination: data[indexToSend ?? 0].publish?.destination,
+                                         date: data[indexToSend ?? 0].publish?.updatedAt)
                       
-                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage, reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName, chatFor: data[indexToSend ?? 0])
+//                                ChatView(recieverImage: data[indexToSend ?? 0].receiverImage, reciverName: data[indexToSend ?? 0].receiver.firstName + " " + data[indexToSend ?? 0].receiver.lastName, source:data[index].publish?.source, destination: data[index].publish?.destination, date: data[index].publish?.updatedAt)
                             }
                             
                             Divider().padding(.horizontal)

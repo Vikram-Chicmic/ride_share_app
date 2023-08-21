@@ -17,7 +17,7 @@ struct Buttons: View {
             Image(systemName: image).font(.title2)
             Text(text).frame(height: 50)
             Spacer()
-        }.background(color).cornerRadius(25).foregroundColor(.white).fontWeight(.semibold)
+        }.background(color).cornerRadius(10).foregroundColor(.white).fontWeight(.semibold)
     }
 }
 

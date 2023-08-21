@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		931171092A1B85E400D33B4E /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931171082A1B85E400D33B4E /* CustomProgressBar.swift */; };
-		9313A7732A2716E00034CC31 /* ConfirmOTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7722A2716E00034CC31 /* ConfirmOTP.swift */; };
 		9313A7792A277BD40034CC31 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9313A7782A277BD40034CC31 /* ChangePasswordView.swift */; };
+		93246C862A90A1BF00068A69 /* RoomCreateResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93246C852A90A1BF00068A69 /* RoomCreateResponseModel.swift */; };
+		93246C892A90C57F00068A69 /* NetworkStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93246C882A90C57F00068A69 /* NetworkStatusManager.swift */; };
 		932F00032A5ED2F5005D9756 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F00022A5ED2F5005D9756 /* ChatView.swift */; };
 		932F00052A5ED809005D9756 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F00042A5ED809005D9756 /* ChatViewModel.swift */; };
 		933248862A83BA5800AECC7F /* NewProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933248852A83BA5800AECC7F /* NewProfileButton.swift */; };
@@ -28,6 +29,9 @@
 		937B44672A3B08260032903F /* AddImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B44662A3B08260032903F /* AddImageViewModel.swift */; };
 		937B44692A3B0C2E0032903F /* AddImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B44682A3B0C2E0032903F /* AddImageView.swift */; };
 		937B92F72A382BA20068CAD2 /* ProfileDetailTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B92F62A382BA20068CAD2 /* ProfileDetailTileView.swift */; };
+		937D4ECC2A8F524D00A6EC34 /* CustomBackgroundShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937D4ECB2A8F524D00A6EC34 /* CustomBackgroundShape.swift */; };
+		937D4ECE2A8F5A3D00A6EC34 /* ForgotPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937D4ECD2A8F5A3D00A6EC34 /* ForgotPasswordModel.swift */; };
+		937D4ED02A8F866E00A6EC34 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937D4ECF2A8F866E00A6EC34 /* PasswordResetView.swift */; };
 		937E51012A4408D400194140 /* AllPublishRideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51002A4408D400194140 /* AllPublishRideModel.swift */; };
 		937E51032A440E4200194140 /* PublishedRideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51022A440E4200194140 /* PublishedRideDetailView.swift */; };
 		937E51052A44148300194140 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937E51042A44148300194140 /* TransparentBlurView.swift */; };
@@ -83,7 +87,6 @@
 		93D366A02A5FD0A100392D3F /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D3669F2A5FD0A100392D3F /* ChatModel.swift */; };
 		93D366A22A5FED2900392D3F /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D366A12A5FED2900392D3F /* MessageBubble.swift */; };
 		93D366A42A5FEFBA00392D3F /* ChatReceiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */; };
-		93D6C2312A8274FE0003464F /* OTPVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6C2302A8274FE0003464F /* OTPVIEW.swift */; };
 		93D760212A61068A00061843 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D760202A61068A00061843 /* SplashScreen.swift */; };
 		93D78A8B2A582BA600823443 /* LocationUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8A2A582BA600823443 /* LocationUpdate.swift */; };
 		93D78A8D2A5836F100823443 /* UpdatePriceAndSeats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */; };
@@ -106,8 +109,9 @@
 /* Begin PBXFileReference section */
 		3A44E629DCF4D901573E0018 /* Pods_BlaBalApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlaBalApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		931171082A1B85E400D33B4E /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
-		9313A7722A2716E00034CC31 /* ConfirmOTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOTP.swift; sourceTree = "<group>"; };
 		9313A7782A277BD40034CC31 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		93246C852A90A1BF00068A69 /* RoomCreateResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCreateResponseModel.swift; sourceTree = "<group>"; };
+		93246C882A90C57F00068A69 /* NetworkStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusManager.swift; sourceTree = "<group>"; };
 		932F00022A5ED2F5005D9756 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		932F00042A5ED809005D9756 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		933248852A83BA5800AECC7F /* NewProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileButton.swift; sourceTree = "<group>"; };
@@ -128,6 +132,9 @@
 		937B44682A3B0C2E0032903F /* AddImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageView.swift; sourceTree = "<group>"; };
 		937B92F52A382B400068CAD2 /* Pods_BlaBalApp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_BlaBalApp.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/BlaBalApp-ekrqgiwmtkzirjfzocidxzltcnjz/Build/Products/Debug-iphoneos/Pods_BlaBalApp.framework"; sourceTree = "<group>"; };
 		937B92F62A382BA20068CAD2 /* ProfileDetailTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailTileView.swift; sourceTree = "<group>"; };
+		937D4ECB2A8F524D00A6EC34 /* CustomBackgroundShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackgroundShape.swift; sourceTree = "<group>"; };
+		937D4ECD2A8F5A3D00A6EC34 /* ForgotPasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordModel.swift; sourceTree = "<group>"; };
+		937D4ECF2A8F866E00A6EC34 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		937E51002A4408D400194140 /* AllPublishRideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPublishRideModel.swift; sourceTree = "<group>"; };
 		937E51022A440E4200194140 /* PublishedRideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedRideDetailView.swift; sourceTree = "<group>"; };
 		937E51042A44148300194140 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
@@ -185,7 +192,6 @@
 		93D3669F2A5FD0A100392D3F /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		93D366A12A5FED2900392D3F /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatReceiveModel.swift; sourceTree = "<group>"; };
-		93D6C2302A8274FE0003464F /* OTPVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVIEW.swift; sourceTree = "<group>"; };
 		93D760202A61068A00061843 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		93D78A8A2A582BA600823443 /* LocationUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdate.swift; sourceTree = "<group>"; };
 		93D78A8C2A5836F100823443 /* UpdatePriceAndSeats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePriceAndSeats.swift; sourceTree = "<group>"; };
@@ -239,6 +245,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		93246C872A90C55F00068A69 /* Internet Manager */ = {
+			isa = PBXGroup;
+			children = (
+				93246C882A90C57F00068A69 /* NetworkStatusManager.swift */,
+			);
+			path = "Internet Manager";
+			sourceTree = "<group>";
+		};
 		934F67662A39907A00209F81 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,9 +296,7 @@
 		937B446D2A3B4CDD0032903F /* PhoneVerificationViews */ = {
 			isa = PBXGroup;
 			children = (
-				9313A7722A2716E00034CC31 /* ConfirmOTP.swift */,
 				9391E1A42A0E13CA00427F22 /* PhoneVerificationView.swift */,
-				93D6C2302A8274FE0003464F /* OTPVIEW.swift */,
 			);
 			path = PhoneVerificationViews;
 			sourceTree = "<group>";
@@ -368,6 +380,7 @@
 				93B6F7982A4D7E7E00609A04 /* DriverDetailView.swift */,
 				937E51022A440E4200194140 /* PublishedRideDetailView.swift */,
 				93DAB3172A8E4AF20060323F /* ForgotPasswordView.swift */,
+				937D4ECF2A8F866E00A6EC34 /* PasswordResetView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -387,6 +400,7 @@
 				933CD7F92A57CF4600BA7A38 /* CustomShape.swift */,
 				93D366A12A5FED2900392D3F /* MessageBubble.swift */,
 				933248872A83CCB400AECC7F /* CustomShapeForImage.swift */,
+				937D4ECB2A8F524D00A6EC34 /* CustomBackgroundShape.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -428,6 +442,8 @@
 				93B6F7962A4D7D4600609A04 /* UserDecode.swift */,
 				93D3669F2A5FD0A100392D3F /* ChatModel.swift */,
 				93D366A32A5FEFBA00392D3F /* ChatReceiveModel.swift */,
+				937D4ECD2A8F5A3D00A6EC34 /* ForgotPasswordModel.swift */,
+				93246C852A90A1BF00068A69 /* RoomCreateResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -584,6 +600,7 @@
 		93E7901A2A3C5AD800BD7E28 /* NetworkLayer */ = {
 			isa = PBXGroup;
 			children = (
+				93246C872A90C55F00068A69 /* Internet Manager */,
 				9391E1942A0E00C100427F22 /* API Manager */,
 				93ECF8A22A4AF90100331457 /* LocationManager.swift */,
 			);
@@ -729,6 +746,7 @@
 				93BB421B2A860EC500119515 /* PolyLineView.swift in Sources */,
 				9391E1A52A0E13CA00427F22 /* PhoneVerificationView.swift in Sources */,
 				93BD9F722A40690E002BF186 /* ErrorResponse.swift in Sources */,
+				937D4ED02A8F866E00A6EC34 /* PasswordResetView.swift in Sources */,
 				934F676E2A39CE0600209F81 /* VehicleDetailView.swift in Sources */,
 				93DAB3182A8E4AF20060323F /* ForgotPasswordView.swift in Sources */,
 				937B44652A3AC9BD0032903F /* Logout.swift in Sources */,
@@ -748,7 +766,6 @@
 				9391E1A12A0E0EA600427F22 /* BirthdayView.swift in Sources */,
 				93D291A92A0CAA8000E0D13C /* InboxView.swift in Sources */,
 				93B6F7992A4D7E7E00609A04 /* DriverDetailView.swift in Sources */,
-				93D6C2312A8274FE0003464F /* OTPVIEW.swift in Sources */,
 				93D78A902A583BAD00823443 /* DateAndVehicleUpdate.swift in Sources */,
 				937E51092A446F1D00194140 /* HollowButton.swift in Sources */,
 				9332488A2A83CD7800AECC7F /* ImagePicker.swift in Sources */,
@@ -776,11 +793,13 @@
 				937B92F72A382BA20068CAD2 /* ProfileDetailTileView.swift in Sources */,
 				937B44672A3B08260032903F /* AddImageViewModel.swift in Sources */,
 				9313A7792A277BD40034CC31 /* ChangePasswordView.swift in Sources */,
+				93246C862A90A1BF00068A69 /* RoomCreateResponseModel.swift in Sources */,
 				93D291A72A0CA6CB00E0D13C /* YourRidesView.swift in Sources */,
-				9313A7732A2716E00034CC31 /* ConfirmOTP.swift in Sources */,
 				93ECF8A32A4AF90100331457 /* LocationManager.swift in Sources */,
 				938077E92A0B9E1D008A889A /* LoginSignupView.swift in Sources */,
+				937D4ECE2A8F5A3D00A6EC34 /* ForgotPasswordModel.swift in Sources */,
 				93BD9F6E2A405F51002BF186 /* ApiManger.swift in Sources */,
+				93246C892A90C57F00068A69 /* NetworkStatusManager.swift in Sources */,
 				9391E19F2A0E0DFE00427F22 /* NameView.swift in Sources */,
 				933248882A83CCB400AECC7F /* CustomShapeForImage.swift in Sources */,
 				938886082A20807D00A838BC /* DistanceCircleShowView.swift in Sources */,
@@ -800,6 +819,7 @@
 				938077CF2A0B79C8008A889A /* BlaBalAppApp.swift in Sources */,
 				938077DE2A0B8054008A889A /* Constants.swift in Sources */,
 				937E51012A4408D400194140 /* AllPublishRideModel.swift in Sources */,
+				937D4ECC2A8F524D00A6EC34 /* CustomBackgroundShape.swift in Sources */,
 				93C93CBC2A850BDD003D2AF1 /* NavigationHandler.swift in Sources */,
 				938077E12A0B816E008A889A /* Buttons.swift in Sources */,
 				93C2C9332A1F87DA00CA4C92 /* CarPoolView.swift in Sources */,
@@ -944,6 +964,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BlaBalApp/Preview Content\"";
+				DEVELOPMENT_TEAM = LPRPC642LQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlaBalApp/Info.plist;
@@ -979,6 +1000,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BlaBalApp/Preview Content\"";
+				DEVELOPMENT_TEAM = LPRPC642LQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlaBalApp/Info.plist;

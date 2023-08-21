@@ -19,6 +19,7 @@ struct PhoneView: View {
     @State var otpHasBeenSent = false
     @State var sendOtp = true
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @Environment(\.colorScheme) var colorScheme
     @State private var showSuccessView = false
     var body: some View {
@@ -49,10 +50,6 @@ struct PhoneView: View {
                 } else {
                     if Helper().isValidIndianPhoneNumber(vm.phoneNumber)  {
                         vm.apiCall(forMethod: .phoneVerify)
-                        showAlert.toggle()
-                        //                            if vm.otpSended {
-                        //                                otpHasBeenSent.toggle()
-                        //                            }
                     } else {
                         alert.toggle() // invalid number
                     }
@@ -80,7 +77,14 @@ struct PhoneView: View {
                 if alert {
                     CustomAlert(text: vm.otpSended ? "Passcode is empty" : Constants.Alert.invalidPhone, dismiss: $alert)
                 }
-            }
+        }.onTapGesture {
+            hideKeyboard()
+        }.alert(isPresented: $vm.phoneOTPVerified, content: {
+            Alert(title: Text("Success"), message: Text("Phone number has been verified"), dismissButton: .cancel(Text("Okay"),action: {
+                vm.apiCall(forMethod: .getUser)
+                dismiss()
+            }))
+        })
             .padding()
         
     }

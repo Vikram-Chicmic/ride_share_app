@@ -11,6 +11,7 @@ struct BookRide: View {
     var details: SearchRideResponseData
     @EnvironmentObject var vm: MapAndRidesViewModel
     @EnvironmentObject var baseApi: BaseApiManager
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @Environment(\.dismiss) var dismiss
     @Binding var dismissView: Bool
     @State var seats: Int = 1
@@ -40,7 +41,7 @@ struct BookRide: View {
                     Text("Rs. \(details.publish.setPrice * seats)").font(.title2).bold()
                 }.padding(.bottom)
             }.padding().padding(.horizontal).background(
-                Color.gray.opacity(0.1).cornerRadius(20).padding())
+                Color.gray.opacity(0.1).cornerRadius(10).padding())
             Button {
                 vm.publishId = details.publish.id
                 vm.noOfSeatsToBook = seats

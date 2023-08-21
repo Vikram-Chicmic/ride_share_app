@@ -15,9 +15,10 @@ class ChatViewModel: ObservableObject {
     @Published var message: String?
     @Published var chatRoomSuccessAlert = false
     @Published var chatRoomFailAlert = false
+    @Published var notFoundErrorAlert = false
     @Published var allChats: [Chat]?
     @Published var allMessages: [Message]?
-    
+    @Published var roomCreateRespone: ChatData?
     static var shared = ChatViewModel()
     
     private var publishers = Set<AnyCancellable>()

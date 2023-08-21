@@ -9,8 +9,9 @@ import SwiftUI
 
 struct DriverDetailView: View {
     var data: DecodeUser
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
+    var rideData: AllPublishRideData?
     @EnvironmentObject var chatVm: ChatViewModel
-    @State var navigateTochat = false
     var body: some View {
         VStack(spacing: 20) {
             HStack {
@@ -34,14 +35,14 @@ struct DriverDetailView: View {
              }
                
                 VStack(alignment: .leading) {
-                    Text(data.user.firstName+data.user.lastName).font(.title).bold()
+                    Text(data.user.firstName+" "+data.user.lastName).font(.title).bold()
                 }.padding(.leading)
                 Spacer()
            
             }.frame(height: 80)
                 .padding()
                 .background(Color.gray.opacity(0.1))
-                .cornerRadius(20)
+                .cornerRadius(10)
                 VStack(spacing: 10) {
                     //MODEL
                     RideDetailTileView(title: "Phone Number", value: data.user.phoneNumber ?? "xxxxxxxxxx")
@@ -50,20 +51,25 @@ struct DriverDetailView: View {
                     RideDetailTileView(title: "User Since", value: Helper().formatDate(data.user.createdAt) ?? "2023-06-27T11:00:23.662Z")
                 }.padding()
                 .background(Color.gray.opacity(0.1))
-                .cornerRadius(20)
+                .cornerRadius(10)
             
             HollowButton(image: "message.badge", text: "Chat Now", color: Constants.Colors.bluecolor).onTapGesture {
                 chatVm.receiverId = data.user.id
+                
                 chatVm.apiCall(mehtod: .createChatRoom)
                 
             }
+            .navigationDestination(isPresented: $chatVm.chatRoomSuccessAlert, destination: {
+                ChatView(recieverImage: data.imageURL, reciverName: data.user.firstName+" "+data.user.lastName, source: rideData?.source, destination: rideData?.destination, date: rideData?.updatedAt)
+                 
+            })
+            .navigationDestination(isPresented: $chatVm.chatRoomFailAlert, destination: {
+                ChatView(recieverImage: data.imageURL, reciverName: data.user.firstName+" "+data.user.lastName, source: rideData?.source, destination: rideData?.destination, date: rideData?.updatedAt)
+            })
             // first button create chat room than change it to chat now
-            .alert(isPresented: $chatVm.chatRoomSuccessAlert) {
-                Alert(title: Text("Success"), message: Text("Chat room has been created successfully. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
+            .alert(isPresented: $chatVm.notFoundErrorAlert) {
+                Alert(title: Text("Error"), message: Text("Fail to create a chat room"), dismissButton: .cancel(Text(Constants.Buttons.ok)))
          
-            }
-            .alert(isPresented: $chatVm.chatRoomFailAlert) {
-                Alert(title: Text("Error"), message: Text("Chat room has been created already. You can contact the driver through chat section."), dismissButton: .cancel(Text(Constants.Buttons.ok)))
             }
             Spacer()
         }.padding()

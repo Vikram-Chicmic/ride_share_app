@@ -29,9 +29,14 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var failAlert = false
     @Published var failToLogout = false
     @Published var failToFetchUser = false
+    @Published var resetPasswordSuccess = false
+    @Published var resetPasswordFail = false
     // Variable for show form view and custom progressBar
     @Published var step: Int = 0
+    @Published var failtToSendOtpAlertForEmail = false
+    @Published var responseForForgotPassword: ForgotPassword?
     @Published var currentState: Tabs = .searchView
+    @Published var invalidOtpAlert = false
     // Variables for alerts
     @Published var alert: Bool = false
     @Published var showAlert: Bool = false
@@ -39,15 +44,17 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var navigate: Bool = false
     @Published var navigateToForm = false
     @Published var isUpdating = false
-    @Published var phoneVerified = false
+    @Published var phoneOTPVerified = false
     @Published var showAlertSignUpProblem = false
     @Published var failtToSendOtpAlert = false
     @Published var otpSended = false
+    @Published var emailOtpVerified = false
     @Published var userId: Int = 0
+    @Published var emailOTP: Int = 0
     // Variable to store data response
     @Published var recievedData: Welcome?
     @Published var decodedData: DecodeUser?
-
+    
     var userLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: Constants.Url.userLoggedIN)
     }
@@ -64,7 +71,7 @@ class LoginSignUpViewModel: ObservableObject {
     @Published var isUserPasswordValid = false
     @Published var updateAlertProblem = false
     @Published var isFirstNameAndLastNameValid = false
-    
+    @Published var alertOtpSendSucces = false
     
     static var authorizationToken = ""
     
@@ -165,6 +172,12 @@ class LoginSignUpViewModel: ObservableObject {
         case .getUserById:
             print(Constants.Url.signUpUrl+"/\(userId)")
             return URL(string: Constants.Url.signUpUrl+"/\(userId)")!
+        case .forgotPassword:
+            return URL(string: Constants.Url.forgotPassword)!
+        case .verifyEmailOtp:
+            return URL(string: Constants.Url.verifyEmailOtp)!
+        case .resetPassword:
+            return URL(string: Constants.Url.resetPassword)!
         }
     }
     
@@ -229,6 +242,27 @@ class LoginSignUpViewModel: ObservableObject {
             request = URLRequest(url: createUrl(forMethod: .getUserById))
             request.httpMethod = Constants.Methods.get
             return request
+        case .forgotPassword:
+            request = URLRequest(url: createUrl(forMethod: .forgotPassword))
+            request.httpMethod = Constants.Methods.post
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .forgotPassword)!, options: [])
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
+        case .verifyEmailOtp:
+            request = URLRequest(url: createUrl(forMethod: .verifyEmailOtp))
+            request.httpMethod = Constants.Methods.post
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .verifyEmailOtp)!, options: [])
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
+        case .resetPassword:
+            request = URLRequest(url: createUrl(forMethod: .resetPassword))
+            request.httpMethod = Constants.Methods.post
+            let jsonData = try? JSONSerialization.data(withJSONObject: getData(method: .resetPassword)!, options: [])
+            request.httpBody = jsonData
+            request.addValue(Constants.Url.appjson, forHTTPHeaderField: Constants.Url.conttype)
+            return request
         }
     }
     
@@ -254,6 +288,12 @@ class LoginSignUpViewModel: ObservableObject {
             ApiManager.shared.apiAuthMethod(method: .changePassword, request: createRequest(forMethod: .changePassword))
         case .getUserById:
             ApiManager.shared.apiAuthMethod(method: .getUserById, request: createRequest(forMethod: .getUserById))
+        case .forgotPassword:
+            ApiManager.shared.apiAuthMethod(method: .forgotPassword, request: createRequest(forMethod: .forgotPassword))
+        case .verifyEmailOtp:
+            ApiManager.shared.apiAuthMethod(method: .verifyEmailOtp, request: createRequest(forMethod: .verifyEmailOtp))
+        case .resetPassword:
+            ApiManager.shared.apiAuthMethod(method: .resetPassword, request: createRequest(forMethod: .resetPassword))
         }
     }
   
@@ -308,6 +348,21 @@ class LoginSignUpViewModel: ObservableObject {
         case .changePassword:
             return [
                 Constants.Url.currentPassword: oldPassword,
+                Constants.Url.password: newPassword,
+                Constants.Url.confirmPassword: confirmNewPassword
+            ]
+        case .forgotPassword:
+            return [
+                Constants.Url.email: email
+            ]
+        case .verifyEmailOtp:
+            return [
+                Constants.Url.email: email,
+                "otp": emailOTP
+            ]
+        case .resetPassword:
+            return [
+                Constants.Url.email: email,
                 Constants.Url.password: newPassword,
                 Constants.Url.confirmPassword: confirmNewPassword
             ]

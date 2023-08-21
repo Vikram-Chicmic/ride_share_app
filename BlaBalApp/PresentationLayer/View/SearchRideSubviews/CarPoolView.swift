@@ -11,6 +11,7 @@ struct CarPoolView: View {
     @Environment(\.dismiss) var dismiss
     @State var selectedCardData: SearchRideResponseData?
     @EnvironmentObject var vm: MapAndRidesViewModel
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var navigate = false
     var body: some View {
         ZStack {

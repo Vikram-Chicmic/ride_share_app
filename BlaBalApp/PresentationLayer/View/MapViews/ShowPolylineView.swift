@@ -5,6 +5,7 @@ struct GoogleMapView: UIViewRepresentable {
     let polylineOverview: String
     let sourceCoordinate: CLLocationCoordinate2D
     let destinationCoordinate: CLLocationCoordinate2D
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     
     func makeUIView(context: Context) -> GMSMapView {
         let camera = GMSCameraPosition.camera(withLatitude: sourceCoordinate.latitude,

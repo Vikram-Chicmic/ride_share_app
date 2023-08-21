@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var showPassword = false
     @EnvironmentObject var vm: LoginSignUpViewModel
     var body: some View {
@@ -35,7 +36,7 @@ struct ChangePasswordView: View {
                         }
                     }
                     .background(Color.gray.opacity(0.2))
-                    .cornerRadius(24)
+                    .cornerRadius(10)
                     .onAppear {
                         showPassword = false
                     }

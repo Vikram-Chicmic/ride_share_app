@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     @State var isPublishView = false
     @State var showAlert = false
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @EnvironmentObject var vm: MapAndRidesViewModel
     var body: some View {
         VStack(alignment: .leading) {

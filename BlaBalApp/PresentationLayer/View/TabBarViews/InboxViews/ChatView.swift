@@ -10,62 +10,71 @@ import SwiftUI
 struct ChatView: View {
     var recieverImage: String?
     var reciverName: String?
-    var chatFor: Chat?
+//    var chatFor: Chat?
+    var source: String?
+    var destination: String?
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
+    @State var showSendButton = false
+    var date: String?
     @State var messageTosend = ""
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: ChatViewModel
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         VStack {
+            VStack {
+                
+            
             HStack {
                 Image(systemName: Constants.Icons.back).onTapGesture { dismiss() }
                 if let imageURL = URL(string: recieverImage ?? "") {
-                 AsyncImage(url: imageURL) { phase in
-                     switch phase {
-                     case .empty:
-                         ProgressView()
-                             .progressViewStyle(CircularProgressViewStyle()).frame(width: 50).clipShape(Circle())
-                     case .success(let image):
-                         image.resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
-                     case .failure:
-                         // Show placeholder for failed image load
-                         Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
-                     @unknown default:
-                         fatalError("")
-                     }
-                 }
-             } else {
-                 Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
-             }
+                    AsyncImage(url: imageURL) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle()).frame(width: 50).clipShape(Circle())
+                        case .success(let image):
+                            image.resizable().frame(width: 50).clipShape(Circle()).scaledToFit()
+                        case .failure:
+                            // Show placeholder for failed image load
+                            Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                        @unknown default:
+                            fatalError("")
+                        }
+                    }
+                } else {
+                    Image("Cathy").resizable().scaledToFit().frame(width: 50).clipShape(Circle())
+                }
                 Text(reciverName ?? "").fontWeight(.semibold).padding(.leading)
                 Spacer()
             }.padding(.horizontal).frame(height: 60)
-           
             
-   
-                VStack(alignment: .center,spacing: 5) {
-                    HStack {
-                        Text("\(chatFor?.publish?.source ?? "")")
-                            .font(.subheadline)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2) // Allow a maximum of two lines
-                            .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
-                        
-                        Image(systemName: Constants.Icons.arrowRight)
-                            .foregroundColor(.gray)
-                        
-                        Text("\(chatFor?.publish?.destination ?? "")")
-                            .font(.subheadline)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2) // Allow a maximum of two lines
-                            .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
-                    }
-                    Text("\(Helper().formatDateToMMM(chatFor?.publish?.updatedAt ?? "", dateFormat: Constants.Date.estimatedTimeformat))").foregroundColor(.gray).font(.subheadline)
-                }.padding()
-            .frame(maxHeight: 40)
-            .padding()
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(10)
-            .padding(.horizontal)
+            
+            
+            VStack(alignment: .center,spacing: 5) {
+                HStack {
+                    Text("\(source ?? "")")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2) // Allow a maximum of two lines
+                        .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
+                    
+                    Image(systemName: Constants.Icons.arrowRight)
+                        .foregroundColor(.gray)
+                    
+                    Text("\(destination ?? "")")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2) // Allow a maximum of two lines
+                        .frame(minWidth: 0, maxWidth: .infinity) // Expand to fill available space
+                }
+                Text("\(Helper().formatDateToMMM(date ?? "", dateFormat: Constants.Date.estimatedTimeformat))").foregroundColor(.gray).font(.subheadline)
+            }.padding()
+                .frame(maxHeight: 40)
+                .padding()
+                .background(Color.gray.opacity(0.2))
+                .cornerRadius(10)
+                .padding(.horizontal)
             
             Rectangle().frame(height: 3).foregroundColor(.gray.opacity(0.2))
             
@@ -82,25 +91,31 @@ struct ChatView: View {
                 }
             
             
-            
+            }.onTapGesture {
+                hideKeyboard()
+            }
             
             
             Spacer()
             HStack {
-                TextField("Type something ....", text: $messageTosend).padding().background {
+                TextField("Type something ....", text: $messageTosend)
+                    .padding().background {
                     Color.gray.opacity(0.2).cornerRadius(25)
                 }.padding(.leading)
-                Button {
-                    vm.message = messageTosend
-                    messageTosend = ""
-                    vm.apiCall(mehtod: .sendMessage)
-                    vm.apiCall(mehtod: .recieveMessage)
-                } label: {
-                    Image(systemName: "paperplane.circle.fill").font(.system(size: 45)).padding(.trailing, 10)
-                }
-
+                    Button {
+                        vm.message = messageTosend
+                        messageTosend = ""
+                        vm.apiCall(mehtod: .sendMessage)
+                        vm.apiCall(mehtod: .recieveMessage)
+                    } label: {
+                        Image(systemName: "paperplane.circle.fill").font(.system(size: 45)).padding(.trailing, 10)
+                    }
+                    
+                
             }.padding(.bottom)
             
+        }.onReceive(timer) { _ in
+            vm.apiCall(mehtod: .recieveMessage)
         }.onAppear {
             vm.apiCall(mehtod: .recieveMessage)
             vm.allMessages?.sort { $0.updatedAt < $1.updatedAt }

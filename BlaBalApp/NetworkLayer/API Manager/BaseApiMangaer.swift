@@ -89,7 +89,7 @@ class BaseApiManager: ObservableObject {
             LoginSignUpViewModel.shared.otpSended = true
         
         case .otpVerify:
-            LoginSignUpViewModel.shared.phoneVerified = true
+            LoginSignUpViewModel.shared.phoneOTPVerified = true
           
         case .changePassword:
             LoginSignUpViewModel.shared.passwordChangeSuccessAlert.toggle()
@@ -104,6 +104,16 @@ class BaseApiManager: ObservableObject {
                 print("\(error.localizedDescription)")
             }
          
+        case .forgotPassword:
+            withAnimation {
+                LoginSignUpViewModel.shared.alertOtpSendSucces = true
+            }
+        case .verifyEmailOtp:
+            LoginSignUpViewModel.shared.emailOtpVerified.toggle()
+            print("OTP verified navigate to new password")
+        case .resetPassword:
+            LoginSignUpViewModel.shared.resetPasswordSuccess.toggle()
+            print("password has been resetted")
         }
         
         // MARK: Assigning and Clearing data of userdefaults
@@ -158,6 +168,15 @@ class BaseApiManager: ObservableObject {
             print(ErrorAlert.changePassword.rawValue)
         case .getUserById:
             print(ErrorAlert.getUser.rawValue)
+        case .forgotPassword:
+            LoginSignUpViewModel.shared.failtToSendOtpAlertForEmail.toggle()
+            print("Fail to send otp")
+        case .verifyEmailOtp:
+            LoginSignUpViewModel.shared.failtToSendOtpAlertForEmail = true
+            print("invalid otp")
+        case .resetPassword:
+            LoginSignUpViewModel.shared.resetPasswordFail.toggle()
+            print("Fail to reset password")
         }
     }
     
@@ -387,6 +406,13 @@ class BaseApiManager: ObservableObject {
         
         switch method {
         case .createChatRoom:
+            guard let result = try? JSONDecoder().decode(ChatData.self, from: data) else {
+                print("Cant decode the chat response")
+                return
+            }
+            ChatViewModel.shared.roomCreateRespone = result
+            ChatViewModel.shared.chatId = result.chat?.id
+            ChatViewModel.shared.receiverId = result.chat?.receiverID
             ChatViewModel.shared.chatRoomSuccessAlert.toggle()
             print("Room created successfully")
             
@@ -424,6 +450,17 @@ class BaseApiManager: ObservableObject {
         switch method {
         case .createChatRoom:
            print(response.statusCode)
+            guard let result = try? JSONDecoder().decode(ChatData.self, from: data) else {
+                print("Cant decode the chat response")
+                return
+            }
+            ChatViewModel.shared.roomCreateRespone = result
+            if result.code == 404 {
+                ChatViewModel.shared.notFoundErrorAlert.toggle()
+                return
+            }
+            ChatViewModel.shared.chatId = result.chat?.id
+            ChatViewModel.shared.receiverId = result.chat?.receiverID
             ChatViewModel.shared.chatRoomFailAlert.toggle()
             print("Failed to create chat room")
         case .getAllChatRoom:

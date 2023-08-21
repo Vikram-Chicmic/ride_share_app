@@ -19,7 +19,7 @@ struct HollowButton: View {
                 Text(text).frame(height: 50)
                 Spacer()
             } .overlay(
-                RoundedRectangle(cornerRadius: 25)
+                RoundedRectangle(cornerRadius: 10)
                     .stroke(color, lineWidth: 2)
             )
             .contentShape(RoundedRectangle(cornerRadius: 25)).foregroundColor(color).fontWeight(.semibold)

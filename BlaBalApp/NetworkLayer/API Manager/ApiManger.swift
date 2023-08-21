@@ -35,6 +35,15 @@ class ApiManager {
                 }
                 print(response)
                 DispatchQueue.main.async {
+                    let decoder = JSONDecoder()
+                    do {
+                        let response = try decoder.decode(ForgotPassword.self, from: data)
+                        LoginSignUpViewModel.shared.responseForForgotPassword = response
+                        print(response)
+                    } catch {
+                        print("\(error.localizedDescription)")
+                    }
+                    
                     if (200...299).contains(response.statusCode) {
                         BaseApiManager.shared.successCaseHandler(method: method, data: data, response: response)
                     } else {

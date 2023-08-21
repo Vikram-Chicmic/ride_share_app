@@ -17,7 +17,7 @@ enum Tabs {
 struct TabBarView: View {
     @State var showPublishView = false
     @EnvironmentObject var vm: LoginSignUpViewModel
-   
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var body: some View {
 //        NavigationStack {
             TabView(selection: $vm.currentState) {

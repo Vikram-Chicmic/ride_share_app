@@ -27,9 +27,9 @@ struct PublishedRideDetailCard: View {
                                 .foregroundColor(Helper().colorSelector(status: data.status))
                         }
                         .background(Helper().colorSelector(status: data.status).opacity(0.1))
-                        .cornerRadius(20, corners: [.topRight,.bottomLeft])
+                        .cornerRadius(10, corners: [.topRight,.bottomLeft])
                         .padding(-15)
-                        .padding(.top,-9)
+                        .padding(.top,-12)
                        
                         
                         
@@ -75,10 +75,10 @@ struct PublishedRideDetailCard: View {
                         Spacer()
                         Text("Rs. \(data.setPrice)").bold()
                     }.padding(.horizontal,15)
-                }.padding()
-                .background {
-                    Color.gray.opacity(0.15)
-                        .cornerRadius(20)
+                }.padding().background(content: {
+                    Color.gray.opacity(0.05).cornerRadius(10)
+                }).overlay {
+                    RoundedRectangle(cornerRadius: 10).stroke(lineWidth:0.5).foregroundColor(.gray.opacity(0.5))
                 }
             } else {
                 

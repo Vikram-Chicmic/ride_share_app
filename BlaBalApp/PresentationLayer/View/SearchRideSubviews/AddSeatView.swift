@@ -10,6 +10,7 @@ import SwiftUI
 struct AddSeatView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var seat: Int
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var temp: Int
     @Binding var isPublishView: Bool
     var body: some View {

@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @State var navigateToEditDetail: Bool = false
     @State var navigateToPhoneVerification: Bool = false
-  
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var detail: Welcome?
     @State var showAlert: Bool = false
     @EnvironmentObject var vm: LoginSignUpViewModel
@@ -31,7 +31,7 @@ struct ProfileView: View {
                                 Text(data.firstName + " " + data.lastName).font(.title).fontWeight(.semibold)
                             }
                         }
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 10).foregroundColor(.gray.opacity(0.2))
                     }
                     VStack(alignment: .leading, spacing: 15) {
                         Section {
@@ -53,7 +53,7 @@ struct ProfileView: View {
                             }.padding(.leading)
                         }
                         
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 10).foregroundColor(.gray.opacity(0.2))
                         
                         VStack {
                                     ProfileOptionButton( label: Text(Constants.Buttons.editprofile), destination: EditPersonalDetailsView(),isPresented: $navigateToEditDetail)
@@ -65,7 +65,7 @@ struct ProfileView: View {
                                 .padding(.horizontal)
                                 .padding(.vertical, -5)
                         
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 10).foregroundColor(.gray.opacity(0.2))
                         
                         VStack {
                             Button {
@@ -82,7 +82,7 @@ struct ProfileView: View {
                                 AllVehicleView()
                             }
                         }.padding(.horizontal)
-                        Rectangle().frame(height: 20).foregroundColor(.gray.opacity(0.2))
+                        Rectangle().frame(height: 10).foregroundColor(.gray.opacity(0.2))
                         // MARK: - Logout Button
                         Button {
                             showAlert.toggle()

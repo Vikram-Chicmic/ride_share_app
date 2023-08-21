@@ -16,6 +16,7 @@ struct ImageView: View {
 struct ImageViewMainContent: View {
     @State private var imageLoadFailed = false
     @State var addImageViewNavigate: Bool = false
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @EnvironmentObject var vm: LoginSignUpViewModel
     var size: CGFloat
     var body: some View {

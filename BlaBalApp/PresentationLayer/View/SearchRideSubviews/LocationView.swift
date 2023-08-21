@@ -38,6 +38,7 @@ struct LocationView: View {
     let minDate = Calendar.current.date(from: DateComponents(year: 1940, month: 1, day: 1))!
     let maxDate = Date()
     @State var isDisable: Bool = true
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     
     var body: some View {
         
@@ -101,6 +102,7 @@ struct LocationView: View {
                             HStack(spacing: 30) {
                                 Image(systemName: Constants.Icons.circle).bold().padding(.leading).foregroundColor(.blue)
                                 Text(vm.originData?.name.isEmpty ?? true ? Constants.DefaultValues.start : vm.originData?.name ?? Constants.DefaultValues.unknown).foregroundColor(colorScheme == .dark ? .white : .black)
+                                    .multilineTextAlignment(.leading)
                                 Spacer()
                             }
                         }.sheet(isPresented: $showMapView, content: {
@@ -227,10 +229,8 @@ struct LocationView: View {
                         hideKeyboard()
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = Constants.Date.timeFormat
-                        vm.time = dateFormatter.string(from: currentDate)
-//                        isPublishView ? vm.apiCall(for: .fetchPolylineAndDistanceOfRide ) : nil
-                            vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
-//                            vm.time = Helper().dateToString(selectedDate: newTime ?? Date())
+                        vm.time = dateFormatter.string(from: newSelectedDate ?? Date())
+                        vm.date = Helper().dateToString(selectedDate: newSelectedDate ?? Date())
                         if vm.originData != nil && vm.destinationData != nil {
                             if isPublishView{
                                 if Int(vm.amount) ?? 0 < 1 {
@@ -273,9 +273,9 @@ struct LocationView: View {
                 }.onTapGesture {
                     self.isFocused = false
                     self.showAlert = false
-            }.cornerRadius(20)
+            }.cornerRadius(10)
         }   .background {
-            Color.gray.opacity(0.1).cornerRadius(20)
+            Color.gray.opacity(0.1).cornerRadius(10)
         }.onAppear {
             vehicleVm.apiCall(method: .getVehicle)
         }.padding()

@@ -107,7 +107,9 @@ class MapAndRidesViewModel: ObservableObject {
         let url: String
         if let originData1 = originData?.geometry.location, let destinationData1 = destinationData?.geometry.location {
             url = "\(Constants.Url.fetchPublishRideUrl)\(originData1.lat),\(originData1.lng)&destination=\(destinationData1.lat),\(destinationData1.lng)&key=\(Constants.API.apiKey)"
+            print("url is \(url)")
             return url
+            
         }
         return ""
     }

@@ -14,7 +14,10 @@ struct RideDetailView: View {
     @State var secondViewHeight: CGFloat = 0
     @State var progressHeight: CGFloat = 0
     @State var navigateToBookRide = false
+    @State var alertVerifyPhoneNumeber = false
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var details: SearchRideResponseData
+    @State var navigateToVerifyNumber = false
     @State var navigateToRiderDetail: Bool = false
     var body: some View {
                 VStack(alignment: .leading) {
@@ -106,7 +109,11 @@ struct RideDetailView: View {
                             }
                         }.padding().scrollIndicators(.hidden).opacity(navigateToBookRide ? 0.5 : 1.0)
                     Button {
-                        navigateToBookRide.toggle()
+                        if ((vm.decodedData?.user.phoneVerified) != nil) {
+                            navigateToBookRide.toggle()
+                        } else {
+                            alertVerifyPhoneNumeber.toggle()
+                        }
                     } label: {
                         HStack {
                             Buttons(image: "", text: "Book Ride", color: Constants.Colors.bluecolor)
@@ -117,7 +124,17 @@ struct RideDetailView: View {
                         BookRide(details: details, dismissView: $navigateToBookRide)
                     }
                     Spacer()
-                }.navigationBarTitle("Ride Details")
+                }.alert(isPresented: $alertVerifyPhoneNumeber, content: {
+                    Alert(title: Text("Error"), message:  Text("Please verify your number first."), primaryButton: .default(Text("Verify now"),action: {
+                        //navigate to number verification
+                        navigateToVerifyNumber.toggle()
+                    }), secondaryButton: .cancel(Text("Cancel")))
+                    
+                })
+                .navigationDestination(isPresented: $navigateToVerifyNumber, destination: {
+                    PhoneView()
+                })
+                .navigationBarTitle("Ride Details")
             .onAppear {
 
                     RegisterVehicleViewModel.shared.specificVehicleDetails = nil

@@ -11,6 +11,7 @@ struct ShowPolylineView: View {
     let polylineOverview = MapAndRidesViewModel.shared.polylineString
     @EnvironmentObject var vm: MapAndRidesViewModel
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var alertNow = false
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,6 +37,9 @@ struct ShowPolylineView: View {
                 
             Spacer()
             Button {
+                
+                
+                
                 let time = toConvertDate(seconds: vm.estimatedTimeInSeconds ?? 10)
                 print("Time format: \(time)")
                 vm.estimatedTime = time

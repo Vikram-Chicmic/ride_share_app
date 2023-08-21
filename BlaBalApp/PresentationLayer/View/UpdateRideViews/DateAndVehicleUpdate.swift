@@ -11,6 +11,7 @@ struct DateAndVehicleUpdate: View {
     @State var newSelectedDate: Date? = Date()
     @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @EnvironmentObject var vm: MapAndRidesViewModel
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var selectedVehicle: Datum?
     @Environment(\.dismiss) var dismiss
     var body: some View {

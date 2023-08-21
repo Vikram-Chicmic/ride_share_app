@@ -12,6 +12,7 @@ struct VehicleDetailView: View {
     @State var navigateToUpdateView = false
     @Binding var isComingFromPublishView: Bool
     @State var shouldUpdate: Bool = false
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var hasUpdated: Bool = false
     @Environment(\.dismiss) var dismiss
     var index: Int?
@@ -35,7 +36,7 @@ struct VehicleDetailView: View {
                             RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data.vehicleModelYear)).font(.subheadline)
                             RideDetailTileView(title: Constants.Texts.VehicleType, value: data.vehicleType).font(.subheadline)
                             RideDetailTileView(title: Constants.Texts.color, value: data.vehicleColor).font(.subheadline)
-                        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
+                        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(10)
                     }
                 
                 } else {
@@ -47,7 +48,7 @@ struct VehicleDetailView: View {
                             RideDetailTileView(title: Constants.Texts.Manufactureyear, value: String(data[index].vehicleModelYear)).font(.subheadline)
                             RideDetailTileView(title: Constants.Texts.VehicleType, value: data[index].vehicleType).font(.subheadline)
                             RideDetailTileView(title: Constants.Texts.color, value: data[index].vehicleColor).font(.subheadline)
-                        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(20)
+                        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(10)
                     }
                 }
               

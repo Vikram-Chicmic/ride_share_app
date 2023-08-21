@@ -14,6 +14,8 @@ struct BlaBalAppApp: App {
     @StateObject var sessionManager = SessionManager.shared
     @StateObject var baseAPiManager = BaseApiManager.shared
     @StateObject var chatVm = ChatViewModel.shared
+    @StateObject var networkStatusManager = NetworkStatusManager()
+        
     
     @State private var isSplashPresented = true // Add a state variable to control the splash screen
     
@@ -26,6 +28,7 @@ struct BlaBalAppApp: App {
             .environmentObject(sessionManager)
             .environmentObject(baseAPiManager)
             .environmentObject(chatVm)
+            .alertOnNoInternet(isConnected: $networkStatusManager.isConnected)
         }
     }
 }

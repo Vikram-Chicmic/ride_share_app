@@ -12,6 +12,7 @@ struct LocationUpdate: View {
     @State var isOrigin = true
     @EnvironmentObject var vm: MapAndRidesViewModel
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var body: some View {
         VStack {
             Button {

@@ -14,6 +14,7 @@ struct RegisterVehicleView: View {
     let years = (1980...2023).map { String($0) }
     @State var index: Int = 0
     @State var selectedYear: String? = "1981"
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var showCustomAlert = false
     @Binding var hasUpdated: Bool
     @State var alertNow = false
@@ -24,32 +25,52 @@ struct RegisterVehicleView: View {
                     VStack(alignment: .leading, spacing: 20) {
                    
                             Text(Constants.Labels.selectCountry)
-                            HStack {
-                                
-                                TextFieldWithPickerAsInputView(data: Constants.Arrays.country, placeholder: "Select Country", selectionIndex: $index, text: $vm.selectedCountry).padding()
+                                HStack {
+                                    TextFieldWithPickerAsInputView(data: Constants.Arrays.country, placeholder: "Select Country", selectionIndex: $index, text: $vm.selectedCountry)
+                                    Spacer()
+                                    Image(systemName: "chevron.down").foregroundColor(.gray).opacity(0.3)
+                                }
+                                    .padding()
                                     .background(.gray.opacity(0.2))
-                                    .cornerRadius(24)
-                            }
+                                    .cornerRadius(10)
+                                    
+                            
                         CustomTextfield(label: Constants.Labels.vehicleBrand, placeholder: Constants.Placeholders.brand, value: $vm.vehicleBrand)
                         CustomTextfield(label: Constants.Labels.vehicleModel, placeholder: Constants.Placeholders.model, value: $vm.vehicleModel)
                         CustomTextfield(label: Constants.Labels.plateNumber, placeholder: Constants.Placeholders.plateNumber, value: $vm.plateNumber)
                         VStack(alignment: .leading) {
                             Text(Constants.Labels.vehicleType)
-                            TextFieldWithPickerAsInputView(data: Constants.Arrays.vehicleType, placeholder: "Select vehicle", selectionIndex: $index, text: $vm.selectedVehicleType).padding()
+                            HStack {
+                                TextFieldWithPickerAsInputView(data: Constants.Arrays.vehicleType, placeholder: "Select vehicle", selectionIndex: $index, text: $vm.selectedVehicleType)
+                                Spacer()
+                                Image(systemName: "chevron.down").foregroundColor(.gray).opacity(0.3)
+                            }
+                                .padding()
                                 .background(.gray.opacity(0.2))
-                                .cornerRadius(24)
+                                .cornerRadius(10)
+                         
                             Text(Constants.Labels.vehicleColor).padding(.top)
-                            TextFieldWithPickerAsInputView(data: Constants.Arrays.vehicleColors, placeholder: "Select color", selectionIndex: $index, text: $vm.selectedVehicleColor).padding()
+                            HStack {
+                                TextFieldWithPickerAsInputView(data: Constants.Arrays.vehicleColors, placeholder: "Select color", selectionIndex: $index, text: $vm.selectedVehicleColor)
+                                Spacer()
+                                Image(systemName: "chevron.down").foregroundColor(.gray).opacity(0.3)
+                            }
+                                .padding()
                                 .background(.gray.opacity(0.2))
-                                .cornerRadius(24)
+                                .cornerRadius(10)
+                            
                             Text(Constants.Labels.year).padding(.top)
-                            TextFieldWithPickerAsInputView(data: years, placeholder: "Select year", selectionIndex: $index, text: $selectedYear).padding()
+                            HStack {
+                                TextFieldWithPickerAsInputView(data: years, placeholder: "Select year", selectionIndex: $index, text: $selectedYear)
+                                Spacer()
+                                Image(systemName: "chevron.down").foregroundColor(.gray).opacity(0.3)
+                            }
+                                .padding()
                                 .background(.gray.opacity(0.2))
-                                .cornerRadius(24)
+                                .cornerRadius(10)
                             
                         }
-    //                    CustomTextfield(label: Constants.Labels.year, placeholder: Constants.Placeholders.year, value: $vm.madeYear).keyboardType(.numberPad)
-                     
+   
                         Button {
                             if let selectedYear = selectedYear {
                                 vm.madeYear = Int(selectedYear)
@@ -77,27 +98,35 @@ struct RegisterVehicleView: View {
                      
                     }.padding()
                 }.padding(.bottom).scrollIndicators(.hidden)
+            }.onTapGesture {
+                hideKeyboard()
             }.opacity(showCustomAlert ? 0.5 : 1.0)
             if showCustomAlert {
                 CustomAlert(text: "Fields are empty", dismiss: $showCustomAlert)
             }
         } .alert(isPresented: $alertNow) {
-             vm.successAlert ?
-                Alert(title: Text(Constants.Alert.success),
-                      message: isUpdateVehicle ? Text(SuccessAlerts.updateVehicle.rawValue) : Text(SuccessAlerts.addVehicle.rawValue),
+            
+            Alert(title: vm.successAlert ? Text(Constants.Alert.success) : Text(Constants.Alert.error),
+                  message: vm.successAlert ?
+                                    isUpdateVehicle ?
+                                        Text(SuccessAlerts.updateVehicle.rawValue)
+                                    : Text(SuccessAlerts.addVehicle.rawValue)
+                                :
+                                        isUpdateVehicle ?
+                                            Text(ErrorAlert.updateVehicle.rawValue)
+                                            :
+                                        Text(ErrorAlert.addVehicle.rawValue),
+                  
                       dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-                    if isUpdateVehicle {
-                        hasUpdated.toggle()
-                        vm.isUpdatingVehicle = false
-                        dismiss()
+                vm.successAlert ?
+                    isUpdateVehicle ?
+                        lastTAsk()
                         
-                    } else { dismiss() }
+                :  dismiss()
+                : dismiss()
                 }))
-            :
-                Alert(title: Text(Constants.Alert.error),
-                      message: isUpdateVehicle ? Text(ErrorAlert.updateVehicle.rawValue) : Text(ErrorAlert.addVehicle.rawValue),
-                      dismissButton: .cancel(Text(Constants.Buttons.ok), action: {
-                }))
+        
+//            return Alert(title: Text("Unknown error"))
         }
         .onAppear {
             if isUpdateVehicle {
@@ -116,6 +145,11 @@ struct RegisterVehicleView: View {
                 vm.selectedCountry = Constants.DefaultValues.country
             }
         }.navigationTitle(isUpdateVehicle ? "Update Vehicle" : Constants.Header.registerVehicle)
+    }
+    func lastTAsk(){
+        hasUpdated.toggle()
+        vm.isUpdatingVehicle = false
+        dismiss()
     }
 }
 

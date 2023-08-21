@@ -11,6 +11,7 @@ struct MapSearchView: View {
     @EnvironmentObject var vm: MapAndRidesViewModel
     @StateObject var locationViewModel = LocationViewModel()
     @Binding var isOrigin: Bool
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {

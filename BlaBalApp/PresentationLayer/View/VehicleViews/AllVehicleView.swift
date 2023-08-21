@@ -13,28 +13,41 @@ struct AllVehicleView: View {
     @State var alertToDelete = false
     @State var navigateToRegisterVehicle = false
     @State var deleteIndex: IndexSet?
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @State var editMode: EditMode = .inactive
     @State var isEditing = false
     @Environment(\.dismiss) var dismiss
     var body: some View {
         VStack {
-            if let data = vm.decodedVehicleData?.data {
-                if data.count > 0 {
                     List {
-                        ForEach(data.indices, id: \.self) { index in
-                            NavigationLink {
-                                VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
-                            } label: {
-                                    HStack(alignment: .center) {
-                                        Image(Constants.Images.car2).resizable().frame(width: 40, height: 40).padding(.trailing, 50)
-                                        Text(data[index].vehicleBrand)
-                                        Spacer()
-                                    }.cornerRadius(20)
-                            }.listRowSeparator(.hidden)
-                              
-                        }.onDelete { index in
-                            deleteIndex = index
-                            alertToDelete.toggle()
+                        if let data = vm.decodedVehicleData?.data {
+                            if data.count > 0 {
+                                ForEach(data.indices, id: \.self) { index in
+                                    NavigationLink {
+                                        VehicleDetailView(isComingFromPublishView: .constant(false), index: index)
+                                    } label: {
+                                        HStack(alignment: .center) {
+                                            Image(Constants.Images.car2).resizable().frame(width: 40, height: 40).padding(.trailing, 50)
+                                            Text(data[index].vehicleBrand)
+                                            Spacer()
+                                        }.cornerRadius(20)
+                                    }.listRowSeparator(.hidden)
+                                    
+                                }.onDelete { index in
+                                    deleteIndex = index
+                                    alertToDelete.toggle()
+                                }
+                            } else {
+                                VStack {
+                                    Image("carsaf").resizable().scaledToFit().frame(width: 300)
+                                    Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
+                                }
+                            }
+                        } else {
+                            VStack {
+                                Image("carsaf").resizable().scaledToFit().frame(width: 300)
+                                Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
+                            }
                         }
                     }.listStyle(.plain).environment(\.editMode, $editMode)
                         .refreshable {
@@ -47,14 +60,15 @@ struct AllVehicleView: View {
                         }.navigationDestination(isPresented: $navigateToRegisterVehicle) {
                                                             RegisterVehicleView(isUpdateVehicle: .constant(false), hasUpdated: .constant(false))
                                                         }
-                        
-                        Button {
-                            withAnimation {
-                                isEditing.toggle()
+                        if vm.decodedVehicleData?.data != nil || vm.decodedVehicleData?.data.count != 0 {
+                            Button {
+                                withAnimation {
+                                    isEditing.toggle()
+                                }
+                                editMode = isEditing ? .active : .inactive
+                            } label: {
+                                Image(systemName: "trash").foregroundColor(.red)
                             }
-                            editMode = isEditing ? .active : .inactive
-                        } label: {
-                            Image(systemName: "trash").foregroundColor(.red)
                         }
                       }.listStyle(.plain)
                         .actionSheet(isPresented: $alertToDelete) {
@@ -66,13 +80,6 @@ struct AllVehicleView: View {
                                 editMode = .inactive
                             })])
                         }
-                } else {
-                    VStack {
-                        Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                        Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
-                    }
-                }
-            }
         }
         .navigationTitle("Your Vehicles")
         .onAppear {

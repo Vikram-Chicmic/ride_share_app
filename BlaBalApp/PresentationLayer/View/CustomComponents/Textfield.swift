@@ -16,11 +16,11 @@ struct CustomTextfield: View {
             Text(label)
             HStack {
                 TextField(placeholder, text: $value)
-
             }
                 .padding()
                 .background(.gray.opacity(0.2))
-                .cornerRadius(24)
+                .cornerRadius(10)
+                
         }
     }
 }

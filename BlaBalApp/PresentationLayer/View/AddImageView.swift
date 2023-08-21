@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddImageView: View {
     @StateObject var vm = AddImageViewModel()
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     @EnvironmentObject var vmm: LoginSignUpViewModel
     @State var showImagePicker = false
     @Environment(\.dismiss) var dismiss

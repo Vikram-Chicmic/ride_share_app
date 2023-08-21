@@ -15,25 +15,29 @@ struct LoginSignupWithEmailView: View {
     @State var navigate: Bool = false
     @State var navigateToForgot = false
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var networkStatusManager: NetworkStatusManager
     var body: some View {
         ZStack {
+            
             VStack(spacing: 10) {
                 Spacer()
                 Text(isLoginView ? Constants.Header.login : Constants.Header.signup).foregroundColor(Constants.Colors.bluecolor).font(.largeTitle).fontWeight(.semibold).padding(.bottom, 50)
-                
+
                 VStack {
                     CustomTextfield(label: Constants.Labels.email, placeholder: Constants.Placeholders.emailplc, value: $vm.email).textInputAutocapitalization(.never).keyboardType(.emailAddress).autocorrectionDisabled(true)
-                    HStack {
-                        Spacer()
-                        if !vm.email.isEmpty && !isLoginView {
-                            Text(!vm.isUserEmailValid ? Constants.Texts.invalidEmail : Constants.Texts.validEmail).font(.subheadline).foregroundColor(vm.isUserEmailValid ? .green : .red)
-                        } else {
-                            Text("")
-                        }
-                    }.frame(height: 20)
+                }.padding(.bottom).overlay(alignment: .bottomTrailing) {
+                             if !vm.email.isEmpty && !isLoginView {
+                                 HStack {
+                                     Spacer()
+                                     Image(systemName: !vm.isUserEmailValid ? "exclamationmark.triangle.fill" : "checkmark.circle.fill" )
+                                        .font(.subheadline)
+                                        .foregroundColor(vm.isUserEmailValid ? .green : .red)
+                                        
+                                     
+                                 }.padding(.bottom, -5)     // Add an animation
+                             }
+                         
                 }
-                
-                
                 VStack {
                     HStack {
                         Text(Constants.Labels.password)
@@ -55,8 +59,10 @@ struct LoginSignupWithEmailView: View {
                     HStack {
                         if showPassword {
                             TextField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding().autocorrectionDisabled(true)
+                                .frame(height: 50)
                         } else {
                             SecureField(Constants.Placeholders.passwordplc, text: $vm.password)  .textInputAutocapitalization(.never).padding()
+                                .frame(height: 50)
                         }
                         Button {
                             showPassword.toggle()
@@ -64,25 +70,26 @@ struct LoginSignupWithEmailView: View {
                             Image(systemName: showPassword ? Constants.Icons.eye : Constants.Icons.eyeSlash)
                                 .foregroundColor(.gray)
                                 .padding(.trailing, 20)
-                                .frame(width: 30)
+                                .frame(width: 30, height: 30)
                         }
                     }
                     .background(Color.gray.opacity(0.2))
-                    .cornerRadius(24)
+                    .cornerRadius(10)
                     .onAppear {
                         // Ensure that the password is hidden by default
                         showPassword = false
-                    }
-                    HStack {
-                        Spacer()
-                        if !vm.password.isEmpty && !isLoginView {
-                            Text(!vm.isUserPasswordValid ? Constants.Texts.invalidPasswod : Constants.Texts.validPasswod).font(.subheadline).foregroundColor(vm.isUserPasswordValid ? .green : .red)
-                        } else {
-                            Text("")
+                    }.padding(.bottom).overlay(alignment: .bottomTrailing) {
+                        if !vm.password.isEmpty && !isLoginView  {
+                            HStack {
+                                Spacer()
+                                Image(systemName: !vm.isUserPasswordValid ? "exclamationmark.triangle.fill" : "" )
+                                   .font(.subheadline)
+                                   .foregroundColor(vm.isUserPasswordValid ? .green : .red)
+                                   
+                                
+                            }.padding(.bottom,-5)     // Add an animation
                         }
-                        
-                       
-                    }.frame(height: 25)
+           }
                 }.padding(.bottom)
                 
                 // MARK: - Button
@@ -109,7 +116,7 @@ struct LoginSignupWithEmailView: View {
                                     LinearGradient(colors: [.gray, Color(red: 0.375, green: 0.342, blue: 0.342)], startPoint: .leading, endPoint: .trailing)
                             
                            
-                        ).cornerRadius(25)
+                        ).cornerRadius(10)
                 }.navigationDestination(isPresented: $vm.navigate, destination: {
                     TabBarView()
                 })
@@ -122,8 +129,8 @@ struct LoginSignupWithEmailView: View {
                     Button {
                         navigateToForgot.toggle()
                     } label: {
-                        Text("forgot password?")
-                    }.navigationDestination(isPresented: $navigateToForgot) {
+                        Text("forgot password?").font(.subheadline)
+                    }.padding(.top).navigationDestination(isPresented: $navigateToForgot) {
                         ForgotPasswordView()
                     }
                 }
@@ -153,6 +160,6 @@ struct LoginSignupWithEmailView: View {
 
 struct LoginSignupView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginSignupWithEmailView(isLoginView: .constant(true)).environmentObject(LoginSignUpViewModel())
+        LoginSignupWithEmailView(isLoginView: .constant(false)).environmentObject(LoginSignUpViewModel())
     }
 }
