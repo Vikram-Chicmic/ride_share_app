@@ -76,7 +76,7 @@ struct InboxView: View {
                         }
                         
                     }.refreshable {
-                        chatVm.apiCall(mehtod: .getAllChatRoom)
+                        chatVm.apiCallForChat(mehtod: .getAllChatRoom)
                     }
                 } else {
                     HStack {
@@ -104,8 +104,29 @@ struct InboxView: View {
                 }
             Spacer()
             
-        }.onAppear {
-            chatVm.apiCall(mehtod: .getAllChatRoom)
+        }.overlay(
+            VStack {
+                if chatVm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if chatVm.showToast {
+                    CustomAlert(text: chatVm.toastMessage, dismiss: $chatVm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    chatVm.showToast = false
+                                }
+                                
+                            }
+                        }
+                        .animation(.easeInOut)
+                }
+            }
+        ).onAppear {
+            chatVm.apiCallForChat(mehtod: .getAllChatRoom)
             LoginSignUpViewModel.shared.decodeData()
             print(LoginSignUpViewModel.shared.recievedData)
         }

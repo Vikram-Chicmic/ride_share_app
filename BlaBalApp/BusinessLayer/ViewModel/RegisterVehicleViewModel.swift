@@ -28,6 +28,8 @@ class RegisterVehicleViewModel: ObservableObject {
     @Published var deleteSuccess = false
     @Published var specificVehicleDetails: Datum?
     @Published var getVehicleId: Int = 0
+    @Published var showToast = false
+    @Published var toastMessage = ""
     @Published var updatingRidePublishId: Int = 0
     @Published var navigateToDetail = false
     private var publishers = Set<AnyCancellable>()
@@ -39,7 +41,7 @@ class RegisterVehicleViewModel: ObservableObject {
     // MARK: Function for making API calls
     ///  method to perform api call
     /// - Parameter method: accept a method for api call from enum
-    func apiCall(method: APIcallsForVehicle) {
+    func apiCallForVehicles(method: APIcallsForVehicle) {
         switch method {
         case .vehicleRegister:
             ApiManager.shared.apiCallForVehicle(method: .vehicleRegister, request: createRequest(method: .vehicleRegister))

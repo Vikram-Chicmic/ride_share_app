@@ -20,10 +20,13 @@ class ChatViewModel: ObservableObject {
     @Published var allMessages: [Message]?
     @Published var roomCreateRespone: ChatData?
     static var shared = ChatViewModel()
-    
+    @Published var isLoading = false
+    @Published var showToast = false
+    @Published var toastMessage = ""
     private var publishers = Set<AnyCancellable>()
     
-    func apiCall(mehtod: APIcallsForChat) {
+    func apiCallForChat(mehtod: APIcallsForChat) {
+        isLoading = true
         switch mehtod {
         case .createChatRoom:
             ApiManager.shared.apiCallForChat(method: .createChatRoom, request: createRequest(method: .createChatRoom))

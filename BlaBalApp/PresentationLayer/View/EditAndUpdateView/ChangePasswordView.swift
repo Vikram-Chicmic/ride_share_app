@@ -44,7 +44,7 @@ struct ChangePasswordView: View {
                 }
                Spacer()
                 Button {
-                    vm.apiCall(forMethod: .changePassword )
+                    vm.apiCallForLoginSignUpViewModel(forMethod: .changePassword )
                     vm.isLoading = true
                     // change password api
                 } label: {
@@ -77,6 +77,28 @@ struct ChangePasswordView: View {
         }.onAppear {
             vm.passwordChangeSuccessAlert = false
         }
+        .overlay(
+            VStack {
+                if vm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if vm.showToast {
+                    CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    
+                                    vm.showToast = false
+                                }
+                            }}
+                    
+                        .animation(.default)
+                }
+            }
+        )
     }
 }
 

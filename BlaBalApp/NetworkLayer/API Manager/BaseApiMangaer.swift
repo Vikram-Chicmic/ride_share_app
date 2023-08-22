@@ -205,7 +205,7 @@ class BaseApiManager: ObservableObject {
         case .deleteVehicle:
             RegisterVehicleViewModel.shared.deleteSuccess.toggle()
             RegisterVehicleViewModel.shared.isDeletingVehicle = false
-            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
+            RegisterVehicleViewModel.shared.apiCallForVehicles(method: .getVehicle)
         
         case .getVehicleDetailsById:
             guard let vehicles = try? JSONDecoder().decode(Datum.self, from: data) else {

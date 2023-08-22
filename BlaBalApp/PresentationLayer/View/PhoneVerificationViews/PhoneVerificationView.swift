@@ -45,11 +45,11 @@ struct PhoneView: View {
                     if vm.passcode.isEmpty {
                         alert.toggle()
                     } else {
-                        vm.apiCall(forMethod: .otpVerify)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .otpVerify)
                     }
                 } else {
                     if Helper().isValidIndianPhoneNumber(vm.phoneNumber)  {
-                        vm.apiCall(forMethod: .phoneVerify)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .phoneVerify)
                     } else {
                         alert.toggle() // invalid number
                     }
@@ -81,10 +81,32 @@ struct PhoneView: View {
             hideKeyboard()
         }.alert(isPresented: $vm.phoneOTPVerified, content: {
             Alert(title: Text("Success"), message: Text("Phone number has been verified"), dismissButton: .cancel(Text("Okay"),action: {
-                vm.apiCall(forMethod: .getUser)
+                vm.apiCallForLoginSignUpViewModel(forMethod: .getUser)
                 dismiss()
             }))
         })
+        .overlay(
+            VStack {
+                if vm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if vm.showToast {
+                    CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    vm.showToast = false
+                                }
+                                
+                            }
+                        }
+                        .animation(.default)
+                }
+            }
+        )
             .padding()
         
     }

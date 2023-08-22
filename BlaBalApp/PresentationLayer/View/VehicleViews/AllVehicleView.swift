@@ -38,20 +38,28 @@ struct AllVehicleView: View {
                                     alertToDelete.toggle()
                                 }
                             } else {
-                                VStack {
-                                    Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                                    Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
-                                }
-                            }
+                                HStack {
+                                    Spacer()
+                                    VStack(alignment: .center){
+                                        Image("carsaf").resizable().scaledToFit().frame(width: 200)
+                                        Text("No vehicle found").font(.title3).bold()
+                                    }
+                                    Spacer()
+                                }                            }
                         } else {
-                            VStack {
-                                Image("carsaf").resizable().scaledToFit().frame(width: 300)
-                                Text("No vehicle found").foregroundColor(.blue).font(.title).bold()
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .center){
+                                    Image("carsaf").resizable().scaledToFit().frame(width: 200)
+                                    Text("No vehicle found").font(.title3).bold()
+                                }
+                                Spacer()
                             }
+                           
                         }
                     }.listStyle(.plain).environment(\.editMode, $editMode)
                         .refreshable {
-                        vm.apiCall(method: .getVehicle)
+                        vm.apiCallForVehicles(method: .getVehicle)
                     }.toolbar {
                         Button {
                             navigateToRegisterVehicle.toggle()
@@ -86,9 +94,32 @@ struct AllVehicleView: View {
             vm.isRegistering = false
             vm.isDeletingVehicle = false
             vm.isUpdatingVehicle = false
-            vm.apiCall(method: .getVehicle)
+            vm.apiCallForVehicles(method: .getVehicle)
 //            dismiss()
         }
+        .overlay(
+            VStack {
+                if vm.isLoading  {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if vm.showToast  {
+                    CustomAlert(text:vm.toastMessage, dismiss:  $vm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    vm.showToast = false
+                                }
+                               
+                            }
+                        }
+                     
+                        .animation(.default)
+                }
+            }
+        )
 //        .alert(isPresented: $vm.failAlert) {
 //            Alert(title: Text("error"), message: Text(ErrorAlert.getVehicle.rawValue), dismissButton: .cancel(Text("Ok"), action: {}))
 //        }
@@ -102,7 +133,7 @@ struct AllVehicleView: View {
         vm.isDeletingVehicle = true
         vm.deletingVehicleId = vm.decodedVehicleData?.data[offsets.first ?? 0].id
         print(vm.decodedVehicleData?.data[offsets.first ?? 0].id)
-        vm.apiCall(method: .deleteVehicle )
+        vm.apiCallForVehicles(method: .deleteVehicle )
 //        dismiss()
         //toggle before calling function
         editMode = .inactive

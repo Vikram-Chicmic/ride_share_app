@@ -61,7 +61,8 @@ class LoginSignUpViewModel: ObservableObject {
     
     @Published var jumpToSplash = false
     @Published var navigateToTabView = false
-    
+    @Published var showToast = false
+    @Published var toastMessage = ""
     // Variable for progresView
     @Published var isLoading = false
     
@@ -267,7 +268,7 @@ class LoginSignUpViewModel: ObservableObject {
     }
     
     // MARK: - Make API call
-    func apiCall(forMethod: APIcallsForUser) {
+    func apiCallForLoginSignUpViewModel(forMethod: APIcallsForUser) {
         isLoading = true
         switch forMethod {
         case .login:

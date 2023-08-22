@@ -63,7 +63,7 @@ struct YourRidesView: View {
 //                                        if data[index].status != "cancelled" {
                                             self.selectedCardData = data[index]
                                             vehicleVm.getVehicleId = data[index].vehicleID
-                                            vehicleVm.apiCall(method: .getVehicleDetailsById)
+                                            vehicleVm.apiCallForVehicles(method: .getVehicleDetailsById)
 //                                        }
                                       
                                     }
@@ -114,8 +114,8 @@ struct YourRidesView: View {
                                             vm.passengerId = data[index].bookingID
                                             indexValue = index
                                             vehicleVm.getVehicleId = data[index].ride.vehicleID
-                                            vehicleVm.apiCall(method: .getVehicleDetailsById)
-                                            vmm.apiCall(forMethod: .getUserById)
+                                            vehicleVm.apiCallForVehicles(method: .getVehicleDetailsById)
+                                            vmm.apiCallForLoginSignUpViewModel(forMethod: .getUserById)
 //                                        }
                                       
                                     }
@@ -151,11 +151,46 @@ struct YourRidesView: View {
                     }
             }
         }
-         .onAppear {
-            vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
-             vm.apiCall(for: .getAllBookedRideOfCurentUser)
+        .onAppear {
+           vm.apiCall(for: .getAllPublisghRideOfCurrentUser)
+            vm.apiCall(for: .getAllBookedRideOfCurentUser)
 //            RegisterVehicleViewModel.shared.apiCall(method: .getVehicle)
-        }
+       }
+        .overlay(
+            VStack {
+                if vmm.isLoading || vehicleVm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+
+                if vmm.showToast || vehicleVm.showToast {
+                    CustomAlert(text:vmm.showToast ? vmm.toastMessage : vehicleVm.toastMessage, dismiss: vmm.showToast ? $vmm.showToast : $vehicleVm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    vmm.showToast = false
+                                    vehicleVm.showToast = false
+                                }
+                                
+                            }
+                        }.animation(.default)
+                }
+                    if vm.showToast {
+                        CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                    }
+                                }
+                            }.animation(.default)
+                    }
+                        
+                }
+        )
+         
     }
 }
 

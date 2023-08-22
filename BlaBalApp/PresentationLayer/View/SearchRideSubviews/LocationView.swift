@@ -75,7 +75,7 @@ struct LocationView: View {
                                             withAnimation(.easeInOut(duration: 0.5)) {
                                                 isPublishView = true
                                                 vehicleVm.isRegistering = false
-                                                vehicleVm.apiCall(method: .getVehicle)
+                                                vehicleVm.apiCallForVehicles(method: .getVehicle)
                                             }
                                         } label: {
                                             HStack {
@@ -277,8 +277,14 @@ struct LocationView: View {
         }   .background {
             Color.gray.opacity(0.1).cornerRadius(10)
         }.onAppear {
-            vehicleVm.apiCall(method: .getVehicle)
-        }.padding()
+            vehicleVm.apiCallForVehicles(method: .getVehicle)
+        }
+        .overlay {
+            if vm.isLoading || vehicleVm.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle())
+            }
+        }
+.padding()
         
     }
     

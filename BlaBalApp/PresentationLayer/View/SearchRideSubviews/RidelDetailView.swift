@@ -10,6 +10,7 @@ import SwiftUI
 struct RideDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: LoginSignUpViewModel
+    @EnvironmentObject var vehicleVm: RegisterVehicleViewModel
     @State var viewHeight: CGFloat = 0
     @State var secondViewHeight: CGFloat = 0
     @State var progressHeight: CGFloat = 0
@@ -89,7 +90,7 @@ struct RideDetailView: View {
                                         Image(systemName: Constants.Icons.rightChevron)
                                     }.onTapGesture {
                                         vm.userId = details.id
-                                        vm.apiCall(forMethod: .getUserById)
+                                        vm.apiCallForLoginSignUpViewModel(forMethod: .getUserById)
                                         navigateToRiderDetail.toggle()
                                     }
                                     .navigationDestination(isPresented: $navigateToRiderDetail, destination: {
@@ -139,9 +140,33 @@ struct RideDetailView: View {
 
                     RegisterVehicleViewModel.shared.specificVehicleDetails = nil
                     RegisterVehicleViewModel.shared.getVehicleId = details.publish.vehicleID
-                    RegisterVehicleViewModel.shared.apiCall(method: .getVehicleDetailsById)
+                    RegisterVehicleViewModel.shared.apiCallForVehicles(method: .getVehicleDetailsById)
                 
             }
+            .overlay(
+                VStack {
+                    if vm.isLoading || vehicleVm.isLoading {
+                        Spacer() // Push the ProgressView to the top
+                        ProgressView().progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Spacer() // Push the following content to the bottom
+                    if vm.showToast || vehicleVm.showToast {
+                        CustomAlert(text:vm.showToast ? vm.toastMessage : vehicleVm.toastMessage, dismiss: vm.showToast ? $vm.showToast : $vehicleVm.showToast)
+                            .onAppear {
+                                // Automatically hide the toast message after a delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                        vehicleVm.showToast = false
+                                    }
+                                   
+                                }
+                            }
+                         
+                            .animation(.default)
+                    }
+                }
+            )
             
         
     }

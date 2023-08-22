@@ -59,7 +59,7 @@ struct FormView: View {
                         if vm.selectedTitle.isEmpty {
                                 alert.toggle()
                                     } else {
-                                        vm.apiCall(forMethod: .signUp)
+                                        vm.apiCallForLoginSignUpViewModel(forMethod: .signUp)
                                         }
                     }
 
@@ -95,6 +95,27 @@ struct FormView: View {
         }.navigationDestination(isPresented: $vm.navigateToTabView, destination: {
             TabBarView()
         }).navigationBarBackButtonHidden(true)
+            .overlay(
+                VStack {
+                    if vm.isLoading {
+                        Spacer() // Push the ProgressView to the top
+                        ProgressView().progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Spacer() // Push the following content to the bottom
+                    if vm.showToast {
+                        CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                            .onAppear {
+                                // Automatically hide the toast message after a delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                    }
+                                }
+                            }
+                            .animation(.default)
+                    }
+                }
+            )
     }
 }
 

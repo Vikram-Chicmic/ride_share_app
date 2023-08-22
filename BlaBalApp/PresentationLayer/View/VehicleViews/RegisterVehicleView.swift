@@ -80,10 +80,10 @@ struct RegisterVehicleView: View {
                                 } else {
                                     if isUpdateVehicle {
                                         vm.isUpdatingVehicle = true
-                                        vm.apiCall(method: .vehicleUpdate)
+                                        vm.apiCallForVehicles(method: .vehicleUpdate)
                                         alertNow.toggle()
                                     } else {
-                                        vm.apiCall(method: .vehicleRegister)
+                                        vm.apiCallForVehicles(method: .vehicleRegister)
                                         alertNow.toggle()
                                     }
                                 }
@@ -128,6 +128,28 @@ struct RegisterVehicleView: View {
         
 //            return Alert(title: Text("Unknown error"))
         }
+        .overlay(
+            VStack {
+                if vm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if vm.showToast {
+                    CustomAlert(text: vm.toastMessage, dismiss:  $vm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    vm.showToast = false
+                                }
+                               
+                            }
+                        }
+                        .animation(.default)
+                }
+            }
+        )
         .onAppear {
             if isUpdateVehicle {
                 vm.isRegistering = false

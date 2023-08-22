@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class ApiManager {
 
@@ -48,6 +49,7 @@ class ApiManager {
                         BaseApiManager.shared.successCaseHandler(method: method, data: data, response: response)
                     } else {
                         BaseApiManager.shared.failureCaseHandler(method: method, data: data, response: response)
+                        
                     }
                 }
         
@@ -56,11 +58,27 @@ class ApiManager {
             .decode(type: Welcome.self, decoder: JSONDecoder())
                        .receive(on: RunLoop.main)
                        .sink(receiveCompletion: { completion in
-                           LoginSignUpViewModel.shared.isLoading = false
+                           DispatchQueue.main.async {
+                               LoginSignUpViewModel.shared.isLoading = false
+                           }
+                        
                            switch completion {
                            case .finished:
                                break
                            case .failure(let error):
+                               DispatchQueue.main.async {
+                                   withAnimation {
+                                       if !error.localizedDescription.isEmpty {
+                                           LoginSignUpViewModel.shared.showToast = true
+                                           LoginSignUpViewModel.shared.toastMessage = error.localizedDescription
+                                       } else {
+                                           LoginSignUpViewModel.shared.showToast = false
+                                          
+                                       }
+                                   }
+                               }
+                            
+                           
                                print("Error: \(error.localizedDescription)")
                            }
                        }, receiveValue: {_ in })
@@ -99,11 +117,25 @@ class ApiManager {
                }
                           .receive(on: DispatchQueue.main)
                           .sink(receiveCompletion: { completion in
-                              LoginSignUpViewModel.shared.isLoading = false
+                              DispatchQueue.main.async {
+                                  RegisterVehicleViewModel.shared.isLoading = false
+                              }
                               switch completion {
                               case .finished:
                                   break
                               case .failure(let error):
+                                  DispatchQueue.main.async {
+                                      withAnimation {
+                                          if !error.localizedDescription.isEmpty || error.localizedDescription != "The data couldn’t be read because it is missing." {
+                                              RegisterVehicleViewModel.shared.showToast = true
+                                              RegisterVehicleViewModel.shared.toastMessage = error.localizedDescription
+                                          } else {
+                                              RegisterVehicleViewModel.shared.showToast = false
+                                          }
+                                         
+                                      }
+                                  }
+                      
                                   print("Error: \(error.localizedDescription)")
                               }
                           }, receiveValue: {_ in })
@@ -122,8 +154,6 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
        if let token = UserDefaults.standard.object(forKey: Constants.Url.token) as? String {
            finalRequest.setValue(token, forHTTPHeaderField: Constants.Url.auth)
        }
-//    An SSL error has occurred and a secure connection to the server cannot be made.
-    // token timeout.
        return URLSession.shared.dataTaskPublisher(for: finalRequest)
                .tryMap { (data, response) -> Data in
                    guard let response = response as? HTTPURLResponse else {
@@ -149,6 +179,17 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
                               case .finished:
                                   break
                               case .failure(let error):
+                                  DispatchQueue.main.async {
+                                      withAnimation {
+                                          if !error.localizedDescription.isEmpty || error.localizedDescription != "The data couldn’t be read because it is missing." {
+                                              MapAndRidesViewModel.shared.showToast = true
+                                              MapAndRidesViewModel.shared.toastMessage = error.localizedDescription
+                                          } else {
+                                              MapAndRidesViewModel.shared.showToast = false
+                                          }
+                                          
+                                      }
+                                  }
                                   print("Error: \(error.localizedDescription)")
                               }
                           }, receiveValue: {_ in })
@@ -184,11 +225,24 @@ func apiCallForRides( method: APIcallsForRides, request: URLRequest) {
                }
                           .receive(on: DispatchQueue.main)
                           .sink(receiveCompletion: { completion in
-                              LoginSignUpViewModel.shared.isLoading = false
+                              DispatchQueue.main.async {
+                                  ChatViewModel.shared.isLoading = false
+                              }
                               switch completion {
                               case .finished:
                                   break
                               case .failure(let error):
+                                  DispatchQueue.main.async {
+                                      withAnimation {
+                                          if !error.localizedDescription.isEmpty || error.localizedDescription != "The data couldn’t be read because it is missing." {
+                                              ChatViewModel.shared.showToast = true
+                                              ChatViewModel.shared.toastMessage = error.localizedDescription
+                                          } else {
+                                              ChatViewModel.shared.showToast = false
+                                          }
+                                       
+                                      }
+                                  }
                                   print("Error: \(error.localizedDescription)")
                               }
                           }, receiveValue: {_ in })

@@ -63,9 +63,9 @@ struct ForgotPasswordView: View {
                     vm.isLoading = true
                     if vm.alertOtpSendSucces {
                         vm.emailOTP = Int(otp) ?? 0
-                        vm.apiCall(forMethod: .verifyEmailOtp)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .verifyEmailOtp)
                     } else {
-                        vm.apiCall(forMethod: .forgotPassword)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .forgotPassword)
                         startTimer()
                         isButtonDisabled = true
                     }
@@ -88,7 +88,7 @@ struct ForgotPasswordView: View {
                         HStack {
                             Text("Didn't recieve the email?").foregroundColor(.gray).font(.subheadline)
                             Button {
-                                vm.apiCall(forMethod: .forgotPassword)
+                                vm.apiCallForLoginSignUpViewModel(forMethod: .forgotPassword)
                                 isButtonDisabled = true
                                 startTimer()
                             } label: {
@@ -139,12 +139,28 @@ struct ForgotPasswordView: View {
         }
         .disabled(vm.isLoading)
         .opacity(vm.isLoading ? 0.5 : 1.0)
-        .overlay {
-            if vm.isLoading {
-                ProgressView().progressViewStyle(CircularProgressViewStyle())
+        .overlay(
+            VStack {
+                if vm.isLoading {
+                    Spacer() // Push the ProgressView to the top
+                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+                }
+                Spacer() // Push the following content to the bottom
+                if vm.showToast {
+                    CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                        .onAppear {
+                            // Automatically hide the toast message after a delay
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    vm.showToast = false
+                                }
+                               
+                            }
+                        }
+                        .animation(.default)
+                }
             }
-        }
-    }
+        )    }
     
     func startTimer() {
         isButtonDisabled = true

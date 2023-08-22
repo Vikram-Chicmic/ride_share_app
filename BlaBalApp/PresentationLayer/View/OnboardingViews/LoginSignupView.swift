@@ -96,9 +96,9 @@ struct LoginSignupWithEmailView: View {
                 Button {
                     if isLoginView {
 //                        vm.login()
-                        vm.apiCall(forMethod: .login)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .login)
                     } else {
-                        vm.apiCall(forMethod: .checkEmail)
+                        vm.apiCallForLoginSignUpViewModel(forMethod: .checkEmail)
                     }
                 } label: {
                     HStack {
@@ -144,6 +144,25 @@ struct LoginSignupWithEmailView: View {
                          ProgressView()
                              .progressViewStyle(CircularProgressViewStyle())
                      }
+            
+               
+                        if vm.showToast {
+                            CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                                .onAppear {
+                                    // Automatically hide the toast message after a delay
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                        withAnimation {
+                                            vm.showToast = false
+                                        }
+                                       
+                                    }
+                                }
+                              
+                                .animation(.default)
+                        }
+                    
+                
+
         }.environmentObject(vm)
             .onAppear {
                 vm.navigateToForm = false

@@ -96,7 +96,7 @@ struct ProfileView: View {
                         }.foregroundColor(.red).padding(.leading)
                             .actionSheet(isPresented: $showAlert) {
                                 ActionSheet(title: Text(""), message: Text("You sure you want to logout? "), buttons: [.destructive(Text("Logout"), action: {
-                                    vm.apiCall(forMethod: .logout)
+                                    vm.apiCallForLoginSignUpViewModel(forMethod: .logout)
                                 }), .cancel()])
                             }
                            
@@ -106,18 +106,36 @@ struct ProfileView: View {
                     }
                    
                 }.refreshable {
-                    vm.apiCall(forMethod: .getUser)
+                    vm.apiCallForLoginSignUpViewModel(forMethod: .getUser)
                 }.scrollIndicators(.hidden)
                 Spacer()
             }
             .onAppear {
-                vm.apiCall(forMethod: .getUser)
+                vm.apiCallForLoginSignUpViewModel(forMethod: .getUser)
             }
-            .overlay(content: {
-                if vm.isLoading {
-                    ProgressView().progressViewStyle(CircularProgressViewStyle())
+            .overlay(
+                VStack {
+                    if vm.isLoading {
+                        Spacer() // Push the ProgressView to the top
+                        ProgressView().progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Spacer() // Push the following content to the bottom
+                    if vm.showToast {
+                        CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                            .onAppear {
+                                // Automatically hide the toast message after a delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                    }
+                                    
+                                }
+                            }
+                            .animation(.easeInOut)
+                    }
                 }
-            })
+            )
+
             .alert(isPresented: $vm.failToFetchUser) {
           Alert(title: Text(Constants.Alert.error),
                       message: Text(ErrorAlert.getUser.rawValue),

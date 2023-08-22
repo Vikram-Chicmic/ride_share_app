@@ -76,7 +76,7 @@ struct EditPersonalDetailsView: View {
                             vm.bday = Helper().dateToString(selectedDate: selectedDate ?? Calendar.current.date(from: DateComponents(year: 2009, month: 12, day: 31))!)
                             print(vm.bday)
 //                                    vm.signUp()
-                            vm.apiCall(forMethod: .signUp)
+                            vm.apiCallForLoginSignUpViewModel(forMethod: .signUp)
                             vm.isLoading = true
                         } label: {
                             Buttons(image: "", text: Constants.Buttons.save, color: Constants.Colors.bluecolor)
@@ -91,10 +91,6 @@ struct EditPersonalDetailsView: View {
                         }
                     // MARK: - Alert user updated successfully
                     }.padding()
-                }.overlay {
-                    if vm.isLoading {
-                        ProgressView().progressViewStyle(.circular)
-                    }
                 }.alert(isPresented: $vm.updateAlertProblem){
                     Alert(title: Text(Constants.Alert.error),
                           message: Text(ErrorAlert.profileUpdate.rawValue),
@@ -105,7 +101,29 @@ struct EditPersonalDetailsView: View {
               
                 
                 Spacer()
-            }.navigationTitle(Constants.Header.details)
+            }.overlay(
+                VStack {
+                    if vm.isLoading {
+                        Spacer() // Push the ProgressView to the top
+                        ProgressView().progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Spacer() // Push the following content to the bottom
+                    if vm.showToast {
+                        CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                            .onAppear {
+                                // Automatically hide the toast message after a delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                    }
+                                    
+                                }
+                            }
+                       
+                            .animation(.default)
+                    }
+                }
+            ).navigationTitle(Constants.Header.details)
             .onTapGesture {
                 hideKeyboard()
             }

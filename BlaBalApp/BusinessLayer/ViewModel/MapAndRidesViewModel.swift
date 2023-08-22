@@ -35,6 +35,8 @@ class MapAndRidesViewModel: ObservableObject {
     @Published var passengerId: Int                                         = 0
     @Published var isLoading                                                = false
     @Published var alertCancelRide                                          = false
+    @Published var showToast                                                = false
+    @Published var toastMessage                                             = ""
     @Published var updatedOriginName: String?
     @Published var updatedOriginLong: Double?
     @Published var updatedOriginLat: Double?
@@ -228,6 +230,7 @@ class MapAndRidesViewModel: ObservableObject {
     ///  method to perform api call
     /// - Parameter method: accept a method for api call from enum
     func apiCall(for method: APIcallsForRides) {
+        self.isLoading = true
         switch method {
         case .publishRide:
             ApiManager.shared.apiCallForRides(method: .publishRide, request: createRequest(method: .publishRide))

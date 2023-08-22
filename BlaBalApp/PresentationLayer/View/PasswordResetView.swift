@@ -78,7 +78,7 @@ struct PasswordResetView: View {
             }
           
             Button {
-                vm.apiCall(forMethod: .resetPassword)
+                vm.apiCallForLoginSignUpViewModel(forMethod: .resetPassword)
             } label: {
                 Buttons(image: "", text: "Reset password", color: Constants.Colors.bluecolor).padding(.vertical)
             }
@@ -106,6 +106,27 @@ struct PasswordResetView: View {
                 vm.newPassword = ""
                 vm.confirmNewPassword = ""
             }
+            .overlay(
+                VStack {
+                    if vm.isLoading {
+                        Spacer() // Push the ProgressView to the top
+                        ProgressView().progressViewStyle(CircularProgressViewStyle())
+                    }
+                    Spacer() // Push the following content to the bottom
+                    if vm.showToast {
+                        CustomAlert(text: vm.toastMessage, dismiss: $vm.showToast)
+                            .onAppear {
+                                // Automatically hide the toast message after a delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation {
+                                        vm.showToast = false
+                                    }
+                                }
+                            }
+                            .animation(.default)
+                    }
+                }
+            )
     }
 }
 
